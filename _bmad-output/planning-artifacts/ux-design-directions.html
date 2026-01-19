@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>stream-gen-ui - Design Direction Mockups</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #3B82F6;
+            --color-primary-hover: #2563EB;
+            --color-header: #1E3A5F;
+            --color-accent: #10B981;
+            --color-background: #FFFFFF;
+            --color-surface: #F9FAFB;
+            --color-border: #E5E7EB;
+            --color-text: #374151;
+            --color-text-secondary: #6B7280;
+            --color-text-muted: #9CA3AF;
+            --color-skeleton: #E5E7EB;
+            --color-error: #EF4444;
+            --color-warning: #F59E0B;
+            --radius-sm: 6px;
+            --radius-md: 8px;
+            --radius-lg: 12px;
+            --shadow-sm: 0 1px 2px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px rgba(0,0,0,0.07);
+            --shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: #F3F4F6;
+            color: var(--color-text);
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--color-header);
+            color: white;
+            padding: 16px 24px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav h1 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .nav-tabs {
+            display: flex;
+            gap: 8px;
+        }
+
+        .nav-tab {
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: var(--radius-sm);
+            color: rgba(255,255,255,0.7);
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.2);
+            color: white;
+        }
+
+        .nav-tab.active {
+            background: white;
+            color: var(--color-header);
+        }
+
+        /* Main Content */
+        .main {
+            margin-top: 72px;
+            padding: 24px;
+        }
+
+        .intro {
+            max-width: 800px;
+            margin: 0 auto 32px;
+            text-align: center;
+        }
+
+        .intro h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+        }
+
+        .intro p {
+            color: var(--color-text-secondary);
+        }
+
+        /* Direction Cards */
+        .directions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 24px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .direction-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+        }
+
+        .direction-header {
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .direction-header h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .direction-tag {
+            font-size: 12px;
+            padding: 4px 8px;
+            background: var(--color-surface);
+            border-radius: var(--radius-sm);
+            color: var(--color-text-secondary);
+        }
+
+        .direction-preview {
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .direction-description {
+            padding: 16px 20px;
+            border-top: 1px solid var(--color-border);
+            font-size: 14px;
+            color: var(--color-text-secondary);
+        }
+
+        /* Mock Chat Interface */
+        .mock-chat {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            background: var(--color-surface);
+        }
+
+        .mock-header {
+            background: var(--color-header);
+            color: white;
+            padding: 12px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .mock-header-tabs {
+            display: flex;
+            gap: 4px;
+        }
+
+        .mock-tab {
+            padding: 6px 12px;
+            font-size: 12px;
+            border-radius: var(--radius-sm);
+            background: rgba(255,255,255,0.1);
+            color: rgba(255,255,255,0.7);
+        }
+
+        .mock-tab.active {
+            background: white;
+            color: var(--color-header);
+        }
+
+        .mock-toggle {
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: rgba(255,255,255,0.7);
+        }
+
+        .mock-toggle-switch {
+            width: 32px;
+            height: 18px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 9px;
+            position: relative;
+        }
+
+        .mock-toggle-switch::after {
+            content: '';
+            position: absolute;
+            width: 14px;
+            height: 14px;
+            background: white;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+        }
+
+        .mock-messages {
+            flex: 1;
+            padding: 16px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .mock-message {
+            max-width: 85%;
+        }
+
+        .mock-message.user {
+            align-self: flex-end;
+        }
+
+        .mock-message-bubble {
+            padding: 12px 16px;
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+        }
+
+        .mock-message.assistant .mock-message-bubble {
+            background: white;
+            border: 1px solid var(--color-border);
+        }
+
+        .mock-message.user .mock-message-bubble {
+            background: var(--color-primary);
+            color: white;
+        }
+
+        .mock-component {
+            background: white;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            padding: 16px;
+            margin-top: 12px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .mock-component-header {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .mock-component-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .mock-component-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 8px;
+            font-size: 14px;
+        }
+
+        .mock-component-link {
+            color: var(--color-primary);
+            text-decoration: none;
+        }
+
+        .mock-component-link:hover {
+            text-decoration: underline;
+        }
+
+        .mock-component-icon {
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-text-secondary);
+        }
+
+        .mock-input {
+            padding: 12px 16px;
+            border-top: 1px solid var(--color-border);
+            background: white;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .mock-input-field {
+            flex: 1;
+            padding: 10px 14px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+            font-size: 14px;
+            color: var(--color-text-muted);
+        }
+
+        .mock-send-btn {
+            width: 40px;
+            height: 40px;
+            background: var(--color-primary);
+            border: none;
+            border-radius: var(--radius-lg);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Direction Variations */
+
+        /* Direction A: Compact Header */
+        .direction-a .mock-header {
+            padding: 8px 12px;
+        }
+
+        .direction-a .mock-tab {
+            padding: 4px 10px;
+            font-size: 11px;
+        }
+
+        /* Direction B: Full-width tabs */
+        .direction-b .mock-header {
+            flex-direction: column;
+            gap: 8px;
+            padding: 12px;
+        }
+
+        .direction-b .mock-header-title {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .direction-b .mock-header-tabs {
+            width: 100%;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .direction-b .mock-tab {
+            text-align: center;
+        }
+
+        /* Direction C: Side tabs */
+        .direction-c .mock-chat {
+            flex-direction: row;
+        }
+
+        .direction-c .mock-header {
+            flex-direction: column;
+            width: 48px;
+            padding: 12px 8px;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .direction-c .mock-header-tabs {
+            flex-direction: column;
+        }
+
+        .direction-c .mock-tab {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            padding: 12px 6px;
+        }
+
+        .direction-c .mock-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .direction-c .mock-toggle {
+            display: none;
+        }
+
+        /* Direction D: Floating header */
+        .direction-d .mock-chat {
+            padding: 12px;
+        }
+
+        .direction-d .mock-header {
+            border-radius: var(--radius-lg);
+            margin-bottom: 12px;
+        }
+
+        .direction-d .mock-messages {
+            background: white;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border);
+        }
+
+        .direction-d .mock-input {
+            margin-top: 12px;
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--color-border);
+        }
+
+        /* Direction E: Minimal header */
+        .direction-e .mock-header {
+            background: white;
+            color: var(--color-text);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .direction-e .mock-tab {
+            background: transparent;
+            color: var(--color-text-secondary);
+            border-bottom: 2px solid transparent;
+            border-radius: 0;
+            padding: 8px 12px;
+        }
+
+        .direction-e .mock-tab.active {
+            color: var(--color-primary);
+            border-bottom-color: var(--color-primary);
+            background: transparent;
+        }
+
+        .direction-e .mock-toggle {
+            color: var(--color-text-secondary);
+        }
+
+        .direction-e .mock-toggle-switch {
+            background: var(--color-border);
+        }
+
+        /* Direction F: Card messages */
+        .direction-f .mock-message {
+            max-width: 100%;
+        }
+
+        .direction-f .mock-message-bubble {
+            border-radius: var(--radius-md);
+        }
+
+        .direction-f .mock-message.user .mock-message-bubble {
+            background: var(--color-surface);
+            color: var(--color-text);
+            border: 1px solid var(--color-border);
+        }
+
+        .direction-f .mock-message::before {
+            content: attr(data-role);
+            display: block;
+            font-size: 11px;
+            color: var(--color-text-muted);
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Skeleton Animation */
+        .skeleton {
+            background: linear-gradient(90deg, var(--color-skeleton) 25%, #F3F4F6 50%, var(--color-skeleton) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+            border-radius: var(--radius-sm);
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .skeleton-text {
+            height: 14px;
+            margin-bottom: 8px;
+        }
+
+        .skeleton-title {
+            height: 20px;
+            width: 60%;
+            margin-bottom: 12px;
+        }
+
+        /* Component States Demo */
+        .states-demo {
+            display: flex;
+            gap: 16px;
+            padding: 16px;
+            background: white;
+            border-radius: var(--radius-lg);
+            margin-top: 24px;
+        }
+
+        .state-card {
+            flex: 1;
+            padding: 16px;
+            border: 1px solid var(--color-border);
+            border-radius: var(--radius-lg);
+        }
+
+        .state-card h4 {
+            font-size: 12px;
+            color: var(--color-text-muted);
+            margin-bottom: 12px;
+            text-transform: uppercase;
+        }
+
+        /* Legend */
+        .legend {
+            max-width: 800px;
+            margin: 32px auto 0;
+            padding: 20px;
+            background: white;
+            border-radius: var(--radius-lg);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .legend h3 {
+            font-size: 16px;
+            margin-bottom: 16px;
+        }
+
+        .legend-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--color-border);
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <h1>stream-gen-ui Design Directions</h1>
+        <div class="nav-tabs">
+            <button class="nav-tab active">All Directions</button>
+            <button class="nav-tab">Component States</button>
+            <button class="nav-tab">Color System</button>
+        </div>
+    </nav>
+
+    <main class="main">
+        <div class="intro">
+            <h2>Design Direction Exploration</h2>
+            <p>Explore different layout and interaction approaches within the Neuraflow brand language. All directions use the same color system and typography - they vary in layout structure and navigation patterns.</p>
+        </div>
+
+        <div class="directions-grid">
+            <!-- Direction A: Compact Header (Recommended) -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <h3>Direction A: Compact Header</h3>
+                    <span class="direction-tag">Recommended</span>
+                </div>
+                <div class="direction-preview direction-a">
+                    <div class="mock-chat">
+                        <div class="mock-header">
+                            <div class="mock-header-tabs">
+                                <span class="mock-tab active">FlowToken</span>
+                                <span class="mock-tab">llm-ui</span>
+                                <span class="mock-tab">Streamdown</span>
+                            </div>
+                            <div class="mock-toggle">
+                                View Raw
+                                <span class="mock-toggle-switch"></span>
+                            </div>
+                        </div>
+                        <div class="mock-messages">
+                            <div class="mock-message user">
+                                <div class="mock-message-bubble">Show me John's contact information</div>
+                            </div>
+                            <div class="mock-message assistant">
+                                <div class="mock-message-bubble">
+                                    Here's the contact information you requested:
+                                    <div class="mock-component">
+                                        <div class="mock-component-header">Contact</div>
+                                        <div class="mock-component-title">John Doe</div>
+                                        <div class="mock-component-row">
+                                            <span class="mock-component-icon">phone</span>
+                                            <a href="#" class="mock-component-link">+1-555-0123</a>
+                                        </div>
+                                        <div class="mock-component-row">
+                                            <span class="mock-component-icon">mail</span>
+                                            <a href="#" class="mock-component-link">john.doe@example.com</a>
+                                        </div>
+                                    </div>
+                                    Feel free to contact them during business hours.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mock-input">
+                            <div class="mock-input-field">Enter your message...</div>
+                            <button class="mock-send-btn">-></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="direction-description">
+                    <strong>Best for:</strong> Maximum chat area, minimal chrome. Single-row header keeps focus on content. Toggle in header for quick access. <strong>Neuraflow reference aligned.</strong>
+                </div>
+            </div>
+
+            <!-- Direction B: Full-width Tabs -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <h3>Direction B: Full-width Tabs</h3>
+                    <span class="direction-tag">Clear comparison</span>
+                </div>
+                <div class="direction-preview direction-b">
+                    <div class="mock-chat">
+                        <div class="mock-header">
+                            <div class="mock-header-title">
+                                <span style="font-weight: 600;">stream-gen-ui</span>
+                                <div class="mock-toggle">
+                                    View Raw
+                                    <span class="mock-toggle-switch"></span>
+                                </div>
+                            </div>
+                            <div class="mock-header-tabs">
+                                <span class="mock-tab active">FlowToken</span>
+                                <span class="mock-tab">llm-ui</span>
+                                <span class="mock-tab">Streamdown</span>
+                            </div>
+                        </div>
+                        <div class="mock-messages">
+                            <div class="mock-message user">
+                                <div class="mock-message-bubble">Show me John's contact information</div>
+                            </div>
+                            <div class="mock-message assistant">
+                                <div class="mock-message-bubble">
+                                    Here's the contact information:
+                                    <div class="mock-component">
+                                        <div class="mock-component-header">Contact</div>
+                                        <div class="mock-component-title">John Doe</div>
+                                        <div class="mock-component-row">
+                                            <span class="mock-component-icon">phone</span>
+                                            <a href="#" class="mock-component-link">+1-555-0123</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mock-input">
+                            <div class="mock-input-field">Enter your message...</div>
+                            <button class="mock-send-btn">-></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="direction-description">
+                    <strong>Best for:</strong> Clear route distinction. Full-width tabs make comparison intent obvious. Good for evaluators who need to clearly see which implementation they're viewing.
+                </div>
+            </div>
+
+            <!-- Direction C: Side Tabs -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <h3>Direction C: Side Navigation</h3>
+                    <span class="direction-tag">Dashboard feel</span>
+                </div>
+                <div class="direction-preview direction-c">
+                    <div class="mock-chat">
+                        <div class="mock-header">
+                            <div class="mock-header-tabs">
+                                <span class="mock-tab active">FT</span>
+                                <span class="mock-tab">LU</span>
+                                <span class="mock-tab">SD</span>
+                            </div>
+                        </div>
+                        <div class="mock-content">
+                            <div class="mock-messages">
+                                <div class="mock-message user">
+                                    <div class="mock-message-bubble">Show me John's contact</div>
+                                </div>
+                                <div class="mock-message assistant">
+                                    <div class="mock-message-bubble">
+                                        Here's the contact:
+                                        <div class="mock-component">
+                                            <div class="mock-component-title">John Doe</div>
+                                            <div class="mock-component-row">
+                                                <a href="#" class="mock-component-link">+1-555-0123</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mock-input">
+                                <div class="mock-input-field">Enter message...</div>
+                                <button class="mock-send-btn">-></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="direction-description">
+                    <strong>Best for:</strong> Dashboard/admin feel. Persistent side nav. Works if adding more sections later. Less conventional for chat UIs.
+                </div>
+            </div>
+
+            <!-- Direction D: Floating Elements -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <h3>Direction D: Floating Containers</h3>
+                    <span class="direction-tag">Modern/airy</span>
+                </div>
+                <div class="direction-preview direction-d">
+                    <div class="mock-chat">
+                        <div class="mock-header">
+                            <div class="mock-header-tabs">
+                                <span class="mock-tab active">FlowToken</span>
+                                <span class="mock-tab">llm-ui</span>
+                                <span class="mock-tab">Streamdown</span>
+                            </div>
+                            <div class="mock-toggle">
+                                View Raw
+                                <span class="mock-toggle-switch"></span>
+                            </div>
+                        </div>
+                        <div class="mock-messages">
+                            <div class="mock-message user">
+                                <div class="mock-message-bubble">Show me contact info</div>
+                            </div>
+                            <div class="mock-message assistant">
+                                <div class="mock-message-bubble">
+                                    <div class="mock-component">
+                                        <div class="mock-component-title">John Doe</div>
+                                        <div class="mock-component-row">
+                                            <a href="#" class="mock-component-link">+1-555-0123</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mock-input">
+                            <div class="mock-input-field">Enter your message...</div>
+                            <button class="mock-send-btn">-></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="direction-description">
+                    <strong>Best for:</strong> Modern, airy aesthetic. Clear visual separation. More visual polish but uses more screen real estate for padding.
+                </div>
+            </div>
+
+            <!-- Direction E: Minimal Header -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <h3>Direction E: Minimal/Light Header</h3>
+                    <span class="direction-tag">Clean/subtle</span>
+                </div>
+                <div class="direction-preview direction-e">
+                    <div class="mock-chat">
+                        <div class="mock-header">
+                            <div class="mock-header-tabs">
+                                <span class="mock-tab active">FlowToken</span>
+                                <span class="mock-tab">llm-ui</span>
+                                <span class="mock-tab">Streamdown</span>
+                            </div>
+                            <div class="mock-toggle">
+                                View Raw
+                                <span class="mock-toggle-switch"></span>
+                            </div>
+                        </div>
+                        <div class="mock-messages">
+                            <div class="mock-message user">
+                                <div class="mock-message-bubble">Show me John's contact information</div>
+                            </div>
+                            <div class="mock-message assistant">
+                                <div class="mock-message-bubble">
+                                    Here's the contact:
+                                    <div class="mock-component">
+                                        <div class="mock-component-header">Contact</div>
+                                        <div class="mock-component-title">John Doe</div>
+                                        <div class="mock-component-row">
+                                            <a href="#" class="mock-component-link">+1-555-0123</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mock-input">
+                            <div class="mock-input-field">Enter your message...</div>
+                            <button class="mock-send-btn">-></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="direction-description">
+                    <strong>Best for:</strong> Subtle, minimal header. Less brand-heavy. Tab underline pattern (Google-style). Might feel less "Neuraflow" but very clean.
+                </div>
+            </div>
+
+            <!-- Direction F: Full-width Messages -->
+            <div class="direction-card">
+                <div class="direction-header">
+                    <h3>Direction F: Full-width Messages</h3>
+                    <span class="direction-tag">Claude-style</span>
+                </div>
+                <div class="direction-preview direction-f">
+                    <div class="mock-chat">
+                        <div class="mock-header">
+                            <div class="mock-header-tabs">
+                                <span class="mock-tab active">FlowToken</span>
+                                <span class="mock-tab">llm-ui</span>
+                                <span class="mock-tab">Streamdown</span>
+                            </div>
+                            <div class="mock-toggle">
+                                View Raw
+                                <span class="mock-toggle-switch"></span>
+                            </div>
+                        </div>
+                        <div class="mock-messages">
+                            <div class="mock-message user" data-role="You">
+                                <div class="mock-message-bubble">Show me John's contact information</div>
+                            </div>
+                            <div class="mock-message assistant" data-role="Assistant">
+                                <div class="mock-message-bubble">
+                                    Here's the contact information you requested:
+                                    <div class="mock-component">
+                                        <div class="mock-component-header">Contact</div>
+                                        <div class="mock-component-title">John Doe</div>
+                                        <div class="mock-component-row">
+                                            <a href="#" class="mock-component-link">+1-555-0123</a>
+                                        </div>
+                                        <div class="mock-component-row">
+                                            <a href="#" class="mock-component-link">john.doe@example.com</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mock-input">
+                            <div class="mock-input-field">Enter your message...</div>
+                            <button class="mock-send-btn">-></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="direction-description">
+                    <strong>Best for:</strong> Full-width messages with role labels. More document-like feel. Similar to Claude.ai's approach. Good for longer content.
+                </div>
+            </div>
+        </div>
+
+        <!-- Component States Demo -->
+        <div style="max-width: 1400px; margin: 32px auto;">
+            <h3 style="margin-bottom: 16px;">Component Progressive States</h3>
+            <div class="states-demo">
+                <div class="state-card">
+                    <h4>1. Skeleton (Tag detected)</h4>
+                    <div class="mock-component" style="margin: 0;">
+                        <div class="skeleton skeleton-text" style="width: 40%;"></div>
+                        <div class="skeleton skeleton-title"></div>
+                        <div class="skeleton skeleton-text" style="width: 50%;"></div>
+                        <div class="skeleton skeleton-text" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <div class="state-card">
+                    <h4>2. Partial (Props streaming)</h4>
+                    <div class="mock-component" style="margin: 0;">
+                        <div class="mock-component-header">Contact</div>
+                        <div class="mock-component-title">John Doe</div>
+                        <div class="skeleton skeleton-text" style="width: 50%;"></div>
+                        <div class="skeleton skeleton-text" style="width: 60%;"></div>
+                    </div>
+                </div>
+                <div class="state-card">
+                    <h4>3. Complete (Interactive)</h4>
+                    <div class="mock-component" style="margin: 0; box-shadow: var(--shadow-md);">
+                        <div class="mock-component-header">Contact</div>
+                        <div class="mock-component-title">John Doe</div>
+                        <div class="mock-component-row">
+                            <span class="mock-component-icon">phone</span>
+                            <a href="#" class="mock-component-link">+1-555-0123</a>
+                        </div>
+                        <div class="mock-component-row">
+                            <span class="mock-component-icon">mail</span>
+                            <a href="#" class="mock-component-link">john.doe@example.com</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Color Legend -->
+        <div class="legend">
+            <h3>Color System Reference</h3>
+            <div class="legend-grid">
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #3B82F6;"></span>
+                    <span>Primary Blue (#3B82F6)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #1E3A5F;"></span>
+                    <span>Header Navy (#1E3A5F)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #10B981;"></span>
+                    <span>Accent Green (#10B981)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #F9FAFB;"></span>
+                    <span>Surface (#F9FAFB)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #374151;"></span>
+                    <span>Text Primary (#374151)</span>
+                </div>
+                <div class="legend-item">
+                    <span class="legend-color" style="background: #E5E7EB;"></span>
+                    <span>Border/Skeleton (#E5E7EB)</span>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -73,11 +73,11 @@ workflow_status:
 
       - id: "create-ux-design"
         name: "UX Design"
-        status: "conditional"  # if_has_ui - determined after PRD
+        status: "_bmad-output/planning-artifacts/ux-design-specification.md"
         agent: "ux-designer"
         command: "/bmad:bmm:workflows:create-ux-design"
-        output: ""
-        note: "Recommended - project has UI"
+        output: "_bmad-output/planning-artifacts/ux-design-specification.md"
+        note: "Completed 2026-01-19"
 
   # --------------------------------------------------------------------------
   # PHASE 3: Solutioning
