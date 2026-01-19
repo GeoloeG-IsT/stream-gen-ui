@@ -52,10 +52,10 @@ workflow_status:
 
       - id: "product-brief"
         name: "Product Brief"
-        status: "required"  # User selected
+        status: "_bmad-output/planning-artifacts/product-brief-stream-gen-ui-2026-01-19.md"
         agent: "analyst"
         command: "/bmad:bmm:workflows:create-product-brief"
-        output: ""
+        output: "_bmad-output/planning-artifacts/product-brief-stream-gen-ui-2026-01-19.md"
 
   # --------------------------------------------------------------------------
   # PHASE 2: Planning
