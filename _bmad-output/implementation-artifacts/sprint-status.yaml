@@ -41,8 +41,8 @@ story_location: /root/wks/stream-gen-ui/_bmad-output/implementation-artifacts
 
 development_status:
   # Epic 1: Working Streaming Chat Demo
-  epic-1: backlog
-  1-1-project-foundation-setup: backlog
+  epic-1: in-progress
+  1-1-project-foundation-setup: ready-for-dev
   1-2-shared-custom-components: backlog
   1-3-mock-stream-provider: backlog
   1-4-chat-ui-shell: backlog
