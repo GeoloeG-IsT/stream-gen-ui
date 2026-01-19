@@ -38,10 +38,10 @@ workflow_status:
     workflows:
       - id: "brainstorm-project"
         name: "Brainstorm"
-        status: "required"  # User selected
+        status: "_bmad-output/analysis/brainstorming-session-2026-01-19.md"
         agent: "analyst"
         command: "/bmad:bmm:workflows:brainstorming"
-        output: ""
+        output: "_bmad-output/analysis/brainstorming-session-2026-01-19.md"
 
       - id: "research"
         name: "Research"
