@@ -66,10 +66,9 @@ export interface CalendarEventProps {
 
 /**
  * Props for Header component
+ * Note: Header now uses usePathname() for route detection - no props needed
  */
-export interface HeaderProps {
-  currentRoute?: string;
-}
+export type HeaderProps = Record<string, never>;
 
 /**
  * Props for MessageBubble component
