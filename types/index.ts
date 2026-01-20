@@ -78,6 +78,8 @@ export interface MessageBubbleProps {
   content: string;
   isStreaming?: boolean;
   children?: React.ReactNode;
+  /** Optional raw markup content to display when View Raw is enabled */
+  rawContent?: string;
 }
 
 /**
@@ -128,4 +130,14 @@ export interface PresetSelectorProps {
   onSelect: (message: string) => void;
   /** Whether selection is disabled (e.g., during loading) */
   disabled?: boolean;
+}
+
+/**
+ * Props for RawOutputView component
+ */
+export interface RawOutputViewProps {
+  /** The raw markup content to display */
+  content: string;
+  /** Whether content is currently streaming */
+  isStreaming?: boolean;
 }

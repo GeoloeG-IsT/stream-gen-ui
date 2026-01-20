@@ -125,6 +125,7 @@ export default function StreamdownPage(): ReactElement {
                 role={m.role}
                 content={m.content}
                 isStreaming={m.isStreaming}
+                rawContent={m.role === 'assistant' ? m.content : undefined}
               >
                 {m.role === 'assistant' ? (
                   <StreamdownRenderer

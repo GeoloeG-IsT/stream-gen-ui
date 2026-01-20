@@ -1,7 +1,13 @@
 import { render, screen } from '@testing-library/react';
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it, vi, beforeEach } from 'vitest';
 
 import { MessageBubble } from './MessageBubble';
+
+// Mock the ViewRawContext
+const mockViewRaw = { viewRaw: false, setViewRaw: vi.fn() };
+vi.mock('@/contexts/ViewRawContext', () => ({
+  useViewRaw: () => mockViewRaw,
+}));
 
 describe('MessageBubble', () => {
   describe('user messages', () => {
@@ -144,6 +150,89 @@ describe('MessageBubble', () => {
       render(<MessageBubble role="assistant" content="Test" />);
       const article = screen.getByRole('article');
       expect(article).toHaveAttribute('aria-label', 'Assistant message');
+    });
+  });
+
+  describe('rawContent display', () => {
+    beforeEach(() => {
+      // Reset mock before each test
+      mockViewRaw.viewRaw = false;
+    });
+
+    it('does not show raw output when viewRaw is OFF', () => {
+      mockViewRaw.viewRaw = false;
+      render(
+        <MessageBubble
+          role="assistant"
+          content="rendered content"
+          rawContent="# Raw **markup**"
+        />
+      );
+      expect(screen.queryByRole('region', { name: /raw markup/i })).not.toBeInTheDocument();
+    });
+
+    it('shows raw output when viewRaw is ON and rawContent is provided', () => {
+      mockViewRaw.viewRaw = true;
+      render(
+        <MessageBubble
+          role="assistant"
+          content="rendered content"
+          rawContent="# Raw **markup**"
+        />
+      );
+      expect(screen.getByRole('region', { name: /raw markup/i })).toBeInTheDocument();
+      expect(screen.getByText('# Raw **markup**')).toBeInTheDocument();
+    });
+
+    it('does not show raw output for user messages even when viewRaw is ON', () => {
+      mockViewRaw.viewRaw = true;
+      render(
+        <MessageBubble
+          role="user"
+          content="user message"
+          rawContent="user raw content"
+        />
+      );
+      // User messages should not show raw output
+      expect(screen.queryByRole('region', { name: /raw markup/i })).not.toBeInTheDocument();
+    });
+
+    it('does not show raw output when rawContent is not provided', () => {
+      mockViewRaw.viewRaw = true;
+      render(
+        <MessageBubble
+          role="assistant"
+          content="rendered content"
+        />
+      );
+      expect(screen.queryByRole('region', { name: /raw markup/i })).not.toBeInTheDocument();
+    });
+
+    it('displays rendered content and raw output together when viewRaw is ON', () => {
+      mockViewRaw.viewRaw = true;
+      render(
+        <MessageBubble role="assistant" content="rendered content" rawContent="raw content">
+          <div data-testid="rendered">Rendered Output</div>
+        </MessageBubble>
+      );
+      expect(screen.getByTestId('rendered')).toBeInTheDocument();
+      expect(screen.getByRole('region', { name: /raw markup/i })).toBeInTheDocument();
+    });
+
+    it('passes isStreaming to RawOutputView for cursor animation', () => {
+      mockViewRaw.viewRaw = true;
+      render(
+        <MessageBubble
+          role="assistant"
+          content="streaming"
+          rawContent="streaming raw"
+          isStreaming
+        />
+      );
+      const rawRegion = screen.getByRole('region', { name: /raw markup/i });
+      // The cursor element should be present when streaming
+      const cursor = rawRegion.querySelector('[aria-hidden="true"]');
+      expect(cursor).toBeInTheDocument();
     });
   });
 });
