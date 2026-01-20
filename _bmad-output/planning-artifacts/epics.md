@@ -478,3 +478,29 @@ NFR5: Local development setup in < 5 minutes (npm install && npm run dev)
 **When** I read the README conclusion
 **Then** I see clear guidance on which approach suits production use cases
 **And** trade-offs are documented for informed decision-making
+
+---
+
+### Story 3.6: Deploy PoC to Vercel
+
+**As an** evaluator,
+**I want** the PoC deployed to a public URL,
+**So that** I can share it with stakeholders without requiring local setup.
+
+**Acceptance Criteria:**
+
+**Given** the project is deployed to Vercel
+**When** I visit the deployed URL
+**Then** all three implementation routes are accessible (/flowtoken, /llm-ui, /streamdown)
+**And** the mock streaming API works correctly
+**And** the View Raw toggle functions as expected
+
+**Given** the README is updated
+**When** I read the documentation
+**Then** I see the live demo URL prominently displayed
+**And** I see instructions for deploying my own instance
+
+**Implementation Notes:**
+- Deploy using Vercel free tier (zero-config for Next.js)
+- Either `npx vercel` CLI or GitHub repo integration
+- Update README with live demo link and deployment section

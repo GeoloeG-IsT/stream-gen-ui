@@ -4,6 +4,8 @@ A proof-of-concept comparing three approaches to streaming UI with custom compon
 
 ## What is This?
 
+> **Live Demo:** [stream-gen-ui.vercel.app](https://stream-gen-ui.vercel.app) *(update URL after deployment)*
+
 This PoC demonstrates how to render **custom React components** (like contact cards, calendar events) embedded within **streaming LLM responses**. It compares three parsing strategies:
 
 - **FlowToken** — XML-based component embedding
@@ -332,6 +334,46 @@ npm run lint     # Run ESLint
 npm run test     # Run Vitest tests
 npm run test:watch  # Watch mode
 ```
+
+## Deployment
+
+This project is deployed on [Vercel](https://vercel.com) (free tier).
+
+### Deploy Your Own
+
+**Option 1: One-Click Deploy**
+
+[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https://github.com/GeoloeG-IsT/stream-gen-ui)
+
+**Option 2: CLI Deployment**
+
+```bash
+# Install Vercel CLI
+npm i -g vercel
+
+# Deploy (follow prompts for authentication)
+vercel
+
+# Deploy to production
+vercel --prod
+```
+
+**Option 3: GitHub Integration**
+
+1. Push your code to GitHub
+2. Import the repository at [vercel.com/new](https://vercel.com/new)
+3. Vercel auto-detects Next.js settings
+4. Click Deploy
+
+### Environment Variables
+
+No environment variables required — the app uses a mock stream provider.
+
+### Build Output
+
+- Static pages pre-rendered at build time
+- API routes deployed as serverless functions
+- Automatic HTTPS and CDN distribution
 
 ## Contributing
 
