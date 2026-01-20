@@ -61,10 +61,10 @@ describe('RawOutputView', () => {
       expect(container).toHaveClass('p-3');
     });
 
-    it('applies code font size styling', () => {
+    it('applies code font size styling (13px per UX spec)', () => {
       render(<RawOutputView content="test" />);
       const pre = screen.getByRole('region').querySelector('pre');
-      expect(pre).toHaveClass('text-sm');
+      expect(pre).toHaveClass('text-[13px]');
     });
   });
 
