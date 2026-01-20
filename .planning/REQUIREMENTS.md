@@ -9,18 +9,18 @@ Requirements for initial PoC release. Each maps to roadmap phases.
 
 ### Project Structure
 
-- [ ] **STRUCT-01**: Frontend files moved to frontend/ directory
-- [ ] **STRUCT-02**: Frontend builds and runs from frontend/ directory
-- [ ] **STRUCT-03**: All source code paths updated for new structure
-- [ ] **STRUCT-04**: All documentation paths updated for new structure
-- [ ] **STRUCT-05**: Backend created in backend/ directory with FastAPI
+- [x] **STRUCT-01**: Frontend files moved to frontend/ directory
+- [x] **STRUCT-02**: Frontend builds and runs from frontend/ directory
+- [x] **STRUCT-03**: All source code paths updated for new structure
+- [x] **STRUCT-04**: All documentation paths updated for new structure
+- [x] **STRUCT-05**: Backend created in backend/ directory with FastAPI
 
 ### RAG & Retrieval
 
-- [ ] **RAG-01**: Markdown files chunked for embedding with appropriate strategy
-- [ ] **RAG-02**: Hybrid retrieval combining keyword and semantic search
-- [ ] **RAG-03**: Vector store populated with city contacts, events, and general info
-- [ ] **RAG-04**: Retrieval returns source metadata (document title, chunk reference)
+- [x] **RAG-01**: Markdown files chunked for embedding with appropriate strategy
+- [x] **RAG-02**: Hybrid retrieval combining keyword and semantic search
+- [x] **RAG-03**: Vector store populated with city contacts, events, and general info
+- [x] **RAG-04**: Retrieval returns source metadata (document title, chunk reference)
 
 ### ReAct Agent
 
@@ -55,9 +55,9 @@ Requirements for initial PoC release. Each maps to roadmap phases.
 
 ### Knowledge Base
 
-- [ ] **KB-01**: Fictional city contacts created in markdown format
-- [ ] **KB-02**: Fictional city events created in markdown format
-- [ ] **KB-03**: General city information (hours, services) in markdown format
+- [x] **KB-01**: Fictional city contacts created in markdown format
+- [x] **KB-02**: Fictional city events created in markdown format
+- [x] **KB-03**: General city information (hours, services) in markdown format
 
 ## v2 Requirements
 
@@ -101,18 +101,18 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| STRUCT-01 | Phase 1 | Pending |
-| STRUCT-02 | Phase 1 | Pending |
-| STRUCT-03 | Phase 1 | Pending |
-| STRUCT-04 | Phase 1 | Pending |
-| STRUCT-05 | Phase 2 | Pending |
-| RAG-01 | Phase 2 | Pending |
-| RAG-02 | Phase 2 | Pending |
-| RAG-03 | Phase 2 | Pending |
-| RAG-04 | Phase 2 | Pending |
-| KB-01 | Phase 2 | Pending |
-| KB-02 | Phase 2 | Pending |
-| KB-03 | Phase 2 | Pending |
+| STRUCT-01 | Phase 1 | Complete |
+| STRUCT-02 | Phase 1 | Complete |
+| STRUCT-03 | Phase 1 | Complete |
+| STRUCT-04 | Phase 1 | Complete |
+| STRUCT-05 | Phase 2 | Complete |
+| RAG-01 | Phase 2 | Complete |
+| RAG-02 | Phase 2 | Complete |
+| RAG-03 | Phase 2 | Complete |
+| RAG-04 | Phase 2 | Complete |
+| KB-01 | Phase 2 | Complete |
+| KB-02 | Phase 2 | Complete |
+| KB-03 | Phase 2 | Complete |
 | AGENT-01 | Phase 3 | Pending |
 | AGENT-02 | Phase 3 | Pending |
 | AGENT-03 | Phase 3 | Pending |
