@@ -41,7 +41,7 @@ describe('ContactCard', () => {
 
   it('has correct aria-label on container', () => {
     render(<ContactCard name="John Doe" />);
-    expect(screen.getByRole('article')).toHaveAttribute(
+    expect(screen.getByRole('group')).toHaveAttribute(
       'aria-label',
       'Contact card for John Doe'
     );
@@ -49,7 +49,7 @@ describe('ContactCard', () => {
 
   it('applies shadow-md class', () => {
     render(<ContactCard name="John Doe" />);
-    const container = screen.getByRole('article');
+    const container = screen.getByRole('group');
     expect(container.className).toContain('shadow-md');
   });
 

@@ -22,7 +22,7 @@ export function CalendarEvent({
   return (
     <span
       className="flex flex-col gap-3 my-3 p-4 bg-gradient-to-r from-emerald-50 to-white rounded-xl border border-emerald-100 shadow-sm hover:shadow-md transition-shadow"
-      role="article"
+      role="group"
       aria-label={`Calendar event: ${title}`}
     >
       {/* Header with calendar icon and title */}

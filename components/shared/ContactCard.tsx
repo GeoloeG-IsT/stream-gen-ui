@@ -15,7 +15,7 @@ export function ContactCard({
   return (
     <span
       className="flex flex-col gap-3 my-3 p-4 bg-gradient-to-r from-blue-50 to-white rounded-xl border border-blue-100 shadow-sm hover:shadow-md transition-shadow"
-      role="article"
+      role="group"
       aria-label={`Contact card for ${name}`}
     >
       {/* Header with avatar and name */}

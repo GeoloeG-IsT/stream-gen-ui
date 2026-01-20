@@ -89,11 +89,6 @@ export async function POST(req: Request): Promise<Response> {
     return errorResponse('Invalid JSON body', 400);
   }
 
-  // Debug: log the request body structure in development
-  if (process.env.NODE_ENV !== 'production') {
-    console.log('API request body:', JSON.stringify(body, null, 2));
-  }
-
   if (!validateRequestBody(body)) {
     // Provide more specific error message for debugging
     const bodyObj = body as Record<string, unknown>;

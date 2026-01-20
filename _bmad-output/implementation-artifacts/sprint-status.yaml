@@ -46,7 +46,7 @@ development_status:
   1-2-shared-custom-components: done
   1-3-mock-stream-provider: done
   1-4-chat-ui-shell: done
-  1-5-flowtoken-implementation: review
+  1-5-flowtoken-implementation: done
   1-6-header-navigation-structure: backlog
   epic-1-retrospective: optional
 
