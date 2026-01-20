@@ -102,4 +102,30 @@ export interface ChatInputProps {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
   isLoading: boolean;
+  /** Optional callback when a preset button is clicked */
+  onPresetSelect?: (message: string) => void;
+}
+
+/**
+ * Content preset option for the PresetSelector
+ */
+export interface PresetOption {
+  /** Unique identifier for the preset */
+  id: string;
+  /** Display label for the button */
+  label: string;
+  /** Message to send when selected */
+  message: string;
+  /** Optional icon name */
+  icon?: string;
+}
+
+/**
+ * Props for PresetSelector component
+ */
+export interface PresetSelectorProps {
+  /** Callback when a preset is selected */
+  onSelect: (message: string) => void;
+  /** Whether selection is disabled (e.g., during loading) */
+  disabled?: boolean;
 }

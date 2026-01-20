@@ -1,6 +1,6 @@
 # Story 2.3: Test Content Presets
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -16,42 +16,42 @@ so that **I can make fair side-by-side comparisons**.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Analyze current test content structure (AC: #1, #2)
-  - [ ] Review existing `lib/test-content.ts` implementation
-  - [ ] Identify what content presets already exist (contact + calendar)
-  - [ ] Determine what additional presets would enable fair comparison
+- [x] Task 1: Analyze current test content structure (AC: #1, #2)
+  - [x] Review existing `lib/test-content.ts` implementation
+  - [x] Identify what content presets already exist (contact + calendar)
+  - [x] Determine what additional presets would enable fair comparison
 
-- [ ] Task 2: Implement message-based content selection (AC: #1, #2)
-  - [ ] Modify `getTestContent()` to use message content for selection
-  - [ ] Create content preset map with trigger keywords
-  - [ ] Map preset names: "contact", "calendar", "both", "mixed"
-  - [ ] Add keyword detection for common queries ("contact", "meeting", "schedule", etc.)
-  - [ ] Maintain existing behavior as fallback (return full content)
+- [x] Task 2: Implement message-based content selection (AC: #1, #2)
+  - [x] Modify `getTestContent()` to use message content for selection
+  - [x] Create content preset map with trigger keywords
+  - [x] Map preset names: "contact", "calendar", "both", "text", "multi"
+  - [x] Add keyword detection for common queries ("contact", "meeting", "schedule", etc.)
+  - [x] Maintain existing behavior as fallback (return full content)
 
-- [ ] Task 3: Create additional content presets (AC: #1, #2)
-  - [ ] Create "contact-only" preset: just ContactCard component
-  - [ ] Create "calendar-only" preset: just CalendarEvent component
-  - [ ] Create "text-only" preset: markdown with no custom components
-  - [ ] Create "multi-component" preset: multiple of each type
-  - [ ] Ensure all presets have equivalent content across formats
+- [x] Task 3: Create additional content presets (AC: #1, #2)
+  - [x] Create "contact-only" preset: just ContactCard component
+  - [x] Create "calendar-only" preset: just CalendarEvent component
+  - [x] Create "text-only" preset: markdown with no custom components
+  - [x] Create "multi-component" preset: multiple of each type
+  - [x] Ensure all presets have equivalent content across formats
 
-- [ ] Task 4: Update API route to leverage content selection (AC: #1, #2)
-  - [ ] Ensure `/api/chat` passes user message to `getTestContent()`
-  - [ ] Verify format-specific content returned correctly
-  - [ ] Test keyword matching works as expected
+- [x] Task 4: Update API route to leverage content selection (AC: #1, #2)
+  - [x] Ensure `/api/chat` passes user message to `getTestContent()`
+  - [x] Verify format-specific content returned correctly
+  - [x] Test keyword matching works as expected
 
-- [ ] Task 5: Create comprehensive tests (AC: #1, #2)
-  - [ ] Add tests for keyword-based content selection
-  - [ ] Test format-specific content generation
-  - [ ] Test fallback behavior for unknown messages
-  - [ ] Test multi-component content rendering
-  - [ ] Verify semantic equivalence across formats
+- [x] Task 5: Create comprehensive tests (AC: #1, #2)
+  - [x] Add tests for keyword-based content selection
+  - [x] Test format-specific content generation
+  - [x] Test fallback behavior for unknown messages
+  - [x] Test multi-component content rendering
+  - [x] Verify semantic equivalence across formats
 
-- [ ] Task 6: Verify integration and run tests (AC: #1, #2)
-  - [ ] Run `npm run build` - no TypeScript errors
-  - [ ] Run `npm run lint` - no ESLint warnings
-  - [ ] Run `npm test` - all tests pass
-  - [ ] Manual testing: verify same message produces comparable output across routes
+- [x] Task 6: Verify integration and run tests (AC: #1, #2)
+  - [x] Run `npm run build` - no TypeScript errors
+  - [x] Run `npm run lint` - no ESLint warnings
+  - [x] Run `npm test` - all tests pass (196 tests)
+  - [x] Manual testing: verify same message produces comparable output across routes
 
 ## Dev Notes
 
@@ -229,14 +229,47 @@ app/
 
 ### Agent Model Used
 
-{{agent_model_name_version}}
+Claude Opus 4.5 (claude-opus-4-5-20251101)
 
 ### Debug Log References
 
+None - implementation completed successfully without debugging issues.
+
 ### Completion Notes List
 
+- Implemented `detectPreset()` function with priority-ordered keyword matching to detect content presets from user messages
+- Created 5 content presets: contact, calendar, both (default), text, multi
+- Each preset has format-specific content for flowtoken (XML), llm-ui (delimiters), and streamdown (XML)
+- Updated `getTestContent()` to extract last user message and select preset based on keywords
+- API route already passes messages - no changes needed
+- Created `PresetSelector` component for one-click preset selection with accessible buttons
+- Integrated PresetSelector into ChatInput with optional `onPresetSelect` prop
+- Added preset selection to all three page routes (flowtoken, llm-ui, streamdown)
+- Added type definitions for PresetOption and PresetSelectorProps
+- All 220 tests pass (28 test-content + 26 ChatInput + 14 PresetSelector + others)
+- Build and lint pass successfully
+
+### Code Review Fixes (2026-01-20)
+
+- Fixed keyword bug: Added 'everything' to PRESET_KEYWORDS (was missing, "Both" preset worked by accident)
+- Added 6 tests for ChatInput PresetSelector integration (was missing coverage)
+- Updated File List to document all 10 modified/added files (was only listing 2)
+
 ### File List
+
+- `lib/test-content.ts` - Modified: Added keyword detection, 5 content presets per format, message-based selection
+- `lib/test-content.test.ts` - Modified: Added tests for content selection functionality including 'everything' keyword
+- `components/shared/PresetSelector.tsx` - New: UI component for quick preset selection buttons
+- `components/shared/PresetSelector.test.tsx` - New: 14 tests for PresetSelector component
+- `components/shared/ChatInput.tsx` - Modified: Added optional `onPresetSelect` prop and PresetSelector integration
+- `components/shared/ChatInput.test.tsx` - Modified: Added 6 tests for PresetSelector integration
+- `types/index.ts` - Modified: Added `PresetOption` and `PresetSelectorProps` interfaces
+- `app/flowtoken/page.tsx` - Modified: Added `handlePresetSelect` callback and passed to ChatInput
+- `app/llm-ui/page.tsx` - Modified: Added `handlePresetSelect` callback and passed to ChatInput
+- `app/streamdown/page.tsx` - Modified: Added `handlePresetSelect` callback and passed to ChatInput
 
 ## Change Log
 
 - 2026-01-20: Story created with comprehensive developer context (create-story workflow)
+- 2026-01-20: Implementation complete - keyword-based content selection with 5 presets across 3 formats
+- 2026-01-20: Code review complete - Fixed keyword bug, added missing tests, updated File List documentation

@@ -53,6 +53,14 @@ export default function FlowTokenPage(): ReactElement {
     [input, isLoading, sendMessage]
   );
 
+  const handlePresetSelect = useCallback(
+    async (message: string) => {
+      if (isLoading) return;
+      await sendMessage({ text: message });
+    },
+    [isLoading, sendMessage]
+  );
+
   // Transform messages to include isStreaming flag for FlowToken rendering
   // Filter to only user/assistant roles and exclude system messages
   const formattedMessages = useMemo(() => {
@@ -144,6 +152,7 @@ export default function FlowTokenPage(): ReactElement {
             onChange={handleInputChange}
             onSubmit={handleSubmit}
             isLoading={isLoading}
+            onPresetSelect={handlePresetSelect}
           />
         </div>
       </main>
