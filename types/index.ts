@@ -63,3 +63,43 @@ export interface CalendarEventProps {
   location?: string;
   description?: string;
 }
+
+/**
+ * Props for Header component
+ */
+export interface HeaderProps {
+  currentRoute?: string;
+}
+
+/**
+ * Props for MessageBubble component
+ */
+export interface MessageBubbleProps {
+  role: 'user' | 'assistant';
+  content: string;
+  isStreaming?: boolean;
+}
+
+/**
+ * Props for TypingIndicator component
+ */
+export interface TypingIndicatorProps {
+  isVisible: boolean;
+}
+
+/**
+ * Props for MessageList component
+ */
+export interface MessageListProps {
+  messages: Array<{ id: string; role: 'user' | 'assistant'; content: string }>;
+}
+
+/**
+ * Props for ChatInput component
+ */
+export interface ChatInputProps {
+  value: string;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (e: React.FormEvent) => void;
+  isLoading: boolean;
+}
