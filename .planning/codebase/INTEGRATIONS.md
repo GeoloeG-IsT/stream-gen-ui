@@ -46,7 +46,7 @@ The application does not integrate with external APIs. It uses mock streaming re
 **Error Tracking:**
 - None configured
 - Browser console logging only via `console.error()`
-- Examples: Error logging in page components (`app/flowtoken/page.tsx`, `app/llm-ui/page.tsx`, `app/streamdown/page.tsx`)
+- Examples: Error logging in page components (`frontend/app/flowtoken/page.tsx`, `frontend/app/llm-ui/page.tsx`, `frontend/app/streamdown/page.tsx`)
 
 **Logs:**
 - Browser console logs (console.error)
@@ -87,7 +87,7 @@ The application does not integrate with external APIs. It uses mock streaming re
 ## Streaming Protocol Details
 
 **Chat API Endpoint:**
-- Route: `POST /api/chat` (defined in `app/api/chat/route.ts`)
+- Route: `POST /api/chat` (defined in `frontend/app/api/chat/route.ts`)
 - Query parameters:
   - `format`: Accepts `'flowtoken'`, `'llm-ui'`, `'streamdown'` (default: `'flowtoken'`)
 - Request body:

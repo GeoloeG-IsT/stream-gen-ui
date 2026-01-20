@@ -6,7 +6,7 @@
 
 **Runner:**
 - Vitest 4.0.17
-- Config: `vitest.config.ts`
+- Config: `frontend/vitest.config.ts`
 
 **Assertion Library:**
 - Vitest built-in assertions (via `expect`)
@@ -14,15 +14,15 @@
 
 **Run Commands:**
 ```bash
-npm test              # Run all tests once
-npm run test:watch   # Watch mode (rebuilds on file changes)
+cd frontend && npm test              # Run all tests once
+cd frontend && npm run test:watch   # Watch mode (rebuilds on file changes)
 ```
 
 **Setup:**
 - Environment: `jsdom` (browser-like DOM simulation)
 - Global test functions enabled: `describe`, `it`, `expect` available without imports
-- Setup file: `vitest.setup.ts` imports `@testing-library/jest-dom/vitest` for extended matchers
-- Path alias support: `@/` maps to project root in tests
+- Setup file: `frontend/vitest.setup.ts` imports `@testing-library/jest-dom/vitest` for extended matchers
+- Path alias support: `@/` maps to `./*` (relative to frontend/) in tests
 
 ## Test File Organization
 
@@ -32,9 +32,9 @@ npm run test:watch   # Watch mode (rebuilds on file changes)
 - Pattern: `ComponentName.test.tsx` in same folder as `ComponentName.tsx`
 
 **Examples:**
-- `components/shared/MessageBubble.tsx` → `components/shared/MessageBubble.test.tsx`
-- `components/flowtoken/FlowTokenRenderer.tsx` → `components/flowtoken/FlowTokenRenderer.test.tsx`
-- `contexts/ViewRawContext.tsx` → `contexts/ViewRawContext.test.tsx`
+- `frontend/components/shared/MessageBubble.tsx` → `frontend/components/shared/MessageBubble.test.tsx`
+- `frontend/components/flowtoken/FlowTokenRenderer.tsx` → `frontend/components/flowtoken/FlowTokenRenderer.test.tsx`
+- `frontend/contexts/ViewRawContext.tsx` → `frontend/contexts/ViewRawContext.test.tsx`
 
 **Naming:**
 - `.test.tsx` suffix for React component tests

@@ -53,9 +53,11 @@
 5. Local relative imports (`import { RawOutputView } from './RawOutputView'`)
 
 **Path Aliases:**
-- `@/*` maps to project root
+- `@/*` maps to `./*` (relative to frontend/ since tsconfig.json is inside frontend/)
+- Working directory: All frontend commands run from frontend/ directory
 - Example usage: `import { useViewRaw } from '@/contexts/ViewRawContext'`
 - Enables consistent imports across nested directory structures
+- Defined in: `frontend/tsconfig.json`
 
 **Type Imports:**
 - Use `import type { ... } from 'module'` for type-only imports to ensure they don't appear in compiled output

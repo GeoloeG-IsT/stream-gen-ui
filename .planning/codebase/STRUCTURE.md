@@ -6,86 +6,98 @@
 
 ```
 stream-gen-ui/
-├── app/                        # Next.js App Router pages and API
-│   ├── api/
-│   │   └── chat/              # Chat API endpoint (streaming)
-│   ├── flowtoken/             # FlowToken implementation page
-│   ├── llm-ui/                # llm-ui implementation page
-│   ├── streamdown/            # Streamdown implementation page
-│   ├── page.tsx               # Root redirect to /flowtoken
-│   ├── layout.tsx             # Root layout with context provider
-│   └── globals.css            # Global styles
-├── components/                # React components organized by feature
-│   ├── flowtoken/             # FlowToken-specific renderer
-│   ├── llm-ui/                # llm-ui-specific renderer
-│   ├── streamdown/            # Streamdown-specific renderer
-│   └── shared/                # Shared components used across implementations
-├── contexts/                  # React Context providers
-│   └── ViewRawContext.tsx     # Global state for View Raw toggle
-├── lib/                       # Utility functions and helpers
-│   ├── test-content.ts        # Content generation and preset detection
-│   ├── mock-stream.ts         # Mock stream configuration
-│   ├── test-content.test.ts   # Content generation tests
-│   ├── mock-stream.test.ts    # Mock stream configuration tests
-│   └── utils.ts               # Generic utilities (cn, etc)
-├── types/                     # Shared TypeScript types
-│   └── index.ts               # All type definitions
-├── public/                    # Static assets
-├── .next/                     # Build output (generated)
+├── frontend/                   # Self-contained Next.js frontend package
+│   ├── app/                    # Next.js App Router pages and API
+│   │   ├── api/
+│   │   │   └── chat/          # Chat API endpoint (streaming)
+│   │   ├── flowtoken/         # FlowToken implementation page
+│   │   ├── llm-ui/            # llm-ui implementation page
+│   │   ├── streamdown/        # Streamdown implementation page
+│   │   ├── page.tsx           # Root redirect to /flowtoken
+│   │   ├── layout.tsx         # Root layout with context provider
+│   │   └── globals.css        # Global styles
+│   ├── components/            # React components organized by feature
+│   │   ├── flowtoken/         # FlowToken-specific renderer
+│   │   ├── llm-ui/            # llm-ui-specific renderer
+│   │   ├── streamdown/        # Streamdown-specific renderer
+│   │   └── shared/            # Shared components used across implementations
+│   ├── contexts/              # React Context providers
+│   │   └── ViewRawContext.tsx # Global state for View Raw toggle
+│   ├── lib/                   # Utility functions and helpers
+│   │   ├── test-content.ts    # Content generation and preset detection
+│   │   ├── mock-stream.ts     # Mock stream configuration
+│   │   ├── test-content.test.ts # Content generation tests
+│   │   ├── mock-stream.test.ts # Mock stream configuration tests
+│   │   └── utils.ts           # Generic utilities (cn, etc)
+│   ├── types/                 # Shared TypeScript types
+│   │   └── index.ts           # All type definitions
+│   ├── public/                # Static assets
+│   ├── node_modules/          # Frontend dependencies (self-contained)
+│   ├── .next/                 # Build output (generated)
+│   ├── package.json           # Frontend dependencies and scripts
+│   ├── package-lock.json      # Locked dependency versions
+│   ├── tsconfig.json          # TypeScript configuration
+│   ├── next.config.ts         # Next.js configuration
+│   ├── vitest.config.ts       # Test configuration
+│   ├── vitest.setup.ts        # Test setup file
+│   └── eslint.config.mjs      # ESLint configuration
 ├── docs/                      # Documentation files
 ├── .planning/                 # Planning and intelligence documents
 ├── .claude/                   # Claude workspace configuration
-├── package.json               # Dependencies and scripts
-├── tsconfig.json              # TypeScript configuration
-└── next.config.ts             # Next.js configuration
+└── .gitignore                 # Git ignore patterns (applies to entire repo)
 ```
 
 ## Directory Purposes
 
-**app/:**
+**frontend/:**
+- Purpose: Self-contained Next.js frontend package with own dependencies and configuration
+- Working directory: All commands run from this directory (`cd frontend && npm run build`)
+- Contains: Complete frontend application with source, tests, config, and node_modules
+
+**frontend/app/:**
 - Purpose: Next.js App Router structure containing all route pages and API handlers
 - Contains: Page components (TSX), API routes (TS), layout component, root styling
 - Key files: `page.tsx` (redirect), `layout.tsx` (root provider), `globals.css` (Tailwind directives)
 
-**app/api/chat/:**
+**frontend/app/api/chat/:**
 - Purpose: Server-side streaming API endpoint
 - Contains: Route handler for POST requests, stream generation, content selection
 - Key files: `route.ts` (handler), `route.test.ts` (tests)
 
-**app/flowtoken/, app/llm-ui/, app/streamdown/:**
+**frontend/app/flowtoken/, frontend/app/llm-ui/, frontend/app/streamdown/:**
 - Purpose: User-facing pages for each streaming implementation demo
 - Contains: Page component with useChat hook, message state management, scroll handling, renderer component integration
 - Pattern: Nearly identical page structure differing only in renderer component used
 
-**components/:**
+**frontend/components/:**
 - Purpose: Reusable React components organized by scope (feature-specific or shared)
 - Contains: Presentational and container components with tests
 
-**components/shared/:**
+**frontend/components/shared/:**
 - Purpose: Components used across all implementations
 - Contains: MessageBubble (message display wrapper), ChatInput (input form), Header (navigation), TypingIndicator, MessageList, RawOutputView, ContactCard, CalendarEvent, PresetSelector
 - Key pattern: Each component has TSX file + test file (co-located)
 
-**components/flowtoken/:**
+**frontend/components/flowtoken/:**
 - Purpose: FlowToken implementation details
 - Contains: FlowTokenRenderer component that uses `flowtoken` library's AnimatedMarkdown
 - Key file: `FlowTokenRenderer.tsx` with error boundary and custom component registration
 
-**components/llm-ui/:**
+**frontend/components/llm-ui/:**
 - Purpose: llm-ui implementation details
 - Contains: LLMUIRenderer component that uses `@llm-ui/react` for delimiter-based block parsing
 - Key file: `LLMUIRenderer.tsx` with BlockMatcher creation and custom component integration
 
-**components/streamdown/:**
+**frontend/components/streamdown/:**
 - Purpose: Streamdown implementation details
 - Contains: StreamdownRenderer component with custom XML parser for extracting component tags
 - Key file: `StreamdownRenderer.tsx` with content segment parsing and component registration
 
-**contexts/:**
+**frontend/contexts/:**
 - Purpose: React Context for global state
 - Contains: ViewRawContext provider and hook
 
-**lib/:**
+**frontend/lib/:**
 - Purpose: Business logic, utilities, and configuration
 - Contains: Content generation, content presets, mock stream settings, utility functions
 - Key files:
@@ -93,46 +105,46 @@ stream-gen-ui/
   - `mock-stream.ts`: Stream delay constants
   - `utils.ts`: cn() utility wrapper
 
-**types/:**
+**frontend/types/:**
 - Purpose: Centralized type definitions
 - Contains: MessageFormat union type, component prop interfaces, type guards
 - Key file: `index.ts` (single file - all types)
 
-**public/:**
+**frontend/public/:**
 - Purpose: Static assets served directly by Next.js
 - Contains: Images, icons, fonts (if any)
 
 ## Key File Locations
 
 **Entry Points:**
-- `app/page.tsx`: Root redirect to /flowtoken
-- `app/layout.tsx`: Root layout with ViewRawProvider wrapper
-- `app/flowtoken/page.tsx`: FlowToken demo page entry
-- `app/llm-ui/page.tsx`: llm-ui demo page entry
-- `app/streamdown/page.tsx`: Streamdown demo page entry
+- `frontend/app/page.tsx`: Root redirect to /flowtoken
+- `frontend/app/layout.tsx`: Root layout with ViewRawProvider wrapper
+- `frontend/app/flowtoken/page.tsx`: FlowToken demo page entry
+- `frontend/app/llm-ui/page.tsx`: llm-ui demo page entry
+- `frontend/app/streamdown/page.tsx`: Streamdown demo page entry
 
 **Configuration:**
-- `tsconfig.json`: TypeScript settings with @ path alias
-- `next.config.ts`: Next.js configuration
-- `package.json`: Dependencies and npm scripts
-- `app/globals.css`: Tailwind directives and global styles
+- `frontend/tsconfig.json`: TypeScript settings with @ path alias
+- `frontend/next.config.ts`: Next.js configuration
+- `frontend/package.json`: Dependencies and npm scripts
+- `frontend/app/globals.css`: Tailwind directives and global styles
 
 **Core Logic:**
-- `app/api/chat/route.ts`: Stream API handler and validation
-- `lib/test-content.ts`: Content templates and preset detection
-- `contexts/ViewRawContext.tsx`: Global state management
+- `frontend/app/api/chat/route.ts`: Stream API handler and validation
+- `frontend/lib/test-content.ts`: Content templates and preset detection
+- `frontend/contexts/ViewRawContext.tsx`: Global state management
 
 **Rendering:**
-- `components/flowtoken/FlowTokenRenderer.tsx`: FlowToken rendering logic
-- `components/llm-ui/LLMUIRenderer.tsx`: llm-ui rendering logic
-- `components/streamdown/StreamdownRenderer.tsx`: Streamdown rendering logic
-- `components/shared/MessageBubble.tsx`: Message display wrapper
+- `frontend/components/flowtoken/FlowTokenRenderer.tsx`: FlowToken rendering logic
+- `frontend/components/llm-ui/LLMUIRenderer.tsx`: llm-ui rendering logic
+- `frontend/components/streamdown/StreamdownRenderer.tsx`: Streamdown rendering logic
+- `frontend/components/shared/MessageBubble.tsx`: Message display wrapper
 
 **Testing:**
-- `app/api/chat/route.test.ts`: API route tests
-- `lib/test-content.test.ts`: Content generation tests
-- `lib/mock-stream.test.ts`: Mock stream configuration tests
-- `components/**/*.test.tsx`: Component tests co-located with components
+- `frontend/app/api/chat/route.test.ts`: API route tests
+- `frontend/lib/test-content.test.ts`: Content generation tests
+- `frontend/lib/mock-stream.test.ts`: Mock stream configuration tests
+- `frontend/components/**/*.test.tsx`: Component tests co-located with components
 
 ## Naming Conventions
 
@@ -166,35 +178,40 @@ stream-gen-ui/
 ## Where to Add New Code
 
 **New Feature (cross-implementation):**
-- Primary code: `lib/` for logic, `components/shared/` for UI
+- Primary code: `frontend/lib/` for logic, `frontend/components/shared/` for UI
 - Tests: Co-located with `.test.ts` or `.test.tsx` suffix
-- Types: Add to `types/index.ts`
+- Types: Add to `frontend/types/index.ts`
 
 **New Component/Module:**
-- Shared component: `components/shared/ComponentName.tsx`
-- Feature-specific component: `components/[feature]/ComponentName.tsx`
+- Shared component: `frontend/components/shared/ComponentName.tsx`
+- Feature-specific component: `frontend/components/[feature]/ComponentName.tsx`
 - Always pair with test file immediately
 
 **Utilities:**
-- String/class utilities: `lib/utils.ts`
-- Content/data utilities: `lib/[domain].ts` (e.g., lib/test-content.ts)
-- API utilities: Keep in `app/api/chat/route.ts` or create `lib/api-utils.ts`
+- String/class utilities: `frontend/lib/utils.ts`
+- Content/data utilities: `frontend/lib/[domain].ts` (e.g., lib/test-content.ts)
+- API utilities: Keep in `frontend/app/api/chat/route.ts` or create `frontend/lib/api-utils.ts`
 
 **New Page/Route:**
-- Page component: `app/[route-name]/page.tsx`
-- API endpoint: `app/api/[resource]/route.ts`
-- Shared layout: Update `app/layout.tsx`
+- Page component: `frontend/app/[route-name]/page.tsx`
+- API endpoint: `frontend/app/api/[resource]/route.ts`
+- Shared layout: Update `frontend/app/layout.tsx`
 
 **Tests:**
 - Unit tests: Co-located in same directory
 - Integration tests: Can be grouped in `__tests__/` directory
-- Test helpers/fixtures: Create `lib/test-utils.ts` or similar
+- Test helpers/fixtures: Create `frontend/lib/test-utils.ts` or similar
 
 ## Special Directories
 
-**.next/:**
+**frontend/.next/:**
 - Purpose: Build output from `next build`
 - Generated: Yes
+- Committed: No (in .gitignore)
+
+**frontend/node_modules/:**
+- Purpose: Installed frontend dependencies
+- Generated: Yes (by npm install from frontend/)
 - Committed: No (in .gitignore)
 
 **.planning/:**
@@ -212,17 +229,22 @@ stream-gen-ui/
 - Generated: No (manually created)
 - Committed: Yes
 
-**node_modules/:**
-- Purpose: Installed dependencies
-- Generated: Yes (by npm install)
-- Committed: No (in .gitignore)
-
 ## Import Path Aliases
 
 **Primary Alias:**
-- `@/*`: Maps to project root
+- `@/*`: Maps to `./*` (relative to frontend/ since tsconfig.json is inside frontend/)
 - Usage: `import { cn } from '@/lib/utils'`, `import { Header } from '@/components/shared/Header'`
-- Defined in: `tsconfig.json` → `compilerOptions.paths`
+- Defined in: `frontend/tsconfig.json` → `compilerOptions.paths["@/*"]`
+
+## Working Directory
+
+**All frontend commands run from frontend/ directory:**
+- Build: `cd frontend && npm run build`
+- Dev server: `cd frontend && npm run dev`
+- Tests: `cd frontend && npm test`
+- Lint: `cd frontend && npm run lint`
+
+The frontend is a self-contained package with its own package.json and node_modules.
 
 ## Architecture Decisions in File Placement
 
