@@ -1,3 +1,6 @@
+'use client';
+
+import { useRef, useEffect } from 'react';
 import type { ReactElement } from 'react';
 
 import { Send } from 'lucide-react';
@@ -11,7 +14,15 @@ export function ChatInput({
   onSubmit,
   isLoading,
 }: ChatInputProps): ReactElement {
+  const inputRef = useRef<HTMLInputElement>(null);
   const isDisabled = isLoading || !value.trim();
+
+  // Focus input after submission (when value is cleared)
+  useEffect(() => {
+    if (value === '' && inputRef.current && !isLoading) {
+      inputRef.current.focus();
+    }
+  }, [value, isLoading]);
 
   return (
     <form
@@ -23,12 +34,14 @@ export function ChatInput({
       )}
     >
       <input
+        ref={inputRef}
         type="text"
         value={value}
         onChange={onChange}
         disabled={isLoading}
         placeholder="Type a message..."
         aria-label="Message input"
+        autoFocus
         className={cn(
           'flex-1 rounded-lg border border-gray-300 p-3',
           'text-gray-800 placeholder-gray-400',

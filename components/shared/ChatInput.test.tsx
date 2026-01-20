@@ -132,4 +132,38 @@ describe('ChatInput', () => {
       expect(input).toHaveClass('focus:ring-2');
     });
   });
+
+  describe('focus behavior', () => {
+    it('input receives focus on mount', () => {
+      render(<ChatInput {...defaultProps} />);
+      const input = screen.getByRole('textbox');
+      // autoFocus causes the input to be focused on mount
+      expect(document.activeElement).toBe(input);
+    });
+
+    it('focuses input when value is cleared after submission', () => {
+      const { rerender } = render(<ChatInput {...defaultProps} value="Hello" />);
+      const input = screen.getByRole('textbox');
+
+      // Simulate submission clearing the value
+      rerender(<ChatInput {...defaultProps} value="" />);
+
+      expect(document.activeElement).toBe(input);
+    });
+
+    it('does not focus input when loading', () => {
+      const { rerender } = render(
+        <ChatInput {...defaultProps} value="Hello" isLoading={false} />
+      );
+      const input = screen.getByRole('textbox');
+
+      // Blur the input first
+      input.blur();
+
+      // Simulate value cleared but loading
+      rerender(<ChatInput {...defaultProps} value="" isLoading={true} />);
+
+      expect(document.activeElement).not.toBe(input);
+    });
+  });
 });
