@@ -47,7 +47,7 @@ development_status:
   1-3-mock-stream-provider: done
   1-4-chat-ui-shell: done
   1-5-flowtoken-implementation: done
-  1-6-header-navigation-structure: backlog
+  1-6-header-navigation-structure: ready-for-dev
   epic-1-retrospective: optional
 
   # Epic 2: Three-Way Implementation Comparison
