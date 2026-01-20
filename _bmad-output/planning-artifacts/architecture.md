@@ -228,9 +228,18 @@ components/
 
 | Decision | Choice | Rationale |
 |----------|--------|-----------|
-| **Deployment** | Local only | PoC for evaluation, not production |
-| **CI/CD** | None | Evaluator runs locally |
-| **Monitoring** | None | Console logging sufficient |
+| **Deployment** | Vercel (free tier) | Zero-config Next.js hosting for public sharing |
+| **CI/CD** | Vercel GitHub Integration | Automatic deploys on push to main |
+| **Monitoring** | Vercel Analytics (optional) | Built-in performance monitoring |
+
+**Deployment Details:**
+
+- **Platform:** Vercel Free Tier (hobby)
+- **URL:** Automatically generated (e.g., `stream-gen-ui.vercel.app`)
+- **Deploy Method:** GitHub repo integration or `npx vercel` CLI
+- **Environment:** No environment variables required (mock provider)
+- **Build Command:** `npm run build` (auto-detected)
+- **Output:** Static + Serverless Functions for API routes
 
 ### Decision Impact Analysis
 
