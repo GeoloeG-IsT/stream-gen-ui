@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 1 plan
 
 Plans:
-- [ ] 01-01-PLAN.md — Move frontend code to frontend/ directory with configuration updates
+- [x] 01-01-PLAN.md — Move frontend code to frontend/ directory with configuration updates
 
 ### Phase 2: Backend Foundation + RAG
 **Goal**: Working FastAPI backend with RAG retrieval over fictional city knowledge base
@@ -42,11 +42,12 @@ Plans:
   3. Vector store successfully retrieves relevant documents for sample queries
   4. Hybrid search combines keyword and semantic retrieval with source metadata
   5. RAG system returns document chunks with proper attribution (title, reference)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: [Plan pending]
-- [ ] 02-02: [Plan pending]
+- [x] 02-01-PLAN.md — Backend foundation with FastAPI, config, and schemas
+- [x] 02-02-PLAN.md — Knowledge base creation with fictional Berlin city data
+- [x] 02-03-PLAN.md — RAG pipeline with hybrid retrieval
 
 ### Phase 3: ReAct Agent + Streaming Integration
 **Goal**: Intelligent agent streams formatted responses with Contact/CalendarEvent entities to frontend
@@ -60,12 +61,15 @@ Plans:
   5. Multi-turn conversations maintain context across message history
   6. Tool failures and timeouts handled gracefully with user-friendly error messages
   7. Agent traces logged for debugging and observability
-**Plans**: TBD
+**Plans**: 6 plans
 
 Plans:
-- [ ] 03-01: [Plan pending]
-- [ ] 03-02: [Plan pending]
-- [ ] 03-03: [Plan pending]
+- [ ] 03-01-PLAN.md — Agent foundation (state, tools, dependencies)
+- [ ] 03-02-PLAN.md — SSE streaming utilities and entity parser
+- [ ] 03-03-PLAN.md — LangGraph ReAct agent state machine
+- [ ] 03-04-PLAN.md — Streaming /api/chat endpoint
+- [ ] 03-05-PLAN.md — Frontend entity rendering integration
+- [ ] 03-06-PLAN.md — End-to-end verification
 
 ## Progress
 
@@ -76,4 +80,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Frontend Reorganization | 1/1 | ✓ Complete | 2026-01-20 |
 | 2. Backend Foundation + RAG | 3/3 | ✓ Complete | 2026-01-20 |
-| 3. ReAct Agent + Streaming Integration | 0/TBD | Not started | - |
+| 3. ReAct Agent + Streaming Integration | 0/6 | Not started | - |
