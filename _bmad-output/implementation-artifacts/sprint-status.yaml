@@ -60,7 +60,7 @@ development_status:
 
   # Epic 3: Evaluation Tools & Production Polish
   epic-3: in-progress
-  3-1-view-raw-debug-toggle: ready-for-dev
+  3-1-view-raw-debug-toggle: review
   3-2-progressive-component-rendering-polish: backlog
   3-3-accessibility-compliance: backlog
   3-4-performance-validation: backlog

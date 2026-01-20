@@ -127,6 +127,7 @@ export default function FlowTokenPage(): ReactElement {
                 role={m.role}
                 content={m.content}
                 isStreaming={m.isStreaming}
+                rawContent={m.role === 'assistant' ? m.content : undefined}
               >
                 {m.role === 'assistant' ? (
                   <FlowTokenRenderer

@@ -1,7 +1,14 @@
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 
+import { ViewRawProvider } from '@/contexts/ViewRawContext';
+
 import { MessageList } from './MessageList';
+
+// Helper to render with ViewRawProvider
+function renderWithProvider(ui: React.ReactElement): ReturnType<typeof render> {
+  return render(<ViewRawProvider>{ui}</ViewRawProvider>);
+}
 
 describe('MessageList', () => {
   const mockMessages = [
@@ -12,20 +19,20 @@ describe('MessageList', () => {
 
   describe('rendering', () => {
     it('renders all messages', () => {
-      render(<MessageList messages={mockMessages} />);
+      renderWithProvider(<MessageList messages={mockMessages} />);
       expect(screen.getByText('Hello')).toBeInTheDocument();
       expect(screen.getByText('Hi there!')).toBeInTheDocument();
       expect(screen.getByText('How are you?')).toBeInTheDocument();
     });
 
     it('renders empty state when no messages', () => {
-      render(<MessageList messages={[]} />);
+      renderWithProvider(<MessageList messages={[]} />);
       const container = screen.getByRole('log');
       expect(container).toBeInTheDocument();
     });
 
     it('renders MessageBubble for each message', () => {
-      render(<MessageList messages={mockMessages} />);
+      renderWithProvider(<MessageList messages={mockMessages} />);
       const articles = screen.getAllByRole('article');
       expect(articles).toHaveLength(3);
     });
@@ -33,19 +40,19 @@ describe('MessageList', () => {
 
   describe('container styling', () => {
     it('has scrollable container', () => {
-      render(<MessageList messages={mockMessages} />);
+      renderWithProvider(<MessageList messages={mockMessages} />);
       const container = screen.getByRole('log');
       expect(container).toHaveClass('overflow-y-auto');
     });
 
     it('has flex-1 for expansion', () => {
-      render(<MessageList messages={mockMessages} />);
+      renderWithProvider(<MessageList messages={mockMessages} />);
       const container = screen.getByRole('log');
       expect(container).toHaveClass('flex-1');
     });
 
     it('has appropriate padding', () => {
-      render(<MessageList messages={mockMessages} />);
+      renderWithProvider(<MessageList messages={mockMessages} />);
       const container = screen.getByRole('log');
       expect(container).toHaveClass('p-4');
     });
@@ -53,18 +60,18 @@ describe('MessageList', () => {
 
   describe('accessibility', () => {
     it('has role="log" for live region', () => {
-      render(<MessageList messages={mockMessages} />);
+      renderWithProvider(<MessageList messages={mockMessages} />);
       expect(screen.getByRole('log')).toBeInTheDocument();
     });
 
     it('has aria-live="polite" for screen reader announcements', () => {
-      render(<MessageList messages={mockMessages} />);
+      renderWithProvider(<MessageList messages={mockMessages} />);
       const container = screen.getByRole('log');
       expect(container).toHaveAttribute('aria-live', 'polite');
     });
 
     it('has aria-label describing the region', () => {
-      render(<MessageList messages={mockMessages} />);
+      renderWithProvider(<MessageList messages={mockMessages} />);
       const container = screen.getByRole('log');
       expect(container).toHaveAttribute('aria-label', 'Chat messages');
     });
@@ -87,21 +94,25 @@ describe('MessageList', () => {
       const scrollIntoViewMock = vi.fn();
       window.HTMLElement.prototype.scrollIntoView = scrollIntoViewMock;
 
-      const { rerender } = render(<MessageList messages={mockMessages} />);
+      const { rerender } = renderWithProvider(<MessageList messages={mockMessages} />);
 
       // Add a new message
       const newMessages = [
         ...mockMessages,
         { id: '4', role: 'assistant' as const, content: 'New message' },
       ];
-      rerender(<MessageList messages={newMessages} />);
+      rerender(
+        <ViewRawProvider>
+          <MessageList messages={newMessages} />
+        </ViewRawProvider>
+      );
 
       // Should have called scrollIntoView
       expect(scrollIntoViewMock).toHaveBeenCalled();
     });
 
     it('renders message gap between bubbles', () => {
-      render(<MessageList messages={mockMessages} />);
+      renderWithProvider(<MessageList messages={mockMessages} />);
       const container = screen.getByRole('log');
       expect(container).toHaveClass('gap-3');
     });
@@ -109,7 +120,7 @@ describe('MessageList', () => {
 
   describe('message content', () => {
     it('passes correct role to MessageBubble', () => {
-      render(<MessageList messages={mockMessages} />);
+      renderWithProvider(<MessageList messages={mockMessages} />);
       const userMessages = screen.getAllByLabelText('User message');
       const assistantMessages = screen.getAllByLabelText('Assistant message');
       expect(userMessages).toHaveLength(2);

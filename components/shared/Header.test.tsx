@@ -1,9 +1,16 @@
 import type { ReactNode } from 'react';
 
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 
+import { ViewRawProvider } from '@/contexts/ViewRawContext';
+
 import { Header } from './Header';
+
+// Helper to render with ViewRawProvider
+function renderWithProvider(ui: React.ReactElement): ReturnType<typeof render> {
+  return render(<ViewRawProvider>{ui}</ViewRawProvider>);
+}
 
 // Mock next/link
 vi.mock('next/link', () => ({
@@ -40,21 +47,21 @@ describe('Header', () => {
 
   describe('Basic Rendering', () => {
     it('renders with correct height and background color', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const header = screen.getByRole('banner');
       expect(header).toHaveClass('h-14'); // 56px per spec (h-14 = 3.5rem = 56px)
       expect(header).toHaveClass('bg-[#1E3A5F]');
     });
 
     it('renders three navigation tabs', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       expect(screen.getByRole('link', { name: /flowtoken/i })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: /llm-ui/i })).toBeInTheDocument();
       expect(screen.getByRole('link', { name: /streamdown/i })).toBeInTheDocument();
     });
 
     it('links to correct routes', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       expect(screen.getByRole('link', { name: /flowtoken/i })).toHaveAttribute(
         'href',
         '/flowtoken'
@@ -70,7 +77,7 @@ describe('Header', () => {
     });
 
     it('renders fixed position header', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const header = screen.getByRole('banner');
       expect(header).toHaveClass('fixed');
       expect(header).toHaveClass('top-0');
@@ -83,7 +90,7 @@ describe('Header', () => {
   describe('Active State - All Routes', () => {
     it('shows FlowToken as active when on /flowtoken route', () => {
       mockPathname = '/flowtoken';
-      render(<Header />);
+      renderWithProvider(<Header />);
 
       const flowTokenTab = screen.getByRole('link', { name: /flowtoken/i });
       const llmUiTab = screen.getByRole('link', { name: /llm-ui/i });
@@ -100,7 +107,7 @@ describe('Header', () => {
 
     it('shows llm-ui as active when on /llm-ui route', () => {
       mockPathname = '/llm-ui';
-      render(<Header />);
+      renderWithProvider(<Header />);
 
       const flowTokenTab = screen.getByRole('link', { name: /flowtoken/i });
       const llmUiTab = screen.getByRole('link', { name: /llm-ui/i });
@@ -117,7 +124,7 @@ describe('Header', () => {
 
     it('shows Streamdown as active when on /streamdown route', () => {
       mockPathname = '/streamdown';
-      render(<Header />);
+      renderWithProvider(<Header />);
 
       const flowTokenTab = screen.getByRole('link', { name: /flowtoken/i });
       const llmUiTab = screen.getByRole('link', { name: /llm-ui/i });
@@ -134,7 +141,7 @@ describe('Header', () => {
 
     it('shows no active tab when on unknown route', () => {
       mockPathname = '/unknown';
-      render(<Header />);
+      renderWithProvider(<Header />);
 
       const flowTokenTab = screen.getByRole('link', { name: /flowtoken/i });
       const llmUiTab = screen.getByRole('link', { name: /llm-ui/i });
@@ -149,7 +156,7 @@ describe('Header', () => {
 
   describe('Accessibility', () => {
     it('has navigation element with aria-label', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const nav = screen.getByRole('navigation');
       expect(nav).toBeInTheDocument();
       expect(nav).toHaveAttribute('aria-label', 'Implementation navigation');
@@ -157,7 +164,7 @@ describe('Header', () => {
 
     it('sets aria-current="page" on FlowToken tab when active', () => {
       mockPathname = '/flowtoken';
-      render(<Header />);
+      renderWithProvider(<Header />);
 
       expect(screen.getByRole('link', { name: /flowtoken/i })).toHaveAttribute(
         'aria-current',
@@ -169,7 +176,7 @@ describe('Header', () => {
 
     it('sets aria-current="page" on llm-ui tab when active', () => {
       mockPathname = '/llm-ui';
-      render(<Header />);
+      renderWithProvider(<Header />);
 
       expect(screen.getByRole('link', { name: /flowtoken/i })).not.toHaveAttribute('aria-current');
       expect(screen.getByRole('link', { name: /llm-ui/i })).toHaveAttribute('aria-current', 'page');
@@ -178,7 +185,7 @@ describe('Header', () => {
 
     it('sets aria-current="page" on Streamdown tab when active', () => {
       mockPathname = '/streamdown';
-      render(<Header />);
+      renderWithProvider(<Header />);
 
       expect(screen.getByRole('link', { name: /flowtoken/i })).not.toHaveAttribute('aria-current');
       expect(screen.getByRole('link', { name: /llm-ui/i })).not.toHaveAttribute('aria-current');
@@ -189,7 +196,7 @@ describe('Header', () => {
     });
 
     it('applies focus-visible styling classes to tabs', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const tab = screen.getByRole('link', { name: /flowtoken/i });
       expect(tab).toHaveClass('focus-visible:ring-2');
       expect(tab).toHaveClass('focus-visible:ring-blue-500');
@@ -198,7 +205,7 @@ describe('Header', () => {
     });
 
     it('maintains minimum touch target size of 44px for all tabs', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const tabs = screen.getAllByRole('link');
 
       tabs.forEach((tab) => {
@@ -210,19 +217,19 @@ describe('Header', () => {
 
   describe('Responsive Design', () => {
     it('has horizontal scroll overflow for mobile responsiveness', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const nav = screen.getByRole('navigation');
       expect(nav).toHaveClass('overflow-x-auto');
     });
 
     it('has max-width constraint for responsive nav containment', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const nav = screen.getByRole('navigation');
       expect(nav).toHaveClass('max-w-full');
     });
 
     it('uses flexbox layout for tab arrangement', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const nav = screen.getByRole('navigation');
       expect(nav).toHaveClass('flex');
       expect(nav).toHaveClass('items-center');
@@ -230,7 +237,7 @@ describe('Header', () => {
     });
 
     it('header has horizontal padding for mobile spacing', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const header = screen.getByRole('banner');
       expect(header).toHaveClass('px-4');
     });
@@ -239,7 +246,7 @@ describe('Header', () => {
   describe('Hover States', () => {
     it('applies hover text color class to inactive tabs', () => {
       mockPathname = '/flowtoken';
-      render(<Header />);
+      renderWithProvider(<Header />);
 
       // Inactive tabs should have hover styling
       const llmUiTab = screen.getByRole('link', { name: /llm-ui/i });
@@ -250,7 +257,7 @@ describe('Header', () => {
     });
 
     it('applies transition class for smooth hover effect', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const tabs = screen.getAllByRole('link');
 
       tabs.forEach((tab) => {
@@ -261,7 +268,7 @@ describe('Header', () => {
 
   describe('Tab Styling', () => {
     it('applies correct border radius to tabs', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const tabs = screen.getAllByRole('link');
 
       tabs.forEach((tab) => {
@@ -270,7 +277,7 @@ describe('Header', () => {
     });
 
     it('applies correct font styling to tabs', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const tabs = screen.getAllByRole('link');
 
       tabs.forEach((tab) => {
@@ -280,13 +287,92 @@ describe('Header', () => {
     });
 
     it('applies correct padding to tabs', () => {
-      render(<Header />);
+      renderWithProvider(<Header />);
       const tabs = screen.getAllByRole('link');
 
       tabs.forEach((tab) => {
         expect(tab).toHaveClass('px-4');
         expect(tab).toHaveClass('py-2');
       });
+    });
+  });
+
+  describe('View Raw Toggle', () => {
+    it('renders the View Raw toggle button', () => {
+      renderWithProvider(<Header />);
+      const toggle = screen.getByRole('switch', { name: /view raw/i });
+      expect(toggle).toBeInTheDocument();
+    });
+
+    it('toggle is positioned after navigation tabs', () => {
+      renderWithProvider(<Header />);
+      const header = screen.getByRole('banner');
+      const nav = screen.getByRole('navigation');
+      const toggle = screen.getByRole('switch', { name: /view raw/i });
+
+      // Toggle should be inside nav, centered together with tabs
+      expect(nav.contains(toggle)).toBe(true);
+      expect(header.contains(toggle)).toBe(true);
+    });
+
+    it('toggle starts in OFF state (gray background)', () => {
+      renderWithProvider(<Header />);
+      const toggle = screen.getByRole('switch', { name: /view raw/i });
+      expect(toggle).toHaveAttribute('aria-checked', 'false');
+      expect(toggle).toHaveClass('bg-gray-300');
+    });
+
+    it('toggle changes to ON state when clicked (blue background)', () => {
+      renderWithProvider(<Header />);
+      const toggle = screen.getByRole('switch', { name: /view raw/i });
+
+      fireEvent.click(toggle);
+
+      expect(toggle).toHaveAttribute('aria-checked', 'true');
+      expect(toggle).toHaveClass('bg-blue-500');
+    });
+
+    it('toggle changes back to OFF state when clicked again', () => {
+      renderWithProvider(<Header />);
+      const toggle = screen.getByRole('switch', { name: /view raw/i });
+
+      fireEvent.click(toggle); // ON
+      fireEvent.click(toggle); // OFF
+
+      expect(toggle).toHaveAttribute('aria-checked', 'false');
+      expect(toggle).toHaveClass('bg-gray-300');
+    });
+
+    it('toggle has minimum 44px touch target', () => {
+      renderWithProvider(<Header />);
+      const toggle = screen.getByRole('switch', { name: /view raw/i });
+      expect(toggle).toHaveClass('min-h-[44px]');
+      expect(toggle).toHaveClass('min-w-[44px]');
+    });
+
+    it('toggle has focus-visible styling', () => {
+      renderWithProvider(<Header />);
+      const toggle = screen.getByRole('switch', { name: /view raw/i });
+      expect(toggle).toHaveClass('focus-visible:ring-2');
+      expect(toggle).toHaveClass('focus-visible:ring-blue-500');
+    });
+
+    it('toggle has transition for smooth color change', () => {
+      renderWithProvider(<Header />);
+      const toggle = screen.getByRole('switch', { name: /view raw/i });
+      expect(toggle).toHaveClass('transition-colors');
+    });
+
+    it('renders View Raw label text', () => {
+      renderWithProvider(<Header />);
+      expect(screen.getByText('View Raw')).toBeInTheDocument();
+    });
+
+    it('label has correct styling for visibility', () => {
+      renderWithProvider(<Header />);
+      const label = screen.getByText('View Raw');
+      expect(label).toHaveClass('text-white/70');
+      expect(label).toHaveClass('text-sm');
     });
   });
 });
