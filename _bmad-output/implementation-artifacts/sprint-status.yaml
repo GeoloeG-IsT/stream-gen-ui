@@ -53,7 +53,7 @@ development_status:
   # Epic 2: Three-Way Implementation Comparison
   epic-2: in-progress
   2-1-llm-ui-implementation: done
-  2-2-streamdown-implementation: ready-for-dev
+  2-2-streamdown-implementation: done
   2-3-test-content-presets: backlog
   2-4-enhanced-navigation-ux: backlog
   epic-2-retrospective: optional
