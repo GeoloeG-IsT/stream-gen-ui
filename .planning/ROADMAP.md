@@ -42,11 +42,12 @@ Plans:
   3. Vector store successfully retrieves relevant documents for sample queries
   4. Hybrid search combines keyword and semantic retrieval with source metadata
   5. RAG system returns document chunks with proper attribution (title, reference)
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: [Plan pending]
-- [ ] 02-02: [Plan pending]
+- [ ] 02-01-PLAN.md — Create backend directory structure with FastAPI skeleton
+- [ ] 02-02-PLAN.md — Create fictional Berlin knowledge base (50+ contacts, 50+ events)
+- [ ] 02-03-PLAN.md — Build RAG pipeline with hybrid retrieval and /api/chat endpoint
 
 ### Phase 3: ReAct Agent + Streaming Integration
 **Goal**: Intelligent agent streams formatted responses with Contact/CalendarEvent entities to frontend
@@ -74,6 +75,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Frontend Reorganization | 1/1 | ✓ Complete | 2026-01-20 |
-| 2. Backend Foundation + RAG | 0/TBD | Ready to plan | - |
+| 1. Frontend Reorganization | 1/1 | Complete | 2026-01-20 |
+| 2. Backend Foundation + RAG | 0/3 | Ready to execute | - |
 | 3. ReAct Agent + Streaming Integration | 0/TBD | Not started | - |
