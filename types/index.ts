@@ -78,6 +78,7 @@ export interface MessageBubbleProps {
   role: 'user' | 'assistant';
   content: string;
   isStreaming?: boolean;
+  children?: React.ReactNode;
 }
 
 /**

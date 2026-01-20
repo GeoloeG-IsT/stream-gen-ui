@@ -9,16 +9,16 @@ describe('test-content', () => {
     describe('FlowToken format', () => {
       it('returns content with XML ContactCard tag', () => {
         const content = getTestContent(mockMessages, 'flowtoken');
-        expect(content).toContain('<ContactCard');
+        expect(content).toContain('<contactcard');
         expect(content).toContain('name="');
-        expect(content).toContain('/>');
+        expect(content).toContain('</contactcard>');
       });
 
       it('returns content with XML CalendarEvent tag', () => {
         const content = getTestContent(mockMessages, 'flowtoken');
-        expect(content).toContain('<CalendarEvent');
+        expect(content).toContain('<calendarevent');
         expect(content).toContain('title="');
-        expect(content).toContain('/>');
+        expect(content).toContain('</calendarevent>');
       });
 
       it('includes narrative text around components', () => {
@@ -55,15 +55,15 @@ describe('test-content', () => {
     describe('Streamdown format', () => {
       it('returns content with XML tags (same as FlowToken)', () => {
         const content = getTestContent(mockMessages, 'streamdown');
-        expect(content).toContain('<ContactCard');
-        expect(content).toContain('<CalendarEvent');
+        expect(content).toContain('<contactcard');
+        expect(content).toContain('<calendarevent');
       });
     });
 
     describe('format defaults', () => {
       it('defaults to flowtoken when format is unknown', () => {
         const content = getTestContent(mockMessages, 'unknown' as 'flowtoken');
-        expect(content).toContain('<ContactCard');
+        expect(content).toContain('<contactcard');
       });
     });
   });

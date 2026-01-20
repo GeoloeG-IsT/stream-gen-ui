@@ -3,8 +3,25 @@ import { describe, expect, it } from 'vitest';
 import { POST } from './route';
 
 describe('/api/chat route', () => {
+  // Helper for v5 format (content string)
   const createRequest = (
     messages: { role: string; content: string }[],
+    format?: string
+  ): Request => {
+    const url = format
+      ? `http://localhost:3000/api/chat?format=${format}`
+      : 'http://localhost:3000/api/chat';
+
+    return new Request(url, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages }),
+    });
+  };
+
+  // Helper for v6 format (parts array)
+  const createV6Request = (
+    messages: { role: string; parts: Array<{ type: string; text: string }> }[],
     format?: string
   ): Request => {
     const url = format
@@ -29,6 +46,25 @@ describe('/api/chat route', () => {
       body,
     });
   };
+
+  describe('AI SDK v6 format (parts)', () => {
+    it('accepts messages with parts array instead of content', { timeout: 30000 }, async () => {
+      const req = createV6Request([
+        { role: 'user', parts: [{ type: 'text', text: 'hello' }] },
+      ]);
+      const response = await POST(req);
+      expect(response.status).toBe(200);
+    });
+
+    it('returns streaming response for v6 format', { timeout: 30000 }, async () => {
+      const req = createV6Request([
+        { role: 'user', parts: [{ type: 'text', text: 'hello' }] },
+      ]);
+      const response = await POST(req);
+      const text = await response.text();
+      expect(text).toContain('contactcard');
+    });
+  });
 
   describe('error handling', () => {
     it('returns 400 for invalid JSON body', async () => {
@@ -59,12 +95,13 @@ describe('/api/chat route', () => {
       expect(response.status).toBe(400);
     });
 
-    it('returns 400 when message has invalid role', async () => {
+    it('accepts any role string for AI SDK compatibility', async () => {
+      // AI SDK may use various roles like 'tool', so we accept any string
       const req = createRawRequest(
-        JSON.stringify({ messages: [{ role: 'invalid', content: 'hello' }] })
+        JSON.stringify({ messages: [{ role: 'tool', content: 'hello' }] })
       );
       const response = await POST(req);
-      expect(response.status).toBe(400);
+      expect(response.status).toBe(200);
     });
 
     it('returns 400 when message is missing content', async () => {
@@ -84,7 +121,7 @@ describe('/api/chat route', () => {
       expect(response.status).toBe(200);
       const text = await response.text();
       // Should use flowtoken format (XML tags)
-      expect(text).toContain('ContactCard');
+      expect(text).toContain('contactcard');
     });
   });
 
@@ -101,18 +138,10 @@ describe('/api/chat route', () => {
       expect(response.status).toBe(200);
     });
 
-    it('sets Content-Type header', async () => {
+    it('sets Content-Type header for event stream', async () => {
       const req = createRequest([{ role: 'user', content: 'hello' }]);
       const response = await POST(req);
-      expect(response.headers.get('Content-Type')).toBe(
-        'text/plain; charset=utf-8'
-      );
-    });
-
-    it('sets X-Vercel-AI-Data-Stream header', async () => {
-      const req = createRequest([{ role: 'user', content: 'hello' }]);
-      const response = await POST(req);
-      expect(response.headers.get('X-Vercel-AI-Data-Stream')).toBe('v1');
+      expect(response.headers.get('Content-Type')).toBe('text/event-stream');
     });
 
     it('returns a readable stream', async () => {
@@ -127,8 +156,8 @@ describe('/api/chat route', () => {
       const req = createRequest([{ role: 'user', content: 'hello' }]);
       const response = await POST(req);
       const text = await response.text();
-      // FlowToken uses XML tags
-      expect(text).toContain('ContactCard');
+      // FlowToken uses XML tags (lowercase for HTML5 custom elements)
+      expect(text).toContain('contactcard');
     });
 
     it('returns flowtoken content when format=flowtoken', { timeout: 30000 }, async () => {
@@ -138,7 +167,7 @@ describe('/api/chat route', () => {
       );
       const response = await POST(req);
       const text = await response.text();
-      expect(text).toContain('ContactCard');
+      expect(text).toContain('contactcard');
     });
 
     it('returns llm-ui content when format=llm-ui', { timeout: 30000 }, async () => {
@@ -158,32 +187,33 @@ describe('/api/chat route', () => {
       );
       const response = await POST(req);
       const text = await response.text();
-      expect(text).toContain('ContactCard');
+      expect(text).toContain('contactcard');
     });
   });
 
-  describe('stream protocol format', () => {
-    it('uses AI SDK data stream format with 0: prefix', { timeout: 30000 }, async () => {
+  describe('UIMessageStream format', () => {
+    it('uses text-start event to begin streaming', { timeout: 30000 }, async () => {
       const req = createRequest([{ role: 'user', content: 'hello' }]);
       const response = await POST(req);
       const text = await response.text();
-      // Should have text chunks with 0: prefix
-      expect(text).toMatch(/0:/);
+      // Should have text-start event
+      expect(text).toContain('"type":"text-start"');
     });
 
-    it('includes finish event (e:)', { timeout: 30000 }, async () => {
+    it('includes text-delta events for content', { timeout: 30000 }, async () => {
       const req = createRequest([{ role: 'user', content: 'hello' }]);
       const response = await POST(req);
       const text = await response.text();
-      expect(text).toContain('e:');
-      expect(text).toContain('finishReason');
+      expect(text).toContain('"type":"text-delta"');
+      expect(text).toContain('"delta"');
     });
 
-    it('includes done event (d:)', { timeout: 30000 }, async () => {
+    it('includes text-end and done events', { timeout: 30000 }, async () => {
       const req = createRequest([{ role: 'user', content: 'hello' }]);
       const response = await POST(req);
       const text = await response.text();
-      expect(text).toContain('d:');
+      expect(text).toContain('"type":"text-end"');
+      expect(text).toContain('[DONE]');
     });
   });
 });

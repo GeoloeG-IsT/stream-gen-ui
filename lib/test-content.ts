@@ -1,17 +1,18 @@
-import type { ChatMessage, MessageFormat } from '@/types';
+import type { MessageFormat } from '@/types';
 
 /**
- * FlowToken/Streamdown format content (XML tags)
+ * FlowToken/Streamdown format content (HTML custom elements)
+ * Note: HTML5 custom elements require explicit closing tags, not self-closing syntax
  */
 const FLOWTOKEN_CONTENT = `Here's the contact information you requested:
 
-<ContactCard name="John Smith" email="john.smith@example.com" phone="+1-555-123-4567" />
+<contactcard name="John Smith" email="john.smith@example.com" phone="+1-555-123-4567"></contactcard>
 
 I found John's details in our database. He's a senior developer based in San Francisco.
 
 Would you like me to schedule a meeting with John? I can set something up for next week:
 
-<CalendarEvent title="Meeting with John" date="2026-01-25" startTime="2:00 PM" endTime="3:00 PM" location="Conference Room A" />
+<calendarevent title="Meeting with John" date="2026-01-25" startTime="2:00 PM" endTime="3:00 PM" location="Conference Room A"></calendarevent>
 
 Let me know if you'd like to adjust the time or add any notes to the meeting invite.`;
 
@@ -54,7 +55,7 @@ const CONTENT_BY_FORMAT: Record<MessageFormat, string> = {
  * @returns Formatted content string with embedded component markup
  */
 export function getTestContent(
-  _messages: ChatMessage[],
+  _messages: unknown[],
   format: MessageFormat | string
 ): string {
   // Default to flowtoken if format is unknown
