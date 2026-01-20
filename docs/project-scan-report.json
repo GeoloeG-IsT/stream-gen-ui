@@ -1,0 +1,93 @@
+{
+  "workflow_version": "1.2.0",
+  "timestamps": {
+    "started": "2026-01-20T10:20:00Z",
+    "last_updated": "2026-01-20T10:50:00Z",
+    "completed": "2026-01-20T10:50:00Z"
+  },
+  "mode": "initial_scan",
+  "scan_level": "exhaustive",
+  "project_root": "/root/wks/stream-gen-ui",
+  "output_folder": "/root/wks/stream-gen-ui/docs",
+  "completed_steps": [
+    {
+      "step": "step_1",
+      "status": "completed",
+      "timestamp": "2026-01-20T10:22:00Z",
+      "summary": "Classified as monolith with 1 part (web type)"
+    },
+    {
+      "step": "step_2",
+      "status": "completed",
+      "timestamp": "2026-01-20T10:25:00Z",
+      "summary": "Found 2 existing docs (README.md, LICENSE)"
+    },
+    {
+      "step": "step_3",
+      "status": "completed",
+      "timestamp": "2026-01-20T10:30:00Z",
+      "summary": "Tech stack: Next.js 16.1.4 on TypeScript 5.x"
+    },
+    {
+      "step": "step_4",
+      "status": "completed",
+      "timestamp": "2026-01-20T10:35:00Z",
+      "summary": "Exhaustive scan complete: 12 components, 1 API endpoint, 11 test files"
+    },
+    {
+      "step": "step_5",
+      "status": "completed",
+      "timestamp": "2026-01-20T10:38:00Z",
+      "summary": "Source tree documented with annotations"
+    },
+    {
+      "step": "step_6-9",
+      "status": "completed",
+      "timestamp": "2026-01-20T10:42:00Z",
+      "summary": "Generated architecture.md, component-inventory.md, development-guide.md"
+    },
+    {
+      "step": "step_10",
+      "status": "completed",
+      "timestamp": "2026-01-20T10:45:00Z",
+      "summary": "Master index.md generated"
+    },
+    {
+      "step": "step_11",
+      "status": "completed",
+      "timestamp": "2026-01-20T10:48:00Z",
+      "summary": "Validation and review complete"
+    },
+    {
+      "step": "step_12",
+      "status": "completed",
+      "timestamp": "2026-01-20T10:50:00Z",
+      "summary": "Workflow complete"
+    }
+  ],
+  "current_step": "completed",
+  "findings": {
+    "project_classification": "monolith, 1 part, Next.js web application",
+    "existing_docs": "README.md (comprehensive), LICENSE (MIT)",
+    "technology_stack": "Next.js 16.1.4, React 19.2.3, TypeScript 5.x, Tailwind CSS 4.x, Vitest 4.0.17",
+    "components": "9 shared + 3 renderers = 12 total",
+    "api_endpoints": "1 (POST /api/chat)",
+    "test_files": "11 co-located test files"
+  },
+  "project_types": [
+    {
+      "part_id": "main",
+      "project_type_id": "web",
+      "display_name": "Next.js Web Application"
+    }
+  ],
+  "outputs_generated": [
+    "project-scan-report.json",
+    "index.md",
+    "architecture.md",
+    "source-tree-analysis.md",
+    "component-inventory.md",
+    "development-guide.md"
+  ],
+  "resume_instructions": "Workflow completed successfully"
+}
