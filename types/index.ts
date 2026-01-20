@@ -9,6 +9,8 @@ export interface ContactCardProps {
   name: string;
   email?: string;
   phone?: string;
+  address?: string;
+  avatar?: string;
 }
 
 /**
@@ -17,6 +19,8 @@ export interface ContactCardProps {
 export interface CalendarEventProps {
   title: string;
   date: string;
-  time?: string;
+  startTime?: string;
+  endTime?: string;
   location?: string;
+  description?: string;
 }
