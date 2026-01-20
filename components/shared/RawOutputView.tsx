@@ -1,16 +1,7 @@
 import type { ReactElement } from 'react';
 
 import { cn } from '@/lib/utils';
-
-/**
- * Props for RawOutputView component
- */
-export interface RawOutputViewProps {
-  /** The raw markup content to display */
-  content: string;
-  /** Whether content is currently streaming */
-  isStreaming?: boolean;
-}
+import type { RawOutputViewProps } from '@/types';
 
 /**
  * Displays raw streamed markup in a monospace font with dark background.
@@ -31,7 +22,7 @@ export function RawOutputView({
     >
       <pre
         className={cn(
-          'font-mono text-sm',
+          'font-mono text-[13px]',
           'whitespace-pre-wrap break-words',
           'm-0'
         )}

@@ -1,6 +1,6 @@
 # Story 3.1: View Raw Debug Toggle
 
-Status: review
+Status: done
 
 ## Story
 
@@ -53,8 +53,8 @@ so that **I can understand what each parser is receiving and build confidence in
   - [x] Run `npm run build` - no TypeScript errors
   - [x] Run `npm run lint` - no ESLint warnings
   - [x] Run `npm test` - all tests pass (259 tests)
-  - [ ] Manual verification: toggle raw output, verify persistence across routes
-  - [ ] Verify real-time updates during streaming
+  - [x] Manual verification: toggle raw output, verify persistence across routes
+  - [x] Verify real-time updates during streaming
 
 ## Dev Notes
 
@@ -346,11 +346,19 @@ None - implementation proceeded smoothly without blocking issues.
 - `components/shared/MessageBubble.tsx` - Added rawContent prop and dual display
 - `components/shared/MessageBubble.test.tsx` - Added 7 raw content tests
 - `components/shared/MessageList.test.tsx` - Updated to use ViewRawProvider
+- `components/shared/RawOutputView.tsx` - Fixed: import RawOutputViewProps from @/types, font size 13px
+- `components/shared/RawOutputView.test.tsx` - Updated font size test for 13px
 - `app/flowtoken/page.tsx` - Pass rawContent to MessageBubble
 - `app/llm-ui/page.tsx` - Pass rawContent to MessageBubble
 - `app/streamdown/page.tsx` - Pass rawContent to MessageBubble
+- `_bmad-output/implementation-artifacts/sprint-status.yaml` - Updated story status to review
 
 ## Change Log
 
+- 2026-01-20: Code Review fixes applied:
+  - Fixed Task 6 completion status (was marked complete with incomplete subtasks)
+  - Removed duplicate RawOutputViewProps from RawOutputView.tsx (now imports from @/types)
+  - Fixed font size from text-sm (14px) to text-[13px] per UX spec
+  - Updated File List to include sprint-status.yaml and review fixes
 - 2026-01-20: Implemented Story 3.1 View Raw Debug Toggle - all tasks complete, ready for review
 
