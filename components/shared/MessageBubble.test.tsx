@@ -99,6 +99,35 @@ describe('MessageBubble', () => {
     });
   });
 
+  describe('children prop', () => {
+    it('renders children when provided instead of content', () => {
+      render(
+        <MessageBubble role="assistant" content="fallback content">
+          <div data-testid="custom-child">Custom Rendered Content</div>
+        </MessageBubble>
+      );
+      expect(screen.getByTestId('custom-child')).toBeInTheDocument();
+      expect(screen.getByText('Custom Rendered Content')).toBeInTheDocument();
+      expect(screen.queryByText('fallback content')).not.toBeInTheDocument();
+    });
+
+    it('renders content when children not provided', () => {
+      render(<MessageBubble role="assistant" content="displayed content" />);
+      expect(screen.getByText('displayed content')).toBeInTheDocument();
+    });
+
+    it('maintains styling when children provided', () => {
+      render(
+        <MessageBubble role="assistant" content="fallback">
+          <span>Child content</span>
+        </MessageBubble>
+      );
+      const bubble = screen.getByRole('article');
+      expect(bubble).toHaveClass('bg-white');
+      expect(bubble).toHaveClass('border');
+    });
+  });
+
   describe('accessibility', () => {
     it('has article role', () => {
       render(<MessageBubble role="user" content="Test" />);

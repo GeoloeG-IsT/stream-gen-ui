@@ -7,6 +7,7 @@ export function MessageBubble({
   role,
   content,
   isStreaming = false,
+  children,
 }: MessageBubbleProps): ReactElement {
   const isUser = role === 'user';
 
@@ -22,8 +23,8 @@ export function MessageBubble({
         isStreaming && 'animate-pulse'
       )}
     >
-      {content}
-      {isStreaming && !content && (
+      {children ?? content}
+      {isStreaming && !content && !children && (
         <span className="inline-block w-2 h-4 bg-current animate-pulse" />
       )}
     </div>

@@ -20,52 +20,54 @@ export function CalendarEvent({
     : null;
 
   return (
-    <div
-      className="flex flex-col gap-3 p-4 bg-white rounded-xl border border-gray-200 shadow-md"
+    <span
+      className="flex flex-col gap-3 my-3 p-4 bg-gradient-to-r from-emerald-50 to-white rounded-xl border border-emerald-100 shadow-sm hover:shadow-md transition-shadow"
       role="article"
       aria-label={`Calendar event: ${title}`}
     >
       {/* Header with calendar icon and title */}
-      <div className="flex items-center gap-2">
-        <Calendar className="w-5 h-5 text-blue-500" aria-hidden="true" />
-        <span className="font-medium text-gray-700">{title}</span>
-      </div>
+      <span className="flex items-center gap-2">
+        <span className="flex items-center justify-center w-8 h-8 rounded-lg bg-emerald-100">
+          <Calendar className="w-4 h-4 text-emerald-600" aria-hidden="true" />
+        </span>
+        <span className="font-semibold text-gray-800">{title}</span>
+      </span>
 
       {/* Event details */}
-      <div className="flex flex-col gap-2">
+      <span className="flex flex-col gap-2 pl-10">
         {/* Date */}
-        <div className="flex items-center gap-2 text-sm text-gray-600">
-          <Calendar className="w-4 h-4" aria-hidden="true" />
+        <span className="flex items-center gap-2 text-sm text-gray-600">
+          <Calendar className="w-4 h-4 text-emerald-500" aria-hidden="true" />
           <span>{date}</span>
-        </div>
+        </span>
 
         {/* Time */}
         {timeDisplay && (
-          <div
+          <span
             className="flex items-center gap-2 text-sm text-gray-600"
             aria-label={`Time: ${timeDisplay}`}
           >
-            <Clock className="w-4 h-4" aria-hidden="true" />
+            <Clock className="w-4 h-4 text-emerald-500" aria-hidden="true" />
             <span>{timeDisplay}</span>
-          </div>
+          </span>
         )}
 
         {/* Location */}
         {location && (
-          <div
+          <span
             className="flex items-center gap-2 text-sm text-gray-600"
             aria-label={`Location: ${location}`}
           >
-            <MapPin className="w-4 h-4" aria-hidden="true" />
+            <MapPin className="w-4 h-4 text-emerald-500" aria-hidden="true" />
             <span>{location}</span>
-          </div>
+          </span>
         )}
 
         {/* Description */}
         {description && (
-          <p className="text-sm text-gray-500 mt-1">{description}</p>
+          <span className="block text-sm text-gray-500 mt-1">{description}</span>
         )}
-      </div>
-    </div>
+      </span>
+    </span>
   );
 }

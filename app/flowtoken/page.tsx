@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useCallback, useMemo } from 'react';
+import { useState, useCallback, useMemo, useRef, useEffect } from 'react';
 import type { FormEvent, ChangeEvent, ReactElement } from 'react';
 
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
 
+import { FlowTokenRenderer } from '@/components/flowtoken/FlowTokenRenderer';
 import { Header } from '@/components/shared/Header';
-import { MessageList } from '@/components/shared/MessageList';
+import { MessageBubble } from '@/components/shared/MessageBubble';
 import { ChatInput } from '@/components/shared/ChatInput';
 import { TypingIndicator } from '@/components/shared/TypingIndicator';
 
@@ -22,9 +23,25 @@ export default function FlowTokenPage(): ReactElement {
     []
   );
 
-  const { messages, sendMessage, status } = useChat({
+  const { messages, sendMessage, status, error } = useChat({
     transport,
+    onError: (err) => {
+      console.error('[FlowToken] useChat onError:', err);
+    },
   });
+
+  // Debug: log errors
+  useEffect(() => {
+    if (error) {
+      console.error('[FlowToken] error state:', error);
+    }
+  }, [error]);
+
+  // Debug: log messages and status changes
+  // useEffect(() => {
+  //   console.log('[FlowToken] status:', status);
+  //   console.log('[FlowToken] messages:', JSON.stringify(messages, null, 2));
+  // }, [messages, status]);
 
   const isLoading = status === 'submitted' || status === 'streaming';
 
@@ -47,31 +64,87 @@ export default function FlowTokenPage(): ReactElement {
     [input, isLoading, sendMessage]
   );
 
-  // Transform messages to match MessageList expected format
+  // Transform messages to include isStreaming flag for FlowToken rendering
   // Filter to only user/assistant roles and exclude system messages
-  const formattedMessages = useMemo(
-    () =>
-      messages
-        .filter((m): m is typeof m & { role: 'user' | 'assistant' } =>
-          m.role === 'user' || m.role === 'assistant'
-        )
-        .map((m) => ({
-          id: m.id,
-          role: m.role,
-          content: (m.parts ?? [])
-            .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
-            .map((p) => p.text)
-            .join(''),
-        })),
-    [messages]
-  );
+  const formattedMessages = useMemo(() => {
+    const filtered = messages.filter(
+      (m): m is typeof m & { role: 'user' | 'assistant' } =>
+        m.role === 'user' || m.role === 'assistant'
+    );
+
+    const mapped = filtered.map((m, index, arr) => ({
+      id: m.id,
+      role: m.role,
+      content: (m.parts ?? [])
+        .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
+        .map((p) => p.text)
+        .join(''),
+      // Only the last assistant message is streaming
+      isStreaming:
+        m.role === 'assistant' &&
+        index === arr.length - 1 &&
+        status === 'streaming',
+    }));
+
+    // Debug: log transformation
+    // console.log('[FlowToken] filtered messages count:', filtered.length);
+    // console.log('[FlowToken] formattedMessages:', mapped);
+
+    return mapped;
+  }, [messages, status]);
+
+  // Refs for scroll management
+  const containerRef = useRef<HTMLDivElement>(null);
+  const bottomRef = useRef<HTMLDivElement>(null);
+  const [userHasScrolled, setUserHasScrolled] = useState(false);
+
+  // Detect if user scrolled away from bottom
+  const handleScroll = useCallback(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const isAtBottom =
+      container.scrollHeight - container.scrollTop - container.clientHeight < 50;
+    setUserHasScrolled(!isAtBottom);
+  }, []);
+
+  // Auto-scroll to bottom when new messages arrive (if user hasn't scrolled up)
+  useEffect(() => {
+    if (!userHasScrolled && bottomRef.current && bottomRef.current.scrollIntoView) {
+      bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+    }
+  }, [formattedMessages, userHasScrolled]);
 
   return (
     <div className="flex flex-col h-screen">
       <Header currentRoute="/flowtoken" />
       <main className="flex-1 overflow-hidden bg-gray-50 pt-14">
         <div className="h-full max-w-3xl mx-auto flex flex-col">
-          <MessageList messages={formattedMessages} />
+          <div
+            ref={containerRef}
+            role="log"
+            aria-live="polite"
+            aria-label="Chat messages"
+            onScroll={handleScroll}
+            className="flex-1 overflow-y-auto flex flex-col gap-3 p-4"
+          >
+            {formattedMessages.map((m) => (
+              <MessageBubble
+                key={m.id}
+                role={m.role}
+                content={m.content}
+                isStreaming={m.isStreaming}
+              >
+                {m.role === 'assistant' ? (
+                  <FlowTokenRenderer
+                    content={m.content}
+                    isStreaming={m.isStreaming}
+                  />
+                ) : undefined}
+              </MessageBubble>
+            ))}
+            <div ref={bottomRef} />
+          </div>
           {isLoading && <TypingIndicator isVisible />}
           <ChatInput
             value={input}

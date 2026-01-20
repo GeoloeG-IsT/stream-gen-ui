@@ -13,13 +13,13 @@ export function ContactCard({
   avatar,
 }: ContactCardProps): ReactElement {
   return (
-    <div
-      className="flex flex-col gap-3 p-4 bg-white rounded-xl border border-gray-200 shadow-md"
+    <span
+      className="flex flex-col gap-3 my-3 p-4 bg-gradient-to-r from-blue-50 to-white rounded-xl border border-blue-100 shadow-sm hover:shadow-md transition-shadow"
       role="article"
       aria-label={`Contact card for ${name}`}
     >
       {/* Header with avatar and name */}
-      <div className="flex items-center gap-3">
+      <span className="flex items-center gap-3">
         {avatar ? (
           <Image
             src={avatar}
@@ -29,15 +29,15 @@ export function ContactCard({
             className="rounded-full object-cover"
           />
         ) : (
-          <div className="flex items-center justify-center w-10 h-10 rounded-full bg-gray-100">
-            <User className="w-5 h-5 text-gray-500" aria-hidden="true" />
-          </div>
+          <span className="flex items-center justify-center w-10 h-10 rounded-full bg-blue-100">
+            <User className="w-5 h-5 text-blue-600" aria-hidden="true" />
+          </span>
         )}
-        <span className="font-medium text-gray-700">{name}</span>
-      </div>
+        <span className="font-semibold text-gray-800">{name}</span>
+      </span>
 
       {/* Contact details */}
-      <div className="flex flex-col gap-2">
+      <span className="flex flex-col gap-2">
         {email && (
           <a
             href={`mailto:${email}`}
@@ -61,15 +61,15 @@ export function ContactCard({
         )}
 
         {address && (
-          <div
+          <span
             className="flex items-center gap-2 text-sm text-gray-600"
             aria-label={`Address: ${address}`}
           >
             <MapPin className="w-4 h-4" aria-hidden="true" />
             <span>{address}</span>
-          </div>
+          </span>
         )}
-      </div>
-    </div>
+      </span>
+    </span>
   );
 }
