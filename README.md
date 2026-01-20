@@ -4,7 +4,7 @@ A proof-of-concept comparing three approaches to streaming UI with custom compon
 
 ## What is This?
 
-> **Live Demo:** [stream-gen-ui.vercel.app](https://stream-gen-ui.vercel.app) *(update URL after deployment)*
+> **Live Demo:** [stream-gen-ui.vercel.app](https://stream-gen-ui.vercel.app)
 
 This PoC demonstrates how to render **custom React components** (like contact cards, calendar events) embedded within **streaming LLM responses**. It compares three parsing strategies:
 

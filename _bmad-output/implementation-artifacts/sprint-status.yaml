@@ -65,5 +65,5 @@ development_status:
   3-3-accessibility-compliance: cancelled
   3-4-performance-validation: cancelled
   3-5-readme-documentation: done
-  3-6-deploy-poc-to-vercel: in-progress
+  3-6-deploy-poc-to-vercel: done
   epic-3-retrospective: optional
