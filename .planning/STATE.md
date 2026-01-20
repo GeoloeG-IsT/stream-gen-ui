@@ -5,34 +5,34 @@
 See: .planning/PROJECT.md (updated 2026-01-20)
 
 **Core value:** The chatbot returns accurate, well-formatted responses with Contact cards and Calendar events rendered as rich UI components when relevant.
-**Current focus:** Phase 2: Backend Foundation - RAG
+**Current focus:** Phase 2: Backend Foundation - RAG (COMPLETE)
 
 ## Current Position
 
 Phase: 2 of 3 (Backend Foundation - RAG)
-Plan: 02 of 03 completed
-Status: In progress
-Last activity: 2026-01-20 — Completed 02-02-PLAN.md (Knowledge base creation)
+Plan: 03 of 03 completed
+Status: Phase complete
+Last activity: 2026-01-20 — Completed 02-03-PLAN.md (RAG Pipeline)
 
-Progress: [███████░░░] 75% (3/4 plans completed)
+Progress: [██████████] 100% (4/4 plans completed)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 3
-- Average duration: 8 min
-- Total execution time: 0.4 hours
+- Total plans completed: 4
+- Average duration: 7 min
+- Total execution time: 0.5 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01-frontend-reorganization | 1 | 10 min | 10 min |
-| 02-backend-foundation-rag | 2 | 15 min | 8 min |
+| 02-backend-foundation-rag | 3 | 17 min | 6 min |
 
 **Recent Trend:**
-- Last 3 plans: 10min, 4min, 11min
-- Trend: Consistent execution, content creation slightly longer than config
+- Last 3 plans: 4min, 11min, 2min
+- Trend: Fast execution, RAG pipeline straightforward implementation
 
 *Updated after each plan completion*
 
@@ -62,6 +62,12 @@ Recent decisions affecting current work:
 - 65 events (Q1, Q2, recurring) with structured fields and descriptions
 - German naming conventions: Mix of traditional and diverse names for authenticity
 
+**From 02-03 (RAG Pipeline):**
+- Singleton pattern for vectorstore/retriever - avoids re-initialization overhead
+- Semantic-heavy weights (0.8 semantic, 0.2 BM25) - optimizes for meaning over keywords
+- Lifespan auto-initialization - ensures RAG ready on server start
+- 400 chunks created from knowledge base with source attribution
+
 ### Pending Todos
 
 None yet.
@@ -70,9 +76,9 @@ None yet.
 
 **Research-identified risks:**
 - Phase 3: Streaming implementation must use `.astream()` not `.invoke()` (critical for SSE)
-- ~~Phase 3: CORS configuration for localhost:3000 must be explicit (not wildcard)~~ ✓ Addressed in 02-01
-- Phase 2: Embedding dimension consistency between indexing and querying (768d for all-mpnet-base-v2)
-- Phase 2: Markdown chunking must preserve code blocks (use MarkdownHeaderTextSplitter)
+- ~~Phase 3: CORS configuration for localhost:3000 must be explicit (not wildcard)~~ Addressed in 02-01
+- ~~Phase 2: Embedding dimension consistency between indexing and querying (768d for all-mpnet-base-v2)~~ Addressed in 02-03
+- ~~Phase 2: Markdown chunking must preserve code blocks (use MarkdownHeaderTextSplitter)~~ Addressed in 02-03
 - Phase 3: Structured output requires `.with_structured_output()` binding
 
 **From 02-01 execution:**
@@ -81,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-20 22:40:29 UTC
-Stopped at: Completed 02-02-PLAN.md - Knowledge base creation complete
-Resume file: .planning/phases/02-backend-foundation-rag/02-02-SUMMARY.md
+Last session: 2026-01-20 23:00:09 UTC
+Stopped at: Completed 02-03-PLAN.md - RAG Pipeline complete
+Resume file: .planning/phases/02-backend-foundation-rag/02-03-SUMMARY.md
