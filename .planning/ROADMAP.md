@@ -27,10 +27,10 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. Frontend builds successfully from frontend/ directory without errors
   3. Frontend development server runs and renders existing streaming UI components
   4. All import paths and configuration files reference correct locations
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 01-01: [Plan pending]
+- [ ] 01-01-PLAN.md — Move frontend code to frontend/ directory with configuration updates
 
 ### Phase 2: Backend Foundation + RAG
 **Goal**: Working FastAPI backend with RAG retrieval over fictional city knowledge base
@@ -74,6 +74,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Frontend Reorganization | 0/TBD | Not started | - |
+| 1. Frontend Reorganization | 0/1 | Ready to execute | - |
 | 2. Backend Foundation + RAG | 0/TBD | Not started | - |
 | 3. ReAct Agent + Streaming Integration | 0/TBD | Not started | - |
