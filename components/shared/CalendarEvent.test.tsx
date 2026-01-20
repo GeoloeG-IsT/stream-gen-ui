@@ -57,7 +57,7 @@ describe('CalendarEvent', () => {
 
   it('has correct aria-label on container', () => {
     render(<CalendarEvent title="Team Meeting" date="January 20, 2026" />);
-    expect(screen.getByRole('article')).toHaveAttribute(
+    expect(screen.getByRole('group')).toHaveAttribute(
       'aria-label',
       'Calendar event: Team Meeting'
     );
@@ -65,7 +65,7 @@ describe('CalendarEvent', () => {
 
   it('applies shadow-md class', () => {
     render(<CalendarEvent title="Team Meeting" date="January 20, 2026" />);
-    const container = screen.getByRole('article');
+    const container = screen.getByRole('group');
     expect(container.className).toContain('shadow-md');
   });
 

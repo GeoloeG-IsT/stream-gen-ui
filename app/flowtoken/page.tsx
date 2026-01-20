@@ -30,18 +30,7 @@ export default function FlowTokenPage(): ReactElement {
     },
   });
 
-  // Debug: log errors
-  useEffect(() => {
-    if (error) {
-      console.error('[FlowToken] error state:', error);
-    }
-  }, [error]);
 
-  // Debug: log messages and status changes
-  // useEffect(() => {
-  //   console.log('[FlowToken] status:', status);
-  //   console.log('[FlowToken] messages:', JSON.stringify(messages, null, 2));
-  // }, [messages, status]);
 
   const isLoading = status === 'submitted' || status === 'streaming';
 
@@ -85,10 +74,6 @@ export default function FlowTokenPage(): ReactElement {
         index === arr.length - 1 &&
         status === 'streaming',
     }));
-
-    // Debug: log transformation
-    // console.log('[FlowToken] filtered messages count:', filtered.length);
-    // console.log('[FlowToken] formattedMessages:', mapped);
 
     return mapped;
   }, [messages, status]);
@@ -145,6 +130,14 @@ export default function FlowTokenPage(): ReactElement {
             ))}
             <div ref={bottomRef} />
           </div>
+          {error && (
+            <div
+              role="alert"
+              className="mx-4 mb-2 p-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg"
+            >
+              {error.message || 'An error occurred while streaming the response.'}
+            </div>
+          )}
           {isLoading && <TypingIndicator isVisible />}
           <ChatInput
             value={input}
