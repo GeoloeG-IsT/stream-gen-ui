@@ -388,7 +388,7 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
 - Added typing indicator animation with prefers-reduced-motion support
 - All components follow project patterns: named exports, ReactElement return types, cn() utility
 - Full test coverage: 65 new tests across 5 component test files
-- All 116 project tests passing
+- All 119 project tests passing
 - Build passes with no TypeScript errors
 - Lint passes with no warnings
 - Root page redirects to /flowtoken
@@ -425,3 +425,4 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
   - MessageList: Removed unsafe type cast, now uses properly typed role
   - FlowToken page: Added filter to exclude system messages from display
   - Header: Changed h-14 to explicit h-[56px] per spec
+- 2026-01-20: UX improvement - ChatInput auto-focuses after message submission for seamless typing experience
