@@ -12,7 +12,7 @@ Transform the existing frontend streaming UI comparison into a full-stack city c
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Frontend Reorganization** - Restructure codebase with frontend/ and backend/ separation
+- [x] **Phase 1: Frontend Reorganization** - Restructure codebase with frontend/ and backend/ separation
 - [ ] **Phase 2: Backend Foundation + RAG** - Build FastAPI backend with vector retrieval over markdown knowledge base
 - [ ] **Phase 3: ReAct Agent + Streaming Integration** - Add intelligent agent with streaming SSE and structured entity output
 
@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 1 plan
 
 Plans:
-- [ ] 01-01-PLAN.md — Move frontend code to frontend/ directory with configuration updates
+- [x] 01-01-PLAN.md — Move frontend code to frontend/ directory with configuration updates
 
 ### Phase 2: Backend Foundation + RAG
 **Goal**: Working FastAPI backend with RAG retrieval over fictional city knowledge base
@@ -74,6 +74,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Frontend Reorganization | 0/1 | Ready to execute | - |
-| 2. Backend Foundation + RAG | 0/TBD | Not started | - |
+| 1. Frontend Reorganization | 1/1 | ✓ Complete | 2026-01-20 |
+| 2. Backend Foundation + RAG | 0/TBD | Ready to plan | - |
 | 3. ReAct Agent + Streaming Integration | 0/TBD | Not started | - |
