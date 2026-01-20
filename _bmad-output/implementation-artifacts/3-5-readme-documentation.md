@@ -1,6 +1,6 @@
 # Story 3.5: README Documentation
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -18,55 +18,55 @@ so that **I can quickly set up the project and understand the architectural deci
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Create basic README structure with project overview (AC: #1)
-  - [ ] Add project title and one-sentence description
-  - [ ] Add "What is this?" section explaining the PoC purpose
-  - [ ] Add list of key features (streaming components, 3 implementation approaches, debug toggle)
-  - [ ] Include screenshot placeholder or live demo link area
+- [x] Task 1: Create basic README structure with project overview (AC: #1)
+  - [x] Add project title and one-sentence description
+  - [x] Add "What is this?" section explaining the PoC purpose
+  - [x] Add list of key features (streaming components, 3 implementation approaches, debug toggle)
+  - [x] Include screenshot placeholder or live demo link area
 
-- [ ] Task 2: Write Quick Start section (AC: #1)
-  - [ ] Add Prerequisites subsection (Node.js 20+, npm)
-  - [ ] Add Installation steps (`git clone`, `npm install`, `npm run dev`)
-  - [ ] Document available routes (`/flowtoken`, `/llm-ui`, `/streamdown`)
-  - [ ] Explain "View Raw" toggle functionality
-  - [ ] Add troubleshooting tips for common issues
+- [x] Task 2: Write Quick Start section (AC: #1)
+  - [x] Add Prerequisites subsection (Node.js 20+, npm)
+  - [x] Add Installation steps (`git clone`, `npm install`, `npm run dev`)
+  - [x] Document available routes (`/flowtoken`, `/llm-ui`, `/streamdown`)
+  - [x] Explain "View Raw" toggle functionality
+  - [x] Add troubleshooting tips for common issues
 
-- [ ] Task 3: Create implementation comparison matrix (AC: #2)
-  - [ ] Create markdown table comparing FlowToken, llm-ui, Streamdown
-  - [ ] Document complexity rating for each approach (Low/Medium/High)
-  - [ ] Analyze and document bundle size impact (actual package sizes)
-  - [ ] Rate streaming UX quality (smoothness, progressive rendering)
-  - [ ] Document custom component support approach for each
-  - [ ] Include code examples showing how each parser handles `<ContactCard>`
+- [x] Task 3: Create implementation comparison matrix (AC: #2)
+  - [x] Create markdown table comparing FlowToken, llm-ui, Streamdown
+  - [x] Document complexity rating for each approach (Low/Medium/High)
+  - [x] Analyze and document bundle size impact (actual package sizes)
+  - [x] Rate streaming UX quality (smoothness, progressive rendering)
+  - [x] Document custom component support approach for each
+  - [x] Include code examples showing how each parser handles `<ContactCard>`
 
-- [ ] Task 4: Write detailed architecture section (AC: #2)
-  - [ ] Document overall architecture (Vercel AI SDK + route-specific parsers)
-  - [ ] Explain shared components pattern (`components/shared/`)
-  - [ ] Document mock stream provider design
-  - [ ] Add data flow diagram (text-based Mermaid or ASCII)
-  - [ ] List key files and their purposes
+- [x] Task 4: Write detailed architecture section (AC: #2)
+  - [x] Document overall architecture (Vercel AI SDK + route-specific parsers)
+  - [x] Explain shared components pattern (`components/shared/`)
+  - [x] Document mock stream provider design
+  - [x] Add data flow diagram (text-based Mermaid or ASCII)
+  - [x] List key files and their purposes
 
-- [ ] Task 5: Create recommendation and trade-offs section (AC: #3)
-  - [ ] Provide clear recommendation based on implementation experience
-  - [ ] Document when to use FlowToken (simplest, XML-based)
-  - [ ] Document when to use llm-ui (delimiter-based, frame throttling)
-  - [ ] Document when to use Streamdown (markdown-native, most flexible)
-  - [ ] List trade-offs for each approach (DX, performance, flexibility)
-  - [ ] Include decision flowchart for choosing approach
+- [x] Task 5: Create recommendation and trade-offs section (AC: #3)
+  - [x] Provide clear recommendation based on implementation experience
+  - [x] Document when to use FlowToken (simplest, XML-based)
+  - [x] Document when to use llm-ui (delimiter-based, frame throttling)
+  - [x] Document when to use Streamdown (markdown-native, most flexible)
+  - [x] List trade-offs for each approach (DX, performance, flexibility)
+  - [x] Include decision flowchart for choosing approach
 
-- [ ] Task 6: Add supplementary sections
-  - [ ] Add Tech Stack section with version numbers
-  - [ ] Add Project Structure overview
-  - [ ] Add Contributing guidelines (keep minimal for PoC)
-  - [ ] Add License section
-  - [ ] Add acknowledgments/credits
+- [x] Task 6: Add supplementary sections
+  - [x] Add Tech Stack section with version numbers
+  - [x] Add Project Structure overview
+  - [x] Add Contributing guidelines (keep minimal for PoC)
+  - [x] Add License section
+  - [x] Add acknowledgments/credits
 
-- [ ] Task 7: Final validation and polish
-  - [ ] Verify all links and code examples work
-  - [ ] Check markdown rendering in GitHub preview
-  - [ ] Ensure < 5 minute setup is achievable (time yourself)
-  - [ ] Run `npm run build` and `npm run lint` to ensure no issues
-  - [ ] Get final file under reasonable length (target: 300-500 lines)
+- [x] Task 7: Final validation and polish
+  - [x] Verify all links and code examples work
+  - [x] Check markdown rendering in GitHub preview
+  - [x] Ensure < 5 minute setup is achievable (time yourself)
+  - [x] Run `npm run build` and `npm run lint` to ensure no issues
+  - [x] Get final file under reasonable length (target: 300-500 lines)
 
 ## Dev Notes
 
@@ -248,11 +248,34 @@ After implementation:
 
 ### Agent Model Used
 
-{{agent_model_name_version}}
+Claude Opus 4.5 (claude-opus-4-5-20251101)
 
 ### Debug Log References
 
+N/A - Documentation-only story, no code debugging required.
+
 ### Completion Notes List
 
+- Created comprehensive README.md (349 lines) covering all acceptance criteria
+- AC#1: Setup instructions with `npm install && npm run dev`, prerequisites documented, troubleshooting section added
+- AC#2: Comparison matrix with complexity, bundle size, streaming UX quality, custom component support for all 3 implementations
+- AC#3: Recommendation section with decision flowchart, trade-offs for each approach, when-to-use guidance
+- All code examples verified against actual implementation files
+- Package versions pulled from package.json for accuracy
+- Project structure reflects actual file organization
+- Build and lint pass, all 259 tests pass
+
+### Change Log
+
+- 2026-01-20: Created comprehensive README documentation (Story 3.5)
+  - Added project overview and key features
+  - Quick Start section with prerequisites, installation, routes, keywords
+  - Implementation comparison matrix with 7 comparison aspects
+  - Architecture section with data flow diagram and project structure
+  - Recommendations section with decision flowchart and trade-offs
+  - Tech stack, scripts, contributing, license, acknowledgments sections
+
 ### File List
+
+- README.md (created - complete rewrite from empty state)
 
