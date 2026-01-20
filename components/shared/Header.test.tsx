@@ -1,3 +1,5 @@
+import type { ReactNode } from 'react';
+
 import { render, screen } from '@testing-library/react';
 import { describe, expect, it, vi, beforeEach } from 'vitest';
 
@@ -11,7 +13,7 @@ vi.mock('next/link', () => ({
     className,
     'aria-current': ariaCurrent,
   }: {
-    children: React.ReactNode;
+    children: ReactNode;
     href: string;
     className?: string;
     'aria-current'?: 'page' | 'step' | 'location' | 'date' | 'time' | 'true' | 'false' | boolean;
@@ -92,8 +94,8 @@ describe('Header', () => {
       expect(flowTokenTab).toHaveClass('text-[#1E3A5F]');
 
       // Inactive tab styling
-      expect(llmUiTab).toHaveClass('text-[#94A3B8]');
-      expect(streamdownTab).toHaveClass('text-[#94A3B8]');
+      expect(llmUiTab).toHaveClass('text-white/70');
+      expect(streamdownTab).toHaveClass('text-white/70');
     });
 
     it('shows llm-ui as active when on /llm-ui route', () => {
@@ -109,8 +111,8 @@ describe('Header', () => {
       expect(llmUiTab).toHaveClass('text-[#1E3A5F]');
 
       // Inactive tab styling
-      expect(flowTokenTab).toHaveClass('text-[#94A3B8]');
-      expect(streamdownTab).toHaveClass('text-[#94A3B8]');
+      expect(flowTokenTab).toHaveClass('text-white/70');
+      expect(streamdownTab).toHaveClass('text-white/70');
     });
 
     it('shows Streamdown as active when on /streamdown route', () => {
@@ -126,8 +128,8 @@ describe('Header', () => {
       expect(streamdownTab).toHaveClass('text-[#1E3A5F]');
 
       // Inactive tab styling
-      expect(flowTokenTab).toHaveClass('text-[#94A3B8]');
-      expect(llmUiTab).toHaveClass('text-[#94A3B8]');
+      expect(flowTokenTab).toHaveClass('text-white/70');
+      expect(llmUiTab).toHaveClass('text-white/70');
     });
 
     it('shows no active tab when on unknown route', () => {
@@ -139,9 +141,9 @@ describe('Header', () => {
       const streamdownTab = screen.getByRole('link', { name: /streamdown/i });
 
       // All tabs inactive
-      expect(flowTokenTab).toHaveClass('text-[#94A3B8]');
-      expect(llmUiTab).toHaveClass('text-[#94A3B8]');
-      expect(streamdownTab).toHaveClass('text-[#94A3B8]');
+      expect(flowTokenTab).toHaveClass('text-white/70');
+      expect(llmUiTab).toHaveClass('text-white/70');
+      expect(streamdownTab).toHaveClass('text-white/70');
     });
   });
 

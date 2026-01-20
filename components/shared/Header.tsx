@@ -42,7 +42,7 @@ export function Header(): ReactElement {
                 'focus-visible:ring-offset-2 focus-visible:ring-offset-[#1E3A5F]',
                 isActive
                   ? 'bg-white text-[#1E3A5F]'
-                  : 'text-[#94A3B8] hover:text-white'
+                  : 'text-white/70 hover:text-white'
               )}
             >
               {tab.label}
