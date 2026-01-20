@@ -9,10 +9,10 @@ Requirements for initial PoC release. Each maps to roadmap phases.
 
 ### Project Structure
 
-- [ ] **STRUCT-01**: Frontend files moved to frontend/ directory
-- [ ] **STRUCT-02**: Frontend builds and runs from frontend/ directory
-- [ ] **STRUCT-03**: All source code paths updated for new structure
-- [ ] **STRUCT-04**: All documentation paths updated for new structure
+- [x] **STRUCT-01**: Frontend files moved to frontend/ directory
+- [x] **STRUCT-02**: Frontend builds and runs from frontend/ directory
+- [x] **STRUCT-03**: All source code paths updated for new structure
+- [x] **STRUCT-04**: All documentation paths updated for new structure
 - [ ] **STRUCT-05**: Backend created in backend/ directory with FastAPI
 
 ### RAG & Retrieval
@@ -101,10 +101,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| STRUCT-01 | Phase 1 | Pending |
-| STRUCT-02 | Phase 1 | Pending |
-| STRUCT-03 | Phase 1 | Pending |
-| STRUCT-04 | Phase 1 | Pending |
+| STRUCT-01 | Phase 1 | Complete |
+| STRUCT-02 | Phase 1 | Complete |
+| STRUCT-03 | Phase 1 | Complete |
+| STRUCT-04 | Phase 1 | Complete |
 | STRUCT-05 | Phase 2 | Pending |
 | RAG-01 | Phase 2 | Pending |
 | RAG-02 | Phase 2 | Pending |
