@@ -1,6 +1,6 @@
 # Story 1.2: Shared Custom Components
 
-Status: review
+Status: done
 
 ## Story
 
@@ -215,11 +215,41 @@ Claude Opus 4.5 (claude-opus-4-5-20251101)
 
 ### File List
 
-- `components/shared/ContactCard.tsx` (created)
-- `components/shared/CalendarEvent.tsx` (created)
-- `types/index.ts` (modified - added ContactCardProps and CalendarEventProps interfaces)
+- `components/shared/ContactCard.tsx` (created, updated with full UX spec props)
+- `components/shared/CalendarEvent.tsx` (created, updated with full UX spec props)
+- `components/shared/ContactCard.test.tsx` (created - 10 tests)
+- `components/shared/CalendarEvent.test.tsx` (created - 11 tests)
+- `types/index.ts` (modified - full prop interfaces per UX spec)
+- `vitest.config.ts` (created - test configuration)
+- `vitest.setup.ts` (created - test setup)
+- `package.json` (modified - added test dependencies and scripts)
 
 ### Change Log
 
 - 2026-01-20: Implemented ContactCard and CalendarEvent components with Neuraflow styling (Story 1.2)
+- 2026-01-20: Code review fixes - Added missing props (address, avatar, isComplete for ContactCard; startTime, endTime, description, isComplete for CalendarEvent), ARIA labels, Clock icon for time, comprehensive test suite (21 tests)
+
+## Senior Developer Review (AI)
+
+**Review Date:** 2026-01-20
+**Reviewer:** Claude Opus 4.5 (code-review workflow)
+**Outcome:** Approved (after fixes)
+
+### Issues Found and Resolved
+
+| ID | Severity | Status | Description |
+|----|----------|--------|-------------|
+| H1 | HIGH | [x] Fixed | ContactCard missing address, avatar, isComplete props per UX spec |
+| H2 | HIGH | [x] Fixed | CalendarEvent missing startTime/endTime, description, isComplete props |
+| H3 | HIGH | [x] Fixed | No test coverage - added 21 tests with Vitest |
+| M1 | MEDIUM | [x] Fixed | Added ARIA labels to all interactive elements |
+| M2 | MEDIUM | [x] Noted | text-blue-500 is equivalent to #3B82F6 - acceptable |
+| M3 | MEDIUM | [x] Fixed | Used Clock icon for time display instead of duplicate Calendar |
+| M4 | MEDIUM | [x] Fixed | Simplified cn() usage for static classes |
+| L1 | LOW | [x] Fixed | Clock icon now used for time display |
+| L2 | LOW | [-] Deferred | Barrel export file deferred to future story |
+
+### Summary
+
+All HIGH and MEDIUM severity issues were addressed. Components now fully align with UX specification including streaming state support (isComplete prop), accessibility (ARIA labels), and comprehensive test coverage.
 
