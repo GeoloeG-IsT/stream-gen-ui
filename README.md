@@ -16,6 +16,9 @@ This PoC demonstrates how to render **custom React components** (like contact ca
 - "View Raw" debug toggle to inspect unparsed markup
 - Content presets triggered by message keywords (contact, meeting, etc.)
 
+![Demo Screenshot](docs/screenshot.png)
+*Screenshot: Streaming chat with embedded ContactCard and CalendarCard components*
+
 ## Quick Start
 
 ### Prerequisites
@@ -26,7 +29,8 @@ This PoC demonstrates how to render **custom React components** (like contact ca
 ### Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/stream-gen-ui.git
+# Clone from your fork or the original repository
+git clone <repository-url>
 cd stream-gen-ui
 npm install
 npm run dev
@@ -72,7 +76,7 @@ Open [http://localhost:3000](http://localhost:3000) to see the app.
 | Aspect | FlowToken | llm-ui | Streamdown |
 |--------|-----------|--------|------------|
 | **Complexity** | Low | Medium | Medium-High |
-| **Bundle Size** | ~8KB | ~12KB + react-markdown | ~5KB + react-markdown |
+| **Bundle Impact** | Small (standalone) | Medium (+ react-markdown) | Small (+ react-markdown) |
 | **Markup Format** | XML tags | Delimiters + JSON | XML tags |
 | **Streaming UX** | Good (built-in animations) | Excellent (frame throttling) | Good (optimized) |
 | **Custom Components** | `customComponents` prop | Block matchers | Custom XML parser |
