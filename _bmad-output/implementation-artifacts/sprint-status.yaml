@@ -51,8 +51,8 @@ development_status:
   epic-1-retrospective: optional
 
   # Epic 2: Three-Way Implementation Comparison
-  epic-2: backlog
-  2-1-llm-ui-implementation: backlog
+  epic-2: in-progress
+  2-1-llm-ui-implementation: ready-for-dev
   2-2-streamdown-implementation: backlog
   2-3-test-content-presets: backlog
   2-4-enhanced-navigation-ux: backlog
