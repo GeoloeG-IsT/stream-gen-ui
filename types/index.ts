@@ -2,5 +2,21 @@
  * Shared type definitions for stream-gen-ui
  */
 
-// Placeholder for shared types - will be populated in later stories
-export {};
+/**
+ * Props for ContactCard component
+ */
+export interface ContactCardProps {
+  name: string;
+  email?: string;
+  phone?: string;
+}
+
+/**
+ * Props for CalendarEvent component
+ */
+export interface CalendarEventProps {
+  title: string;
+  date: string;
+  time?: string;
+  location?: string;
+}

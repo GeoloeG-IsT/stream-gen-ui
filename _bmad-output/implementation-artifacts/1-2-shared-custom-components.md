@@ -1,6 +1,6 @@
 # Story 1.2: Shared Custom Components
 
-Status: ready-for-dev
+Status: review
 
 ## Story
 
@@ -16,33 +16,33 @@ so that **I can see how custom UI renders within the chat stream**.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Create ContactCard component (AC: #1)
-  - [ ] Create `components/shared/ContactCard.tsx` with proper TypeScript types
-  - [ ] Implement ContactCardProps interface: name (required), email (optional), phone (optional)
-  - [ ] Add tel: link for phone number with Phone icon from lucide-react
-  - [ ] Add mailto: link for email with Mail icon from lucide-react
-  - [ ] Apply Neuraflow styling: 12px border-radius, #3B82F6 blue links, shadow-md
-  - [ ] Use cn() utility for all conditional class management
-  - [ ] Export as named export (not default)
+- [x] Task 1: Create ContactCard component (AC: #1)
+  - [x] Create `components/shared/ContactCard.tsx` with proper TypeScript types
+  - [x] Implement ContactCardProps interface: name (required), email (optional), phone (optional)
+  - [x] Add tel: link for phone number with Phone icon from lucide-react
+  - [x] Add mailto: link for email with Mail icon from lucide-react
+  - [x] Apply Neuraflow styling: 12px border-radius, #3B82F6 blue links, shadow-md
+  - [x] Use cn() utility for all conditional class management
+  - [x] Export as named export (not default)
 
-- [ ] Task 2: Create CalendarEvent component (AC: #2)
-  - [ ] Create `components/shared/CalendarEvent.tsx` with proper TypeScript types
-  - [ ] Implement CalendarEventProps interface: title (required), date (required), time (optional), location (optional)
-  - [ ] Add Calendar icon from lucide-react for visual indicator
-  - [ ] Add MapPin icon for location if provided
-  - [ ] Apply consistent Neuraflow styling matching ContactCard
-  - [ ] Use cn() utility for all conditional class management
-  - [ ] Export as named export (not default)
+- [x] Task 2: Create CalendarEvent component (AC: #2)
+  - [x] Create `components/shared/CalendarEvent.tsx` with proper TypeScript types
+  - [x] Implement CalendarEventProps interface: title (required), date (required), time (optional), location (optional)
+  - [x] Add Calendar icon from lucide-react for visual indicator
+  - [x] Add MapPin icon for location if provided
+  - [x] Apply consistent Neuraflow styling matching ContactCard
+  - [x] Use cn() utility for all conditional class management
+  - [x] Export as named export (not default)
 
-- [ ] Task 3: Add shared type definitions (AC: #1, #2)
-  - [ ] Add ContactCardProps to types/index.ts
-  - [ ] Add CalendarEventProps to types/index.ts
-  - [ ] Ensure all props use explicit types (no `any`)
+- [x] Task 3: Add shared type definitions (AC: #1, #2)
+  - [x] Add ContactCardProps to types/index.ts
+  - [x] Add CalendarEventProps to types/index.ts
+  - [x] Ensure all props use explicit types (no `any`)
 
-- [ ] Task 4: Verify components build and lint (AC: #1, #2)
-  - [ ] Run `npm run build` - no TypeScript errors
-  - [ ] Run `npm run lint` - no ESLint warnings
-  - [ ] Verify components can be imported from @/components/shared
+- [x] Task 4: Verify components build and lint (AC: #1, #2)
+  - [x] Run `npm run build` - no TypeScript errors
+  - [x] Run `npm run lint` - no ESLint warnings
+  - [x] Verify components can be imported from @/components/shared
 
 ## Dev Notes
 
@@ -196,13 +196,30 @@ From Story 1.1 implementation:
 
 ### Agent Model Used
 
-{{agent_model_name_version}}
+Claude Opus 4.5 (claude-opus-4-5-20251101)
 
 ### Debug Log References
 
+- Initial build failed with `JSX.Element` return type not recognized in React 19
+- Fixed by using `ReactElement` from 'react' import type
+
 ### Completion Notes List
+
+- Created ContactCard component with avatar placeholder, clickable email (mailto:) and phone (tel:) links
+- Created CalendarEvent component with calendar icon header and optional location display
+- Both components use consistent Neuraflow styling: rounded-xl (12px), shadow-md, gray-200 border
+- Used cn() utility for all class management
+- All props interfaces defined in types/index.ts with explicit types (no any)
+- Components follow project import order standard: React types -> third-party -> internal -> utils -> types
+- Build and lint pass successfully
 
 ### File List
 
+- `components/shared/ContactCard.tsx` (created)
+- `components/shared/CalendarEvent.tsx` (created)
+- `types/index.ts` (modified - added ContactCardProps and CalendarEventProps interfaces)
+
 ### Change Log
+
+- 2026-01-20: Implemented ContactCard and CalendarEvent components with Neuraflow styling (Story 1.2)
 
