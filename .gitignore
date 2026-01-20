@@ -44,3 +44,10 @@ next-env.d.ts
 /_bmad/
 /_bmad-output/
 
+# Python
+backend/venv/
+backend/__pycache__/
+backend/**/__pycache__/
+backend/.pytest_cache/
+backend/chroma_db/
+
