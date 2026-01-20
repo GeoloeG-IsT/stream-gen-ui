@@ -12,7 +12,7 @@ Transform the existing frontend streaming UI comparison into a full-stack city c
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [x] **Phase 1: Frontend Reorganization** - Restructure codebase with frontend/ and backend/ separation
+- [ ] **Phase 1: Frontend Reorganization** - Restructure codebase with frontend/ and backend/ separation
 - [ ] **Phase 2: Backend Foundation + RAG** - Build FastAPI backend with vector retrieval over markdown knowledge base
 - [ ] **Phase 3: ReAct Agent + Streaming Integration** - Add intelligent agent with streaming SSE and structured entity output
 
@@ -30,7 +30,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 1 plan
 
 Plans:
-- [x] 01-01-PLAN.md — Move frontend code to frontend/ directory with configuration updates
+- [ ] 01-01-PLAN.md — Move frontend code to frontend/ directory with configuration updates
 
 ### Phase 2: Backend Foundation + RAG
 **Goal**: Working FastAPI backend with RAG retrieval over fictional city knowledge base
@@ -42,12 +42,11 @@ Plans:
   3. Vector store successfully retrieves relevant documents for sample queries
   4. Hybrid search combines keyword and semantic retrieval with source metadata
   5. RAG system returns document chunks with proper attribution (title, reference)
-**Plans**: 3 plans
+**Plans**: TBD
 
 Plans:
-- [ ] 02-01-PLAN.md — Create backend directory structure with FastAPI skeleton
-- [ ] 02-02-PLAN.md — Create fictional Berlin knowledge base (50+ contacts, 50+ events)
-- [ ] 02-03-PLAN.md — Build RAG pipeline with hybrid retrieval and /api/chat endpoint
+- [ ] 02-01: [Plan pending]
+- [ ] 02-02: [Plan pending]
 
 ### Phase 3: ReAct Agent + Streaming Integration
 **Goal**: Intelligent agent streams formatted responses with Contact/CalendarEvent entities to frontend
@@ -75,6 +74,6 @@ Phases execute in numeric order: 1 → 2 → 3
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Frontend Reorganization | 1/1 | Complete | 2026-01-20 |
-| 2. Backend Foundation + RAG | 0/3 | Ready to execute | - |
+| 1. Frontend Reorganization | 0/1 | Ready to execute | - |
+| 2. Backend Foundation + RAG | 0/TBD | Not started | - |
 | 3. ReAct Agent + Streaming Integration | 0/TBD | Not started | - |

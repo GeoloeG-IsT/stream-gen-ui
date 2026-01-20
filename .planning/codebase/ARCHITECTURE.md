@@ -17,42 +17,42 @@
 
 **Page Layer (Routes):**
 - Purpose: UI entry points that orchestrate chat and rendering for each streaming implementation
-- Location: `frontend/app/flowtoken/page.tsx`, `frontend/app/llm-ui/page.tsx`, `frontend/app/streamdown/page.tsx`
+- Location: `app/flowtoken/page.tsx`, `app/llm-ui/page.tsx`, `app/streamdown/page.tsx`
 - Contains: React page components with state management, message formatting, scroll behavior
 - Depends on: `@ai-sdk/react` useChat hook, shared components, renderer components
 - Used by: Next.js routing system, browser entry points
 
 **API Layer:**
 - Purpose: Server-side request handling and mock stream generation
-- Location: `frontend/app/api/chat/route.ts`
+- Location: `app/api/chat/route.ts`
 - Contains: POST handler, request validation, format-aware content selection, mock streaming with delays
 - Depends on: `ai` SDK for stream creation, content generation library, types
 - Used by: Page components via DefaultChatTransport
 
 **Renderer Layer:**
 - Purpose: Format-specific parsing and component rendering
-- Location: `frontend/components/flowtoken/FlowTokenRenderer.tsx`, `frontend/components/llm-ui/LLMUIRenderer.tsx`, `frontend/components/streamdown/StreamdownRenderer.tsx`
+- Location: `components/flowtoken/FlowTokenRenderer.tsx`, `components/llm-ui/LLMUIRenderer.tsx`, `components/streamdown/StreamdownRenderer.tsx`
 - Contains: Format-specific parsers (XML for FlowToken/Streamdown, delimiter-based for llm-ui), error boundaries, custom component registration
 - Depends on: Format libraries (flowtoken, @llm-ui/react, streamdown), shared UI components
 - Used by: Page components to render assistant messages
 
 **Shared Component Layer:**
 - Purpose: UI components used across all implementations
-- Location: `frontend/components/shared/`
+- Location: `components/shared/`
 - Contains: MessageBubble, ChatInput, Header, TypingIndicator, MessageList, RawOutputView, custom components (ContactCard, CalendarEvent, PresetSelector)
 - Depends on: React, Tailwind CSS, context providers, types
 - Used by: All page components
 
 **Context/State Layer:**
 - Purpose: Global state management for features affecting multiple pages
-- Location: `frontend/contexts/ViewRawContext.tsx`
+- Location: `contexts/ViewRawContext.tsx`
 - Contains: React Context provider for ViewRaw toggle state
 - Depends on: React hooks (createContext, useState, useContext)
 - Used by: Layout (provider), MessageBubble, Header
 
 **Utility/Library Layer:**
 - Purpose: Shared logic and data
-- Location: `frontend/lib/` (test-content.ts, mock-stream.ts, utils.ts)
+- Location: `lib/` (test-content.ts, mock-stream.ts, utils.ts)
 - Contains: Content preset detection, mock stream delays, utility functions (cn for classname merging)
 - Depends on: Types, basic utilities
 - Used by: API route, components
@@ -107,22 +107,22 @@
 ## Entry Points
 
 **Root Entry Point:**
-- Location: `frontend/app/page.tsx`
+- Location: `app/page.tsx`
 - Triggers: Initial navigation to `/`
 - Responsibilities: Redirects to default implementation (`/flowtoken`)
 
 **Page Entries (User Visible):**
-- Location: `frontend/app/flowtoken/page.tsx`, `frontend/app/llm-ui/page.tsx`, `frontend/app/streamdown/page.tsx`
+- Location: `app/flowtoken/page.tsx`, `app/llm-ui/page.tsx`, `app/streamdown/page.tsx`
 - Triggers: Direct URL navigation or Header link clicks
 - Responsibilities: Initialize useChat hook with format-specific transport, manage local state, coordinate message rendering
 
 **API Entry:**
-- Location: `frontend/app/api/chat/route.ts`
+- Location: `app/api/chat/route.ts`
 - Triggers: POST requests from page components
 - Responsibilities: Validate input, select content based on last user message, generate mock stream
 
 **Root Layout:**
-- Location: `frontend/app/layout.tsx`
+- Location: `app/layout.tsx`
 - Triggers: Every page load
 - Responsibilities: Provide global ViewRawContext provider, set up fonts and metadata, compose child pages
 

@@ -19,9 +19,8 @@
 - Browser: Modern browsers supporting ES2017, React 19, Web Streams API
 
 **Package Manager:**
-- npm (version management in `frontend/package-lock.json`)
+- npm (version management in `package-lock.json`)
 - Lockfile: Present and committed
-- Working directory: frontend/ (self-contained package)
 
 ## Frameworks
 
@@ -86,14 +85,12 @@
 - Uses mock streaming response (no real LLM API calls)
 
 **Build:**
-- `frontend/tsconfig.json` - TypeScript configuration with Next.js plugin, path alias `@/*` maps to `./*` (relative to frontend/)
-- `frontend/next.config.ts` - Next.js config (minimal, currently empty)
-- `frontend/postcss.config.mjs` - PostCSS with Tailwind CSS plugin
-- `frontend/vitest.config.ts` - Vitest with jsdom environment, React plugin, path alias matching tsconfig
-- `frontend/eslint.config.mjs` - ESLint config using flat config (ESLint 9), Next.js presets for core-web-vitals and TypeScript
-- `frontend/.npmrc` - Sets `legacy-peer-deps=true` (for peer dependency compatibility)
-- `frontend/package.json` - Frontend dependencies and scripts (self-contained)
-- `frontend/node_modules/` - Frontend dependencies installed independently
+- `tsconfig.json` - TypeScript configuration with Next.js plugin, path alias `@/*` for root imports
+- `next.config.ts` - Next.js config (minimal, currently empty)
+- `postcss.config.mjs` - PostCSS with Tailwind CSS plugin
+- `vitest.config.ts` - Vitest with jsdom environment, React plugin, path alias matching tsconfig
+- `eslint.config.mjs` - ESLint config using flat config (ESLint 9), Next.js presets for core-web-vitals and TypeScript
+- `.npmrc` - Sets `legacy-peer-deps=true` (for peer dependency compatibility)
 
 ## Platform Requirements
 
