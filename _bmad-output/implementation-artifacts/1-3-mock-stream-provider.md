@@ -1,6 +1,6 @@
 # Story 1.3: Mock Stream Provider
 
-Status: ready-for-dev
+Status: done
 
 ## Story
 
@@ -16,39 +16,39 @@ so that **evaluators can demo the app without API keys**.
 
 ## Tasks / Subtasks
 
-- [ ] Task 1: Create mock stream utility (AC: #1)
-  - [ ] Create `lib/mock-stream.ts` with `createMockStream` function
-  - [ ] Use `simulateReadableStream` from 'ai' package for token-by-token delivery
-  - [ ] Implement configurable delay parameters (initialDelayMs, chunkDelayMs)
-  - [ ] Export DEFAULT_DELAY_MS constant (e.g., 50ms between tokens)
-  - [ ] Return properly formatted stream compatible with Vercel AI SDK
+- [x] Task 1: Create mock stream utility (AC: #1)
+  - [x] Create `lib/mock-stream.ts` with `createMockStream` function
+  - [x] Use `simulateReadableStream` from 'ai' package for token-by-token delivery
+  - [x] Implement configurable delay parameters (initialDelayMs, chunkDelayMs)
+  - [x] Export DEFAULT_DELAY_MS constant (e.g., 50ms between tokens)
+  - [x] Return properly formatted stream compatible with Vercel AI SDK
 
-- [ ] Task 2: Create test content library (AC: #1, #2)
-  - [ ] Create `lib/test-content.ts` with content presets
-  - [ ] Implement `getTestContent(messages: Message[], format: string)` function
-  - [ ] Create content for FlowToken format (XML tags): `<ContactCard name="..." email="..." phone="..." />`
-  - [ ] Create content for llm-ui format (delimiters): `【CONTACT:{"name":"...","email":"...","phone":"..."}】`
-  - [ ] Create content for Streamdown format (same XML as FlowToken)
-  - [ ] Include CalendarEvent examples in same format variations
-  - [ ] Content should include narrative text around components to demo streaming
+- [x] Task 2: Create test content library (AC: #1, #2)
+  - [x] Create `lib/test-content.ts` with content presets
+  - [x] Implement `getTestContent(messages: Message[], format: string)` function
+  - [x] Create content for FlowToken format (XML tags): `<ContactCard name="..." email="..." phone="..." />`
+  - [x] Create content for llm-ui format (delimiters): `【CONTACT:{"name":"...","email":"...","phone":"..."}】`
+  - [x] Create content for Streamdown format (same XML as FlowToken)
+  - [x] Include CalendarEvent examples in same format variations
+  - [x] Content should include narrative text around components to demo streaming
 
-- [ ] Task 3: Create /api/chat route handler (AC: #1, #2)
-  - [ ] Create `app/api/chat/route.ts` with POST handler
-  - [ ] Parse `format` query param from URL (default: 'flowtoken')
-  - [ ] Parse messages from request body JSON
-  - [ ] Select test content based on format and user message
-  - [ ] Stream response using mock stream utility
-  - [ ] Return proper SSE response with headers
+- [x] Task 3: Create /api/chat route handler (AC: #1, #2)
+  - [x] Create `app/api/chat/route.ts` with POST handler
+  - [x] Parse `format` query param from URL (default: 'flowtoken')
+  - [x] Parse messages from request body JSON
+  - [x] Select test content based on format and user message
+  - [x] Stream response using mock stream utility
+  - [x] Return proper SSE response with headers
 
-- [ ] Task 4: Add type definitions (AC: #1, #2)
-  - [ ] Add `MessageFormat` type to `types/index.ts`: `'flowtoken' | 'llm-ui' | 'streamdown'`
-  - [ ] Add `MockStreamOptions` interface: `{ initialDelayMs?: number; chunkDelayMs?: number }`
-  - [ ] Add `TestContentRequest` interface if needed
+- [x] Task 4: Add type definitions (AC: #1, #2)
+  - [x] Add `MessageFormat` type to `types/index.ts`: `'flowtoken' | 'llm-ui' | 'streamdown'`
+  - [x] Add `MockStreamOptions` interface: `{ initialDelayMs?: number; chunkDelayMs?: number }`
+  - [x] Add `TestContentRequest` interface if needed
 
-- [ ] Task 5: Verify streaming works (AC: #1, #2)
-  - [ ] Run `npm run build` - no TypeScript errors
-  - [ ] Run `npm run lint` - no ESLint warnings
-  - [ ] Manually test: `curl -X POST http://localhost:3000/api/chat?format=flowtoken -H "Content-Type: application/json" -d '{"messages":[{"role":"user","content":"hello"}]}'`
+- [x] Task 5: Verify streaming works (AC: #1, #2)
+  - [x] Run `npm run build` - no TypeScript errors
+  - [x] Run `npm run lint` - no ESLint warnings
+  - [x] Manually test: `curl -X POST http://localhost:3000/api/chat?format=flowtoken -H "Content-Type: application/json" -d '{"messages":[{"role":"user","content":"hello"}]}'`
 
 ## Dev Notes
 
@@ -250,10 +250,65 @@ You should see tokens streaming with the configured delay, formatted as SSE even
 
 ### Agent Model Used
 
-{{agent_model_name_version}}
+Claude Opus 4.5 (claude-opus-4-5-20251101)
 
 ### Debug Log References
 
+None required.
+
 ### Completion Notes List
 
+- Implemented mock stream provider with `createMockStream()` function using Vercel AI SDK's `simulateReadableStream`
+- Created test content library with content presets for all 3 formats (FlowToken, llm-ui, Streamdown)
+- Built /api/chat POST endpoint that returns SSE streams with proper headers (`X-Vercel-AI-Data-Stream: v1`)
+- Added `MessageFormat` and `MockStreamOptions` types to types/index.ts
+- All unit tests pass (45 tests across 5 test files)
+- Build passes with no TypeScript errors
+- Lint passes with no ESLint warnings
+- Stream uses AI SDK data protocol format (0: prefix for text, e: for finish, d: for done)
+
 ### File List
+
+**Created:**
+- lib/mock-stream.ts
+- lib/mock-stream.test.ts
+- lib/test-content.ts
+- lib/test-content.test.ts
+- app/api/chat/route.ts
+- app/api/chat/route.test.ts
+
+**Modified:**
+- types/index.ts
+
+### Change Log
+
+- 2026-01-20: Implemented mock stream provider (Story 1.3) - all tasks complete, all tests passing
+- 2026-01-20: Code review completed - fixed 5 issues (1 HIGH, 4 MEDIUM)
+
+## Senior Developer Review (AI)
+
+**Review Date:** 2026-01-20
+**Review Outcome:** Approved (after fixes)
+**Reviewer:** Claude Opus 4.5 (code-review workflow)
+
+### Issues Found & Resolved
+
+| # | Severity | Issue | Resolution |
+|---|----------|-------|------------|
+| 1 | HIGH | No error handling in API route - `req.json()` could throw, missing validation | ✅ Added try/catch, `validateRequestBody()` function, proper 400 error responses |
+| 2 | MED | Unsafe type assertion `as MessageFormat` for user input | ✅ Added `isValidMessageFormat()` type guard in types/index.ts |
+| 3 | MED | Duplicate Message interface in test-content.ts and route.ts | ✅ Consolidated to shared `ChatMessage` type in types/index.ts |
+| 4 | MED | Magic number `promptTokens: 10` in mock-stream.ts | ✅ Extracted to `DEFAULT_PROMPT_TOKENS` constant |
+| 5 | MED | Missing error case tests for API route | ✅ Added 7 new tests for error scenarios |
+
+### Action Items
+
+- [x] [AI-Review][HIGH] Add error handling to API route `app/api/chat/route.ts`
+- [x] [AI-Review][MED] Add proper format validation with type guard
+- [x] [AI-Review][MED] Consolidate duplicate Message type definitions
+- [x] [AI-Review][MED] Extract magic number to named constant
+- [x] [AI-Review][MED] Add error case tests for invalid inputs
+
+### Summary
+
+All HIGH and MEDIUM issues have been fixed. The API route now has proper error handling, input validation, and returns appropriate 400 error responses for malformed requests. Test coverage increased from 12 to 19 tests for the route handler.
