@@ -166,4 +166,53 @@ describe('ChatInput', () => {
       expect(document.activeElement).not.toBe(input);
     });
   });
+
+  describe('PresetSelector integration', () => {
+    it('does not render PresetSelector when onPresetSelect is not provided', () => {
+      render(<ChatInput {...defaultProps} />);
+      expect(screen.queryByRole('group', { name: /content presets/i })).not.toBeInTheDocument();
+    });
+
+    it('renders PresetSelector when onPresetSelect is provided', () => {
+      const onPresetSelect = vi.fn();
+      render(<ChatInput {...defaultProps} onPresetSelect={onPresetSelect} />);
+      expect(screen.getByRole('group', { name: /content presets/i })).toBeInTheDocument();
+    });
+
+    it('renders preset buttons when onPresetSelect is provided', () => {
+      const onPresetSelect = vi.fn();
+      render(<ChatInput {...defaultProps} onPresetSelect={onPresetSelect} />);
+      expect(screen.getByText('Contact')).toBeInTheDocument();
+      expect(screen.getByText('Calendar')).toBeInTheDocument();
+    });
+
+    it('calls onPresetSelect when preset button is clicked', () => {
+      const onPresetSelect = vi.fn();
+      render(<ChatInput {...defaultProps} onPresetSelect={onPresetSelect} />);
+      fireEvent.click(screen.getByLabelText(/send "show me a contact"/i));
+      expect(onPresetSelect).toHaveBeenCalledWith('Show me a contact');
+    });
+
+    it('disables PresetSelector buttons when isLoading is true', () => {
+      const onPresetSelect = vi.fn();
+      render(<ChatInput {...defaultProps} onPresetSelect={onPresetSelect} isLoading={true} />);
+      const presetButtons = screen.getAllByRole('button').filter(btn =>
+        btn.getAttribute('aria-label')?.includes('Send "')
+      );
+      presetButtons.forEach(button => {
+        expect(button).toBeDisabled();
+      });
+    });
+
+    it('enables PresetSelector buttons when isLoading is false', () => {
+      const onPresetSelect = vi.fn();
+      render(<ChatInput {...defaultProps} onPresetSelect={onPresetSelect} isLoading={false} />);
+      const presetButtons = screen.getAllByRole('button').filter(btn =>
+        btn.getAttribute('aria-label')?.includes('Send "')
+      );
+      presetButtons.forEach(button => {
+        expect(button).not.toBeDisabled();
+      });
+    });
+  });
 });
