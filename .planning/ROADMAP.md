@@ -34,6 +34,12 @@
 
 **Dependencies:** None (builds on v1.0 backend)
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 04-01-PLAN.md — Add marker query param to /api/chat with validation
+- [ ] 04-02-PLAN.md — Implement marker-aware prompt system and agent wiring
+
 ---
 
 ## Phase 5: Renderer Integration
@@ -49,7 +55,7 @@
 **Success Criteria:**
 1. llm-ui page streams real responses from backend (not mock data)
 2. Streamdown page streams real responses from backend (not mock data)
-3. No raw delimiters (【, 】) visible during llm-ui streaming
+3. No raw delimiters ([, ]) visible during llm-ui streaming
 4. No incomplete XML tags visible during Streamdown streaming
 
 **Dependencies:** Phase 4 (marker strategy support)
