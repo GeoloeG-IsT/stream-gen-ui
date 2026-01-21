@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Frontend Reorganization** - Restructure codebase with frontend/ and backend/ separation
 - [x] **Phase 2: Backend Foundation + RAG** - Build FastAPI backend with vector retrieval over markdown knowledge base
-- [ ] **Phase 3: ReAct Agent + Streaming Integration** - Add intelligent agent with streaming SSE and structured entity output
+- [x] **Phase 3: ReAct Agent + Streaming Integration** - Add intelligent agent with streaming SSE and structured entity output
 
 ## Phase Details
 
@@ -64,12 +64,12 @@ Plans:
 **Plans**: 6 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Agent foundation (state, tools, dependencies)
-- [ ] 03-02-PLAN.md — SSE streaming utilities and entity parser
-- [ ] 03-03-PLAN.md — LangGraph ReAct agent state machine
-- [ ] 03-04-PLAN.md — Streaming /api/chat endpoint
-- [ ] 03-05-PLAN.md — Frontend entity rendering integration
-- [ ] 03-06-PLAN.md — End-to-end verification
+- [x] 03-01-PLAN.md — Agent foundation (state, tools, dependencies)
+- [x] 03-02-PLAN.md — SSE streaming utilities and entity parser
+- [x] 03-03-PLAN.md — LangGraph ReAct agent state machine
+- [x] 03-04-PLAN.md — Streaming /api/chat endpoint
+- [x] 03-05-PLAN.md — Frontend entity rendering integration
+- [x] 03-06-PLAN.md — End-to-end verification
 
 ## Progress
 
@@ -80,4 +80,4 @@ Phases execute in numeric order: 1 → 2 → 3
 |-------|----------------|--------|-----------|
 | 1. Frontend Reorganization | 1/1 | ✓ Complete | 2026-01-20 |
 | 2. Backend Foundation + RAG | 3/3 | ✓ Complete | 2026-01-20 |
-| 3. ReAct Agent + Streaming Integration | 0/6 | Not started | - |
+| 3. ReAct Agent + Streaming Integration | 6/6 | ✓ Complete | 2026-01-21 |

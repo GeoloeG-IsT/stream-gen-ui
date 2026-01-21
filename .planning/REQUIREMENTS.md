@@ -24,34 +24,34 @@ Requirements for initial PoC release. Each maps to roadmap phases.
 
 ### ReAct Agent
 
-- [ ] **AGENT-01**: ReAct agent implements Thought-Action-Observation cycle
-- [ ] **AGENT-02**: Agent uses RAG as a tool and decides when to invoke it
-- [ ] **AGENT-03**: Agent has max iteration limit (5) to prevent infinite loops
-- [ ] **AGENT-04**: Agent uses Mistral LLM for reasoning
+- [x] **AGENT-01**: ReAct agent implements Thought-Action-Observation cycle
+- [x] **AGENT-02**: Agent uses RAG as a tool and decides when to invoke it
+- [x] **AGENT-03**: Agent has max iteration limit (5) to prevent infinite loops
+- [x] **AGENT-04**: Agent uses Mistral LLM for reasoning
 
 ### Structured Output
 
-- [ ] **OUTPUT-01**: Agent outputs Contact entities matching ContactCardProps interface
-- [ ] **OUTPUT-02**: Agent outputs CalendarEvent entities matching CalendarEventProps interface
-- [ ] **OUTPUT-03**: Response format is consistent and predictable for frontend parsing
+- [x] **OUTPUT-01**: Agent outputs Contact entities matching ContactCardProps interface
+- [x] **OUTPUT-02**: Agent outputs CalendarEvent entities matching CalendarEventProps interface
+- [x] **OUTPUT-03**: Response format is consistent and predictable for frontend parsing
 
 ### Streaming & API
 
-- [ ] **STREAM-01**: /api/chat endpoint accepts POST with messages array
-- [ ] **STREAM-02**: Response streams via SSE (Server-Sent Events)
-- [ ] **STREAM-03**: Streaming compatible with existing useChat hook transport
-- [ ] **STREAM-04**: Inline citations reference source documents in response
+- [x] **STREAM-01**: /api/chat endpoint accepts POST with messages array
+- [x] **STREAM-02**: Response streams via SSE (Server-Sent Events)
+- [x] **STREAM-03**: Streaming compatible with existing useChat hook transport
+- [x] **STREAM-04**: Inline citations reference source documents in response
 
 ### Conversation
 
-- [ ] **CONV-01**: Message history tracked across conversation turns
-- [ ] **CONV-02**: Agent uses conversation context for follow-up questions
+- [x] **CONV-01**: Message history tracked across conversation turns
+- [x] **CONV-02**: Agent uses conversation context for follow-up questions
 
 ### Error Handling & Observability
 
-- [ ] **ERR-01**: Tool call failures handled gracefully with user-friendly messages
-- [ ] **ERR-02**: Request timeouts prevent hung requests (configurable, default 30s)
-- [ ] **ERR-03**: Agent traces logged via LangSmith or Langfuse
+- [x] **ERR-01**: Tool call failures handled gracefully with user-friendly messages
+- [x] **ERR-02**: Request timeouts prevent hung requests (configurable, default 30s)
+- [x] **ERR-03**: Agent traces logged via LangSmith or Langfuse
 
 ### Knowledge Base
 
@@ -113,22 +113,22 @@ Which phases cover which requirements. Updated during roadmap creation.
 | KB-01 | Phase 2 | Complete |
 | KB-02 | Phase 2 | Complete |
 | KB-03 | Phase 2 | Complete |
-| AGENT-01 | Phase 3 | Pending |
-| AGENT-02 | Phase 3 | Pending |
-| AGENT-03 | Phase 3 | Pending |
-| AGENT-04 | Phase 3 | Pending |
-| OUTPUT-01 | Phase 3 | Pending |
-| OUTPUT-02 | Phase 3 | Pending |
-| OUTPUT-03 | Phase 3 | Pending |
-| STREAM-01 | Phase 3 | Pending |
-| STREAM-02 | Phase 3 | Pending |
-| STREAM-03 | Phase 3 | Pending |
-| STREAM-04 | Phase 3 | Pending |
-| CONV-01 | Phase 3 | Pending |
-| CONV-02 | Phase 3 | Pending |
-| ERR-01 | Phase 3 | Pending |
-| ERR-02 | Phase 3 | Pending |
-| ERR-03 | Phase 3 | Pending |
+| AGENT-01 | Phase 3 | Complete |
+| AGENT-02 | Phase 3 | Complete |
+| AGENT-03 | Phase 3 | Complete |
+| AGENT-04 | Phase 3 | Complete |
+| OUTPUT-01 | Phase 3 | Complete |
+| OUTPUT-02 | Phase 3 | Complete |
+| OUTPUT-03 | Phase 3 | Complete |
+| STREAM-01 | Phase 3 | Complete |
+| STREAM-02 | Phase 3 | Complete |
+| STREAM-03 | Phase 3 | Complete |
+| STREAM-04 | Phase 3 | Complete |
+| CONV-01 | Phase 3 | Complete |
+| CONV-02 | Phase 3 | Complete |
+| ERR-01 | Phase 3 | Complete |
+| ERR-02 | Phase 3 | Complete |
+| ERR-03 | Phase 3 | Complete |
 
 **Coverage:**
 - v1 requirements: 28 total
