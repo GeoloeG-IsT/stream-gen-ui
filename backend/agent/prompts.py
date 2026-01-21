@@ -25,14 +25,26 @@ Include only attributes that have data. Date is required, startTime and location
 # Entity format templates for FlowToken marker - explicit closing tags
 FLOWTOKEN_CONTACT_FORMAT = """When providing contact information, format EACH contact as:
 
-<contactcard name="Full Name" email="email@berlin.de" phone="+49 30 ..." company="Department Name" title="Job Title" />
+<contactcard 
+    name="Full Name" 
+    email="email@berlin.de" 
+    phone="+49 30 ..." 
+    company="Department Name" 
+    title="Job Title"
+/>
 
 Include only attributes that have data. Omit missing attributes entirely.
 """
 
 FLOWTOKEN_EVENT_FORMAT = """When providing event information, format EACH event as:
 
-<calendarevent title="Event Name" date="2026-01-25" startTime="14:00" location="Venue Address" description="Brief description" />
+<calendarevent 
+    title="Event Name" 
+    date="2026-01-25" 
+    startTime="14:00" 
+    location="Venue Address" 
+    description="Brief description"
+/>
 
 Include only attributes that have data. Date is required, startTime and location are optional.
 """

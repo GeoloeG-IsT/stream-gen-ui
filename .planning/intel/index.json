@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": 1769034061816,
+  "updated": 1769038013392,
   "files": {
     "/root/wks/stream-gen-ui/frontend/lib/entity-parser.ts": {
       "exports": [
@@ -152,7 +152,7 @@
         "@/components/shared/CalendarEvent",
         "@/components/shared/ContactCard"
       ],
-      "indexed": 1769033758951
+      "indexed": 1769037936784
     },
     "/root/wks/stream-gen-ui/frontend/components/shared/PresetSelector.tsx": {
       "exports": [
@@ -163,6 +163,15 @@
         "@/lib/utils"
       ],
       "indexed": 1769034061816
+    },
+    "/root/wks/stream-gen-ui/frontend/components/flowtoken/FlowTokenRenderer.test.tsx": {
+      "exports": [],
+      "imports": [
+        "@testing-library/react",
+        "vitest",
+        "./FlowTokenRenderer"
+      ],
+      "indexed": 1769038013392
     }
   }
 }

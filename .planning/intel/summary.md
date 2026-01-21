@@ -1,7 +1,7 @@
 # Codebase Intelligence Summary
 
-Last updated: 2026-01-21T22:21:01.819Z
-Indexed files: 12
+Last updated: 2026-01-21T23:26:53.394Z
+Indexed files: 13
 
 ## Naming Conventions
 
@@ -10,6 +10,6 @@ Indexed files: 12
 ## Key Directories
 
 - `lib/`: Utility functions (1 files)
-- `components/`: UI components (7 files)
+- `components/`: UI components (8 files)
 
 Total exports: 22
