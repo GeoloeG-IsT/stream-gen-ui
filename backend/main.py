@@ -20,6 +20,7 @@ from models.schemas import (
     RetrievalResponse,
     RetrievalResult,
     AgentChatRequest,
+    MarkerStrategy,
 )
 from rag import get_vectorstore, get_hybrid_retriever
 from rag.retriever import retrieve_with_scores, deduplicate_results
@@ -197,7 +198,10 @@ async def stream_agent_response(messages: list, message_id: str):
 
 
 @app.post("/api/chat")
-async def chat_stream(request: AgentChatRequest):
+async def chat_stream(
+    request: AgentChatRequest,
+    marker: str = "xml"
+):
     """
     Streaming chat endpoint with ReAct agent.
 
@@ -208,7 +212,21 @@ async def chat_stream(request: AgentChatRequest):
     - [DONE] marker to signal completion
 
     Headers include x-vercel-ai-ui-message-stream: v1 for AI SDK compatibility.
+
+    Args:
+        request: Chat request with messages array
+        marker: Output format strategy ("xml" or "llm-ui"), defaults to "xml"
     """
+    # Validate marker parameter
+    valid_markers = [m.value for m in MarkerStrategy]
+    if marker not in valid_markers:
+        raise HTTPException(
+            status_code=400,
+            detail={"error": "Invalid marker", "valid_values": valid_markers}
+        )
+
+    logger.info(f"Chat request with marker={marker}")
+
     if not request.messages:
         raise HTTPException(status_code=400, detail="Messages array cannot be empty")
 
@@ -232,7 +250,7 @@ async def chat_stream(request: AgentChatRequest):
     return StreamingResponse(
         stream_agent_response(lc_messages, message_id),
         media_type="text/event-stream",
-        headers=SSE_HEADERS,
+        headers={**SSE_HEADERS, "X-Marker-Strategy": marker},
     )
 
 
