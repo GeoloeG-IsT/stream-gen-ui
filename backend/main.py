@@ -1,22 +1,32 @@
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import StreamingResponse
 from contextlib import asynccontextmanager
 from pathlib import Path
+import logging
+import uuid
+
+from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+from langgraph.errors import GraphRecursionError
 
 from config import get_settings
 from models.schemas import (
     HealthResponse,
     ChatRequest,
     RetrievalResponse,
-    RetrievalResult
+    RetrievalResult,
+    AgentChatRequest,
 )
 from rag import get_vectorstore, get_hybrid_retriever
 from rag.retriever import retrieve_with_scores, deduplicate_results
 from rag.chunking import chunk_all_knowledge
 from rag.vectorstore import init_vectorstore
 from rag.retriever import init_hybrid_retriever
+from agent import get_agent_graph, get_recursion_limit
+from streaming import format_text_delta, format_done, SSE_HEADERS
 
 settings = get_settings()
+logger = logging.getLogger(__name__)
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -41,14 +51,22 @@ async def lifespan(app: FastAPI):
     else:
         print("Warning: No knowledge base found. Run scripts/ingest.py first.")
 
+    # Pre-initialize agent graph (validates API key)
+    try:
+        get_agent_graph()
+        print("Agent graph initialized")
+    except Exception as e:
+        print(f"Warning: Agent not initialized - {e}")
+        print("Set MISTRAL_API_KEY in .env to enable agent features")
+
     yield
 
     print("Shutting down...")
 
 app = FastAPI(
     title="Berlin City Chatbot API",
-    description="RAG-powered chatbot for Berlin city information",
-    version="0.1.0",
+    description="RAG-powered chatbot with ReAct agent for Berlin city information",
+    version="0.2.0",
     lifespan=lifespan
 )
 
@@ -64,15 +82,18 @@ app.add_middleware(
 @app.get("/health", response_model=HealthResponse)
 async def health_check():
     """Health check endpoint."""
-    return HealthResponse(status="healthy", version="0.1.0")
+    return HealthResponse(status="healthy", version="0.2.0")
 
-@app.post("/api/chat", response_model=RetrievalResponse)
-async def chat(request: ChatRequest):
+
+# --- Phase 2 legacy endpoint (raw retrieval) ---
+
+@app.post("/api/retrieve", response_model=RetrievalResponse)
+async def retrieve(request: ChatRequest):
     """
     Process a chat message and return relevant knowledge base results.
 
-    This is Phase 2 retrieval-only endpoint. Phase 3 will add the ReAct agent
-    that synthesizes responses from these results.
+    This is the Phase 2 retrieval-only endpoint. Use /api/chat for
+    the full agent experience with streaming.
     """
     query = request.message.strip()
 
@@ -112,6 +133,97 @@ async def chat(request: ChatRequest):
     ]
 
     return RetrievalResponse(query=query, results=results)
+
+
+# --- Phase 3 streaming agent endpoint ---
+
+async def stream_agent_response(messages: list, message_id: str):
+    """Stream agent response token-by-token.
+
+    Args:
+        messages: List of LangChain message objects
+        message_id: Unique ID for the streamed message
+
+    Yields:
+        SSE formatted events compatible with AI SDK v6
+    """
+    graph = get_agent_graph()
+    recursion_limit = get_recursion_limit()
+
+    try:
+        # Stream with messages mode for token visibility
+        # CRITICAL: stream_mode="messages" is required for token-by-token streaming
+        async for event in graph.astream(
+            {"messages": messages},
+            config={"recursion_limit": recursion_limit},
+            stream_mode="messages"
+        ):
+            # event is a tuple: (message_chunk, metadata)
+            if isinstance(event, tuple) and len(event) == 2:
+                message_chunk, metadata = event
+
+                # Only stream AIMessage content (not tool calls or tool messages)
+                if hasattr(message_chunk, "content") and message_chunk.content:
+                    # Check if this is a reasoning/thought vs final response
+                    # For now, stream all as text-delta
+                    # TODO: Distinguish reasoning using metadata.langgraph_node
+                    yield format_text_delta(message_chunk.content, message_id)
+
+    except GraphRecursionError:
+        logger.warning(f"Agent hit recursion limit ({recursion_limit})")
+        yield format_text_delta(
+            "\n\nI've reached the maximum number of steps. Please try rephrasing your question.",
+            message_id
+        )
+    except Exception as e:
+        logger.error(f"Agent stream error: {e}", exc_info=True)
+        yield format_text_delta(
+            "\n\nI encountered an error processing your request. Please try again.",
+            message_id
+        )
+
+    yield format_done()
+
+
+@app.post("/api/chat")
+async def chat_stream(request: AgentChatRequest):
+    """
+    Streaming chat endpoint with ReAct agent.
+
+    Accepts messages array matching AI SDK format, streams response via SSE.
+
+    The response uses AI SDK v6 stream protocol:
+    - text-delta events for streaming content
+    - [DONE] marker to signal completion
+
+    Headers include x-vercel-ai-ui-message-stream: v1 for AI SDK compatibility.
+    """
+    if not request.messages:
+        raise HTTPException(status_code=400, detail="Messages array cannot be empty")
+
+    # Convert to LangChain message format
+    lc_messages = []
+    for msg in request.messages:
+        if msg.role == "user":
+            lc_messages.append(HumanMessage(content=msg.content))
+        elif msg.role == "assistant":
+            lc_messages.append(AIMessage(content=msg.content))
+        elif msg.role == "system":
+            lc_messages.append(SystemMessage(content=msg.content))
+
+    if not lc_messages:
+        raise HTTPException(status_code=400, detail="No valid messages found")
+
+    # Generate message ID for this response
+    message_id = f"msg-{uuid.uuid4().hex[:8]}"
+
+    # Return streaming response with AI SDK headers
+    return StreamingResponse(
+        stream_agent_response(lc_messages, message_id),
+        media_type="text/event-stream",
+        headers=SSE_HEADERS,
+    )
+
 
 if __name__ == "__main__":
     import uvicorn
