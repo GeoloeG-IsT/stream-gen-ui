@@ -11,14 +11,17 @@ import { Header } from '@/components/shared/Header';
 import { MessageBubble } from '@/components/shared/MessageBubble';
 import { ChatInput } from '@/components/shared/ChatInput';
 import { TypingIndicator } from '@/components/shared/TypingIndicator';
+import { EntityRenderer } from '@/components/shared/EntityRenderer';
+import { parseEntities, hasEntityMarkers } from '@/lib/entity-parser';
 
 export default function FlowTokenPage(): ReactElement {
   const [input, setInput] = useState('');
 
+  // Point to backend agent API
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: '/api/chat?format=flowtoken',
+        api: 'http://localhost:8000/api/chat',
       }),
     []
   );
@@ -61,29 +64,37 @@ export default function FlowTokenPage(): ReactElement {
     [isLoading, sendMessage]
   );
 
-  // Transform messages to include isStreaming flag for FlowToken rendering
-  // Filter to only user/assistant roles and exclude system messages
+  // Transform messages with entity parsing
   const formattedMessages = useMemo(() => {
     const filtered = messages.filter(
       (m): m is typeof m & { role: 'user' | 'assistant' } =>
         m.role === 'user' || m.role === 'assistant'
     );
 
-    const mapped = filtered.map((m, index, arr) => ({
-      id: m.id,
-      role: m.role,
-      content: (m.parts ?? [])
+    return filtered.map((m, index, arr) => {
+      const content = (m.parts ?? [])
         .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
         .map((p) => p.text)
-        .join(''),
-      // Only the last assistant message is streaming
-      isStreaming:
+        .join('');
+
+      const isStreaming =
         m.role === 'assistant' &&
         index === arr.length - 1 &&
-        status === 'streaming',
-    }));
+        status === 'streaming';
 
-    return mapped;
+      // Parse entities for assistant messages
+      const parseResult = m.role === 'assistant' ? parseEntities(content) : null;
+      const hasEntities = m.role === 'assistant' && hasEntityMarkers(content);
+
+      return {
+        id: m.id,
+        role: m.role,
+        content,
+        isStreaming,
+        parseResult,
+        hasEntities,
+      };
+    });
   }, [messages, status]);
 
   // Refs for scroll management
@@ -130,10 +141,24 @@ export default function FlowTokenPage(): ReactElement {
                 rawContent={m.role === 'assistant' ? m.content : undefined}
               >
                 {m.role === 'assistant' ? (
-                  <FlowTokenRenderer
-                    content={m.content}
-                    isStreaming={m.isStreaming}
-                  />
+                  m.hasEntities && m.parseResult ? (
+                    <EntityRenderer
+                      parseResult={m.parseResult}
+                      isStreaming={m.isStreaming}
+                      renderText={(text, idx) => (
+                        <FlowTokenRenderer
+                          key={`text-${idx}`}
+                          content={text}
+                          isStreaming={m.isStreaming}
+                        />
+                      )}
+                    />
+                  ) : (
+                    <FlowTokenRenderer
+                      content={m.content}
+                      isStreaming={m.isStreaming}
+                    />
+                  )
                 ) : undefined}
               </MessageBubble>
             ))}
