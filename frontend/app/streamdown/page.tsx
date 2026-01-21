@@ -5,32 +5,51 @@ import type { FormEvent, ChangeEvent, ReactElement } from 'react';
 
 import { useChat } from '@ai-sdk/react';
 import { DefaultChatTransport } from 'ai';
+import { toast } from 'sonner';
 
 import { StreamdownRenderer } from '@/components/streamdown/StreamdownRenderer';
 import { Header } from '@/components/shared/Header';
 import { MessageBubble } from '@/components/shared/MessageBubble';
 import { ChatInput } from '@/components/shared/ChatInput';
 import { TypingIndicator } from '@/components/shared/TypingIndicator';
+import { StopButton } from '@/components/shared/StopButton';
 
 export default function StreamdownPage(): ReactElement {
   const [input, setInput] = useState('');
 
+  // Point to backend agent API with XML marker
+  // Use environment variable or fallback to public IP for cross-origin access
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://188.245.108.179:8000';
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: '/api/chat?format=streamdown',
+        api: `${backendUrl}/api/chat?marker=xml`,
       }),
-    []
+    [backendUrl]
   );
 
-  const { messages, sendMessage, status, error } = useChat({
+  const { messages, sendMessage, status, error, stop } = useChat({
     transport,
     onError: (err) => {
       console.error('[Streamdown] useChat onError:', err);
+      const message = err.message.includes('fetch')
+        ? 'Network error - check your connection'
+        : err.message.includes('500')
+        ? 'Server error - please try again'
+        : 'An error occurred';
+      toast.error(message);
     },
   });
 
   const isLoading = status === 'submitted' || status === 'streaming';
+  const isStreaming = status === 'streaming';
+
+  // Abort stream on unmount (prevents background streaming)
+  useEffect(() => {
+    return () => {
+      stop();
+    };
+  }, [stop]);
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -143,6 +162,11 @@ export default function StreamdownPage(): ReactElement {
               className="mx-4 mb-2 p-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg"
             >
               {error.message || 'An error occurred while streaming the response.'}
+            </div>
+          )}
+          {isStreaming && (
+            <div className="flex justify-center py-2">
+              <StopButton onClick={stop} />
             </div>
           )}
           {isLoading && <TypingIndicator isVisible />}
