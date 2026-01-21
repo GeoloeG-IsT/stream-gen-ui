@@ -1,3 +1,7 @@
+# Load .env BEFORE any LangChain imports (tracing checks env vars at import time)
+from dotenv import load_dotenv
+load_dotenv()
+
 from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse
@@ -6,7 +10,7 @@ from pathlib import Path
 import logging
 import uuid
 
-from langchain_core.messages import HumanMessage, AIMessage, SystemMessage
+from langchain_core.messages import HumanMessage, AIMessage, AIMessageChunk, SystemMessage
 from langgraph.errors import GraphRecursionError
 
 from config import get_settings
@@ -169,12 +173,12 @@ async def stream_agent_response(messages: list, message_id: str):
             if isinstance(event, tuple) and len(event) == 2:
                 message_chunk, metadata = event
 
-                # Only stream AIMessage content (not tool calls or tool messages)
-                if hasattr(message_chunk, "content") and message_chunk.content:
-                    # Check if this is a reasoning/thought vs final response
-                    # For now, stream all as text-delta
-                    # TODO: Distinguish reasoning using metadata.langgraph_node
-                    yield format_text_delta(message_chunk.content, message_id)
+                # Only stream AIMessageChunk content (not tool calls or tool messages)
+                # ToolMessage contains raw search results - don't send to user
+                if isinstance(message_chunk, AIMessageChunk) and message_chunk.content:
+                    # Skip if this is a tool call (no text content for user)
+                    if not message_chunk.tool_calls:
+                        yield format_text_delta(message_chunk.content, message_id)
 
     except GraphRecursionError:
         logger.warning(f"Agent hit recursion limit ({recursion_limit})")

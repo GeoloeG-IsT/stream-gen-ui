@@ -25,13 +25,15 @@ class Settings(BaseSettings):
     agent_temperature: float = 0.0  # Deterministic for consistent responses
 
     # Observability (optional)
-    langsmith_api_key: str = ""  # Set via LANGSMITH_API_KEY for tracing
-    langsmith_project: str = "berlin-city-chatbot"
-    langsmith_tracing_v2: bool = False  # Enable LangSmith tracing
+    # NOTE: LangChain reads LANGCHAIN_* env vars automatically for tracing
+    langchain_api_key: str = ""  # Set via LANGCHAIN_API_KEY for tracing
+    langchain_project: str = "berlin-city-chatbot"
+    langchain_tracing_v2: bool = False  # Enable LangSmith tracing
 
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+        extra = "ignore"  # Allow extra env vars without error
 
 @lru_cache
 def get_settings() -> Settings:
