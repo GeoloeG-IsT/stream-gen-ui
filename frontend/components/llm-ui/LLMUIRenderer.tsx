@@ -14,7 +14,6 @@ import ReactMarkdown from 'react-markdown';
 
 import { CalendarEvent } from '@/components/shared/CalendarEvent';
 import { ContactCard } from '@/components/shared/ContactCard';
-import { ComponentSkeleton } from '@/components/shared/ComponentSkeleton';
 
 import type { CalendarEventProps, ContactCardProps } from '@/types';
 
@@ -61,7 +60,7 @@ class LLMUIErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryStat
 /**
  * Creates a block matcher for delimiter-based blocks.
  * Matches format: 【TYPE:{json}】
- * Shows skeleton while block is incomplete (streaming), renders component when complete.
+ * Renders nothing while block is incomplete, shows component when complete.
  */
 function createBlockMatcher<T extends ContactCardProps | CalendarEventProps>(
   blockType: 'CONTACT' | 'CALENDAR',
@@ -78,9 +77,9 @@ function createBlockMatcher<T extends ContactCardProps | CalendarEventProps>(
       // Check if this is a complete match (has closing delimiter)
       const isComplete = rawOutput.endsWith(endDelimiter);
 
-      // If incomplete, show skeleton
+      // If incomplete, render nothing (hide during streaming)
       if (!isComplete) {
-        return <ComponentSkeleton type={blockType === 'CONTACT' ? 'contact' : 'calendar'} />;
+        return null;
       }
 
       const jsonMatch = rawOutput.match(/【[A-Z]+:(\{[\s\S]*?\})】/);

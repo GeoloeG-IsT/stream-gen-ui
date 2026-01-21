@@ -7,7 +7,6 @@ import { Streamdown } from 'streamdown';
 
 import { CalendarEvent } from '@/components/shared/CalendarEvent';
 import { ContactCard } from '@/components/shared/ContactCard';
-import { ComponentSkeleton } from '@/components/shared/ComponentSkeleton';
 
 import type { CalendarEventProps, ContactCardProps } from '@/types';
 
@@ -52,13 +51,12 @@ class StreamdownErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundar
 }
 
 /**
- * Parsed content segment - either markdown text, a custom component, or a skeleton placeholder
+ * Parsed content segment - either markdown text or a custom component
  */
 type ContentSegment =
   | { type: 'markdown'; content: string }
   | { type: 'contactcard'; props: ContactCardProps }
-  | { type: 'calendarevent'; props: CalendarEventProps }
-  | { type: 'skeleton'; skeletonType: 'contact' | 'calendar' };
+  | { type: 'calendarevent'; props: CalendarEventProps };
 
 /**
  * Parse attributes from an XML tag string.
@@ -129,23 +127,21 @@ function toCalendarEventProps(attrs: Record<string, string>): CalendarEventProps
  * - Self-closing tags are not supported (use explicit closing tag)
  * - Content between tags (e.g., <tag>content</tag>) will not match
  *
- * During streaming, incomplete tags are detected and replaced with skeleton placeholders.
+ * During streaming, incomplete tags are detected and hidden until complete.
  */
 function parseContent(content: string, isStreaming: boolean): ContentSegment[] {
   const segments: ContentSegment[] = [];
 
-  // If streaming, check for incomplete tags at the end
+  // If streaming, check for incomplete tags at the end and hide them
   let contentToProcess = content;
-  let pendingSkeleton: 'contact' | 'calendar' | null = null;
 
   if (isStreaming) {
     // Find incomplete tag at end of content
     // Matches: <contactcard or <calendarevent followed by anything except closing ></tagname>
     const incompleteMatch = content.match(/<(contactcard|calendarevent)(?:(?!><\/\1>).)*$/i);
     if (incompleteMatch) {
-      // Remove incomplete tag from processing
+      // Remove incomplete tag from processing (hide until complete)
       contentToProcess = content.slice(0, incompleteMatch.index);
-      pendingSkeleton = incompleteMatch[1].toLowerCase() === 'contactcard' ? 'contact' : 'calendar';
     }
   }
 
@@ -197,11 +193,6 @@ function parseContent(content: string, isStreaming: boolean): ContentSegment[] {
     segments.push({ type: 'markdown', content: contentToProcess });
   }
 
-  // Add skeleton for incomplete tag at end
-  if (pendingSkeleton) {
-    segments.push({ type: 'skeleton', skeletonType: pendingSkeleton });
-  }
-
   return segments;
 }
 
@@ -236,10 +227,6 @@ function StreamdownRendererInner({
                 {segment.content}
               </Streamdown>
             );
-          }
-
-          if (segment.type === 'skeleton') {
-            return <ComponentSkeleton key={key} type={segment.skeletonType} />;
           }
 
           if (segment.type === 'contactcard') {
