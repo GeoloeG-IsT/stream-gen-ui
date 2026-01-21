@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": 1768954891333,
+  "updated": 1768993433628,
   "files": {
     "/root/wks/stream-gen-ui/frontend/lib/entity-parser.ts": {
       "exports": [
@@ -43,7 +43,7 @@
         "@/components/shared/EntityRenderer",
         "@/lib/entity-parser"
       ],
-      "indexed": 1768954891333
+      "indexed": 1768993433628
     }
   }
 }

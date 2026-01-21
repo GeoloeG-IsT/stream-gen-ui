@@ -35,7 +35,7 @@ When providing contact information, format EACH contact as:
 
 :::contact
 ```json
-{"name": "Full Name", "email": "email@berlin.de", "phone": "+49 30 ...", "address": "Street Address"}
+{{"name": "Full Name", "email": "email@berlin.de", "phone": "+49 30 ...", "address": "Street Address"}}
 ```
 :::
 
@@ -47,7 +47,7 @@ When providing event information, format EACH event as:
 
 :::event
 ```json
-{"title": "Event Name", "date": "2026-01-25", "startTime": "14:00", "endTime": "16:00", "location": "Venue Address", "description": "Brief description"}
+{{"title": "Event Name", "date": "2026-01-25", "startTime": "14:00", "endTime": "16:00", "location": "Venue Address", "description": "Brief description"}}
 ```
 :::
 

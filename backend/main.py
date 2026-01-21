@@ -23,7 +23,7 @@ from rag.chunking import chunk_all_knowledge
 from rag.vectorstore import init_vectorstore
 from rag.retriever import init_hybrid_retriever
 from agent import get_agent_graph, get_recursion_limit
-from streaming import format_text_delta, format_done, SSE_HEADERS
+from streaming import format_text_start, format_text_delta, format_done, SSE_HEADERS
 
 settings = get_settings()
 logger = logging.getLogger(__name__)
@@ -73,7 +73,11 @@ app = FastAPI(
 # CORS middleware for frontend integration
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000"],
+    allow_origins=[
+        "http://localhost:3000",
+        "http://188.245.108.179:3000",
+        "https://stream-gen-ui.vercel.app"
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -149,6 +153,9 @@ async def stream_agent_response(messages: list, message_id: str):
     """
     graph = get_agent_graph()
     recursion_limit = get_recursion_limit()
+
+    # REQUIRED by AI SDK v6: Send text-start before any text-delta events
+    yield format_text_start(message_id)
 
     try:
         # Stream with messages mode for token visibility

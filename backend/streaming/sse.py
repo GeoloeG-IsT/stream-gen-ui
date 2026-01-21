@@ -20,6 +20,24 @@ SSE_HEADERS = {
 }
 
 
+def format_text_start(message_id: str) -> str:
+    """Format text-start event to initialize a text part.
+
+    REQUIRED by AI SDK v6: Must be sent before any text-delta events.
+
+    Args:
+        message_id: Unique identifier for the text part
+
+    Returns:
+        SSE formatted string: data: {...}\n\n
+    """
+    event = {
+        "type": "text-start",
+        "id": message_id,
+    }
+    return f"data: {json.dumps(event)}\n\n"
+
+
 def format_text_delta(content: str, message_id: str) -> str:
     """Format a text content chunk as SSE event.
 

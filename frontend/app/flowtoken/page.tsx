@@ -18,12 +18,14 @@ export default function FlowTokenPage(): ReactElement {
   const [input, setInput] = useState('');
 
   // Point to backend agent API
+  // Use environment variable or fallback to public IP for cross-origin access
+  const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://188.245.108.179:8000';
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: 'http://localhost:8000/api/chat',
+        api: `${backendUrl}/api/chat`,
       }),
-    []
+    [backendUrl]
   );
 
   const { messages, sendMessage, status, error } = useChat({

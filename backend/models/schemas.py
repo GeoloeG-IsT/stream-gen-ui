@@ -1,5 +1,5 @@
-from pydantic import BaseModel
-from typing import Optional, Literal
+from pydantic import BaseModel, model_validator
+from typing import Optional, Literal, Any
 
 class RetrievalResult(BaseModel):
     """Single retrieval result from RAG system."""
@@ -25,13 +25,32 @@ class HealthResponse(BaseModel):
 
 # --- Agent schemas (Phase 3) ---
 
+class MessagePart(BaseModel):
+    """Single part of a message (AI SDK v6 format)."""
+    type: str
+    text: Optional[str] = None
+
+
 class MessageItem(BaseModel):
     """Single message in conversation history.
 
-    Matches AI SDK v6 message format.
+    Supports both legacy format (content string) and AI SDK v6 format (parts array).
     """
     role: Literal["user", "assistant", "system"]
-    content: str
+    content: Optional[str] = None
+    parts: Optional[list[MessagePart]] = None
+    id: Optional[str] = None  # AI SDK includes message ID
+
+    @model_validator(mode='after')
+    def extract_content_from_parts(self) -> 'MessageItem':
+        """Extract content from parts array if content not provided."""
+        if self.content is None and self.parts:
+            # Concatenate text from all text parts
+            text_parts = [p.text for p in self.parts if p.type == 'text' and p.text]
+            self.content = ''.join(text_parts)
+        if not self.content:
+            raise ValueError('Message must have content or text parts')
+        return self
 
 class AgentChatRequest(BaseModel):
     """Request body for streaming agent /api/chat endpoint.
