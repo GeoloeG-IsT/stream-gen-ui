@@ -81,6 +81,7 @@ app.add_middleware(
     allow_origins=[
         "http://localhost:3000",
         "http://188.245.108.179:3000",
+        "http://188.245.108.179:3001",
         "https://stream-gen-ui.vercel.app"
     ],
     allow_credentials=True,
