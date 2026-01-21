@@ -10,16 +10,16 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 3 of 3 (ReAct Agent + Streaming Integration)
-Plan: 03 of 06 completed
+Plan: 04 of 06 completed
 Status: In progress
-Last activity: 2026-01-21 — Completed 03-03-PLAN.md (LangGraph Agent Graph)
+Last activity: 2026-01-21 — Completed 03-04-PLAN.md (Streaming Chat Endpoint)
 
-Progress: [████████░░] 50% (3/6 plans completed)
+Progress: [████████░░] 67% (4/6 plans completed)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
+- Total plans completed: 8
 - Average duration: 4 min
 - Total execution time: 0.6 hours
 
@@ -29,10 +29,10 @@ Progress: [████████░░] 50% (3/6 plans completed)
 |-------|-------|-------|----------|
 | 01-frontend-reorganization | 1 | 10 min | 10 min |
 | 02-backend-foundation-rag | 3 | 17 min | 6 min |
-| 03-react-agent-streaming | 3 | 6 min | 2 min |
+| 03-react-agent-streaming | 4 | 9 min | 2 min |
 
 **Recent Trend:**
-- Last 3 plans: 2min, 2min, 2min
+- Last 3 plans: 2min, 2min, 3min
 - Trend: Consistent fast execution for infrastructure setup
 
 *Updated after each plan completion*
@@ -89,6 +89,13 @@ Recent decisions affecting current work:
 - Singleton pattern for agent graph instance (get_agent_graph())
 - Conditional routing checks tool_calls to decide tools vs end
 
+**From 03-04 (Streaming Chat Endpoint):**
+- Renamed /api/chat to /api/retrieve for backwards compatibility with Phase 2
+- New streaming /api/chat uses AgentChatRequest with messages array (AI SDK format)
+- stream_mode='messages' required for token-by-token streaming visibility
+- GraphRecursionError handled with user-friendly message
+- Agent pre-initialization in lifespan validates API key on startup
+
 ### Pending Todos
 
 None yet.
@@ -96,7 +103,7 @@ None yet.
 ### Blockers/Concerns
 
 **Research-identified risks:**
-- Phase 3: Streaming implementation must use `.astream()` not `.invoke()` (critical for SSE)
+- ~~Phase 3: Streaming implementation must use `.astream()` not `.invoke()` (critical for SSE)~~ Addressed in 03-04
 - ~~Phase 3: CORS configuration for localhost:3000 must be explicit (not wildcard)~~ Addressed in 02-01
 - ~~Phase 2: Embedding dimension consistency between indexing and querying (768d for all-mpnet-base-v2)~~ Addressed in 02-03
 - ~~Phase 2: Markdown chunking must preserve code blocks (use MarkdownHeaderTextSplitter)~~ Addressed in 02-03
@@ -108,6 +115,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-21 00:09:56 UTC
-Stopped at: Completed 03-03-PLAN.md - LangGraph Agent Graph complete
-Resume file: .planning/phases/03-react-agent-streaming/03-03-SUMMARY.md
+Last session: 2026-01-21 00:15:42 UTC
+Stopped at: Completed 03-04-PLAN.md - Streaming Chat Endpoint complete
+Resume file: .planning/phases/03-react-agent-streaming/03-04-SUMMARY.md
