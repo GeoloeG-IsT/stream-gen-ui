@@ -60,14 +60,15 @@ async def search_knowledge_base(query: str) -> str:
         if not unique_results:
             return "I didn't find any information matching that query. Try asking about contacts, events, or city services."
 
-        # Format results with source attribution
+        # Log sources for debugging (not sent to frontend)
         formatted_results = []
         for doc, score in unique_results[:5]:  # Top 5 results
             source = doc.metadata.get("attribution", "Unknown source")
             doc_type = doc.metadata.get("type", "general")
-            formatted_results.append(
-                f"[Source: {source} | Type: {doc_type} | Relevance: {score:.2f}]\n{doc.page_content}"
-            )
+            # Log source attribution for debugging/observability
+            logger.info(f"RAG result: source={source}, type={doc_type}, score={score:.2f}")
+            # Return content without source prefix (cleaner for frontend)
+            formatted_results.append(doc.page_content)
 
         return "\n\n---\n\n".join(formatted_results)
 
