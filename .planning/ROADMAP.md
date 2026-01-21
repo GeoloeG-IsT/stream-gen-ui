@@ -24,7 +24,7 @@
 - MARK-01: /api/chat accepts `marker` query param (xml, llm-ui)
 - MARK-02: ReAct agent system prompt adapts to marker strategy
 - MARK-03: XML format outputs `<contactcard>` and `<calendarevent>` tags
-- MARK-04: llm-ui format outputs `【CONTACT:{...}】` and `【CALENDAR:{...}】`
+- MARK-04: llm-ui format outputs `【CONTACT:{...}】` and `【CALENDAR:{...}】` format
 
 **Success Criteria:**
 1. GET /api/chat?marker=xml streams responses with XML entity tags
@@ -59,6 +59,14 @@ Plans:
 4. No incomplete XML tags visible during Streamdown streaming
 
 **Dependencies:** Phase 4 (marker strategy support)
+
+**Plans:** 4 plans
+
+Plans:
+- [ ] 05-01-PLAN.md — Shared infrastructure (sonner, StopButton, ComponentSkeleton)
+- [ ] 05-02-PLAN.md — Wire llm-ui page to backend with skeleton loading
+- [ ] 05-03-PLAN.md — Wire Streamdown page to backend with skeleton loading
+- [ ] 05-04-PLAN.md — Visual verification of both integrations
 
 ---
 
@@ -97,4 +105,4 @@ All v1.1 requirements mapped:
 
 ---
 *Roadmap created: 2026-01-21*
-*Last updated: 2026-01-21 — Phase 4 complete*
+*Last updated: 2026-01-21 — Phase 5 planned*
