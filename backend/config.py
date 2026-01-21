@@ -27,6 +27,7 @@ class Settings(BaseSettings):
     # Observability (optional)
     langsmith_api_key: str = ""  # Set via LANGSMITH_API_KEY for tracing
     langsmith_project: str = "berlin-city-chatbot"
+    langsmith_tracing_v2: bool = False  # Enable LangSmith tracing
 
     class Config:
         env_file = ".env"
