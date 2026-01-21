@@ -237,11 +237,7 @@ async def chat(request: ChatRequest):
 def format_contact_entity(name: str, email: str, phone: str):
     return f"""
 :::contact
-```json
 {{"name": "{name}", "email": "{email}", "phone": "{phone}"}}
-```
-:::
-"""
 
 # Option B: YAML-style markers
 def format_contact_entity_v2(name: str, email: str, phone: str):
@@ -265,6 +261,7 @@ phone: {phone}
 **When to use:** For production agents that call external APIs or unreliable tools.
 
 **Example:**
+
 ```python
 # Source: https://docs.langchain.com/oss/python/langchain/middleware/built-in
 from langgraph.prebuilt import create_react_agent
@@ -730,8 +727,8 @@ If some fields are missing (no phone number, no address), still show the contact
 ## Error handling
 - If knowledge base fails: "I couldn't access the knowledge base right now. Please try again."
 - If no results: "I didn't find any information about that. Try asking about contacts, events, or city services."
-"""
 
+```python
 prompt = ChatPromptTemplate.from_messages([
     ("system", AGENT_SYSTEM_PROMPT),
     ("placeholder", "{messages}")
