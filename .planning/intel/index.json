@@ -1,5 +1,49 @@
 {
   "version": 1,
-  "updated": 1768949279176,
-  "files": {}
+  "updated": 1768954891333,
+  "files": {
+    "/root/wks/stream-gen-ui/frontend/lib/entity-parser.ts": {
+      "exports": [
+        "parseEntities",
+        "hasEntityMarkers",
+        "EntityType",
+        "ParsedContact",
+        "ParsedEvent",
+        "ParsedEntity",
+        "ParseResult"
+      ],
+      "imports": [],
+      "indexed": 1768954801503
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/EntityRenderer.tsx": {
+      "exports": [
+        "EntityRenderer"
+      ],
+      "imports": [
+        "react",
+        "@/components/shared/ContactCard",
+        "@/components/shared/CalendarEvent"
+      ],
+      "indexed": 1768954831568
+    },
+    "/root/wks/stream-gen-ui/frontend/app/flowtoken/page.tsx": {
+      "exports": [
+        "default",
+        "FlowTokenPage"
+      ],
+      "imports": [
+        "react",
+        "@ai-sdk/react",
+        "ai",
+        "@/components/flowtoken/FlowTokenRenderer",
+        "@/components/shared/Header",
+        "@/components/shared/MessageBubble",
+        "@/components/shared/ChatInput",
+        "@/components/shared/TypingIndicator",
+        "@/components/shared/EntityRenderer",
+        "@/lib/entity-parser"
+      ],
+      "indexed": 1768954891333
+    }
+  }
 }

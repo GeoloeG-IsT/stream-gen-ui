@@ -1,8 +1,15 @@
-# Codebase Intelligence
+# Codebase Intelligence Summary
 
-**Indexed entities:** 22
-**Last updated:** 2026-01-20
+Last updated: 2026-01-21T00:21:31.335Z
+Indexed files: 3
 
-## Module Types
+## Naming Conventions
 
-- **Unknown**: 22 files
+- Export naming: PascalCase (78% of 7 exports)
+
+## Key Directories
+
+- `lib/`: Utility functions (1 files)
+- `components/`: UI components (1 files)
+
+Total exports: 9

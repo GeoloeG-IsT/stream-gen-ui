@@ -1,32 +1,22 @@
 {
   "version": 1,
-  "updated": 1737360330000,
+  "updated": 1768954891334,
   "naming": {
     "exports": {
       "dominant": "PascalCase",
-      "count": 42,
-      "percentage": 76
+      "count": 7,
+      "percentage": 78
     }
   },
   "directories": {
-    "app": { "purpose": "Next.js App Router pages and API routes", "files": 9 },
-    "components": { "purpose": "UI components", "files": 24 },
-    "components/shared": { "purpose": "Shared/reusable UI components", "files": 20 },
-    "components/flowtoken": { "purpose": "FlowToken library renderer", "files": 2 },
-    "components/llm-ui": { "purpose": "llm-ui library renderer", "files": 2 },
-    "components/streamdown": { "purpose": "Streamdown library renderer", "files": 2 },
-    "lib": { "purpose": "Utility functions and helpers", "files": 5 },
-    "types": { "purpose": "TypeScript type definitions", "files": 1 },
-    "contexts": { "purpose": "React context providers", "files": 2 }
+    "lib": {
+      "purpose": "Utility functions",
+      "files": 1
+    },
+    "components": {
+      "purpose": "UI components",
+      "files": 1
+    }
   },
-  "suffixes": {
-    ".test.ts": { "purpose": "Test files", "count": 3 },
-    ".test.tsx": { "purpose": "Test files (React components)", "count": 13 }
-  },
-  "patterns": {
-    "componentExports": "Named exports for components (e.g., export function Header)",
-    "pageExports": "Default exports for Next.js pages",
-    "typeExports": "Interfaces and types exported from types/index.ts",
-    "testColocation": "Tests colocated with source files (*.test.ts/tsx)"
-  }
+  "suffixes": {}
 }
