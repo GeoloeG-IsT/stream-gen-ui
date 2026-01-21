@@ -7,6 +7,7 @@ import { Streamdown } from 'streamdown';
 
 import { CalendarEvent } from '@/components/shared/CalendarEvent';
 import { ContactCard } from '@/components/shared/ContactCard';
+import { ComponentSkeleton } from '@/components/shared/ComponentSkeleton';
 
 import type { CalendarEventProps, ContactCardProps } from '@/types';
 
@@ -51,12 +52,13 @@ class StreamdownErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundar
 }
 
 /**
- * Parsed content segment - either markdown text or a custom component
+ * Parsed content segment - either markdown text, a custom component, or a skeleton placeholder
  */
 type ContentSegment =
   | { type: 'markdown'; content: string }
   | { type: 'contactcard'; props: ContactCardProps }
-  | { type: 'calendarevent'; props: CalendarEventProps };
+  | { type: 'calendarevent'; props: CalendarEventProps }
+  | { type: 'skeleton'; skeletonType: 'contact' | 'calendar' };
 
 /**
  * Parse attributes from an XML tag string.
@@ -127,10 +129,25 @@ function toCalendarEventProps(attrs: Record<string, string>): CalendarEventProps
  * - Self-closing tags are not supported (use explicit closing tag)
  * - Content between tags (e.g., <tag>content</tag>) will not match
  *
- * During streaming, incomplete tags are left in the markdown for graceful display.
+ * During streaming, incomplete tags are detected and replaced with skeleton placeholders.
  */
-function parseContent(content: string): ContentSegment[] {
+function parseContent(content: string, isStreaming: boolean): ContentSegment[] {
   const segments: ContentSegment[] = [];
+
+  // If streaming, check for incomplete tags at the end
+  let contentToProcess = content;
+  let pendingSkeleton: 'contact' | 'calendar' | null = null;
+
+  if (isStreaming) {
+    // Find incomplete tag at end of content
+    // Matches: <contactcard or <calendarevent followed by anything except closing ></tagname>
+    const incompleteMatch = content.match(/<(contactcard|calendarevent)(?:(?!><\/\1>).)*$/i);
+    if (incompleteMatch) {
+      // Remove incomplete tag from processing
+      contentToProcess = content.slice(0, incompleteMatch.index);
+      pendingSkeleton = incompleteMatch[1].toLowerCase() === 'contactcard' ? 'contact' : 'calendar';
+    }
+  }
 
   // Pattern to match complete custom elements (non-greedy, handles both tags)
   // Matches: <tagname attr="value" ...></tagname>
@@ -139,10 +156,10 @@ function parseContent(content: string): ContentSegment[] {
   let lastIndex = 0;
   let match;
 
-  while ((match = customTagPattern.exec(content)) !== null) {
+  while ((match = customTagPattern.exec(contentToProcess)) !== null) {
     // Add markdown segment before this match
     if (match.index > lastIndex) {
-      const markdownContent = content.slice(lastIndex, match.index);
+      const markdownContent = contentToProcess.slice(lastIndex, match.index);
       if (markdownContent.trim()) {
         segments.push({ type: 'markdown', content: markdownContent });
       }
@@ -167,17 +184,22 @@ function parseContent(content: string): ContentSegment[] {
     lastIndex = match.index + match[0].length;
   }
 
-  // Add remaining markdown content (including any incomplete tags during streaming)
-  if (lastIndex < content.length) {
-    const remainingContent = content.slice(lastIndex);
+  // Add remaining markdown content
+  if (lastIndex < contentToProcess.length) {
+    const remainingContent = contentToProcess.slice(lastIndex);
     if (remainingContent.trim()) {
       segments.push({ type: 'markdown', content: remainingContent });
     }
   }
 
   // If no segments were created, treat entire content as markdown
-  if (segments.length === 0 && content.trim()) {
-    segments.push({ type: 'markdown', content });
+  if (segments.length === 0 && contentToProcess.trim()) {
+    segments.push({ type: 'markdown', content: contentToProcess });
+  }
+
+  // Add skeleton for incomplete tag at end
+  if (pendingSkeleton) {
+    segments.push({ type: 'skeleton', skeletonType: pendingSkeleton });
   }
 
   return segments;
@@ -195,7 +217,7 @@ function StreamdownRendererInner({
   isStreaming = false,
 }: StreamdownRendererProps): ReactElement {
   // Parse content into segments (memoized for performance)
-  const segments = useMemo(() => parseContent(content), [content]);
+  const segments = useMemo(() => parseContent(content, isStreaming), [content, isStreaming]);
 
   return (
     <StreamdownErrorBoundary
@@ -216,12 +238,24 @@ function StreamdownRendererInner({
             );
           }
 
+          if (segment.type === 'skeleton') {
+            return <ComponentSkeleton key={key} type={segment.skeletonType} />;
+          }
+
           if (segment.type === 'contactcard') {
-            return <ContactCard key={key} {...segment.props} />;
+            return (
+              <div key={key} className="component-fade-in">
+                <ContactCard {...segment.props} />
+              </div>
+            );
           }
 
           if (segment.type === 'calendarevent') {
-            return <CalendarEvent key={key} {...segment.props} />;
+            return (
+              <div key={key} className="component-fade-in">
+                <CalendarEvent {...segment.props} />
+              </div>
+            );
           }
 
           return null;
