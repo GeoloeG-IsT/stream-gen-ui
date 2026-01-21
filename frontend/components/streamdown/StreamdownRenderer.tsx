@@ -137,17 +137,17 @@ function parseContent(content: string, isStreaming: boolean): ContentSegment[] {
 
   if (isStreaming) {
     // Find incomplete tag at end of content
-    // Matches: <contactcard or <calendarevent followed by anything except closing ></tagname>
-    const incompleteMatch = content.match(/<(contactcard|calendarevent)(?:(?!><\/\1>).)*$/i);
+    // Matches: <contactcard or <calendarevent followed by anything except /> (self-closing)
+    const incompleteMatch = content.match(/<(contactcard|calendarevent)(?:(?!\s*\/>).)*$/i);
     if (incompleteMatch) {
       // Remove incomplete tag from processing (hide until complete)
       contentToProcess = content.slice(0, incompleteMatch.index);
     }
   }
 
-  // Pattern to match complete custom elements (non-greedy, handles both tags)
-  // Matches: <tagname attr="value" ...></tagname>
-  const customTagPattern = /<(contactcard|calendarevent)([^>]*)><\/\1>/gi;
+  // Pattern to match complete self-closing custom elements
+  // Matches: <tagname attr="value" ... />
+  const customTagPattern = /<(contactcard|calendarevent)([^>]*)\s*\/>/gi;
 
   let lastIndex = 0;
   let match;
@@ -212,7 +212,6 @@ function StreamdownRendererInner({
 
   return (
     <StreamdownErrorBoundary
-      key={content.length}
       fallback={<pre className="whitespace-pre-wrap text-sm text-gray-600">{content}</pre>}
     >
       <div className="streamdown-output" role="region" aria-label="Streamdown generated content">

@@ -191,14 +191,13 @@ function LLMUIRendererInner({
 
   return (
     <LLMUIErrorBoundary
-      key={content.length}
       fallback={<pre className="whitespace-pre-wrap text-sm text-gray-600">{content}</pre>}
     >
       <div className="llm-ui-output" role="region" aria-label="LLM generated content">
         {blockMatches.map((match) => {
           const BlockComponent = match.block.component;
-          // Use stable key based on match position to avoid React reconciliation issues
-          const stableKey = `${match.startIndex}-${match.endIndex}`;
+          // Use stable key based on startIndex only (endIndex changes during streaming)
+          const stableKey = `block-${match.startIndex}`;
           return <BlockComponent key={stableKey} blockMatch={match} />;
         })}
       </div>

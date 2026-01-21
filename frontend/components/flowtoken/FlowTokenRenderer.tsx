@@ -1,4 +1,4 @@
-import { Component } from 'react';
+import { Component, useMemo } from 'react';
 import type { ReactElement, ReactNode, ErrorInfo } from 'react';
 
 import { AnimatedMarkdown } from 'flowtoken';
@@ -9,6 +9,22 @@ import { ContactCard } from '@/components/shared/ContactCard';
 export interface FlowTokenRendererProps {
   content: string;
   isStreaming?: boolean;
+}
+
+/**
+ * Filter out incomplete XML tags from content during streaming.
+ * Returns content with incomplete tags removed.
+ */
+function filterIncompleteXml(content: string, isStreaming: boolean): string {
+  if (!isStreaming) return content;
+
+  // Find incomplete self-closing tag at end of content
+  // Matches: <contactcard or <calendarevent followed by anything except />
+  const incompleteMatch = content.match(/<(contactcard|calendarevent)(?:(?!\s*\/>).)*$/i);
+  if (incompleteMatch && incompleteMatch.index !== undefined) {
+    return content.slice(0, incompleteMatch.index);
+  }
+  return content;
 }
 
 /**
@@ -50,12 +66,18 @@ export function FlowTokenRenderer({
   content,
   isStreaming = false,
 }: FlowTokenRendererProps): ReactElement {
+  // Filter out incomplete XML tags during streaming
+  const filteredContent = useMemo(
+    () => filterIncompleteXml(content, isStreaming),
+    [content, isStreaming]
+  );
+
   return (
     <FlowTokenErrorBoundary
       fallback={<pre className="whitespace-pre-wrap text-sm text-gray-600">{content}</pre>}
     >
       <AnimatedMarkdown
-        content={content}
+        content={filteredContent}
         animation={isStreaming ? 'fadeIn' : null}
         customComponents={{
           // FlowToken lowercases tag names when parsing, so use lowercase keys
