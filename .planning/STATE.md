@@ -10,17 +10,17 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 3 of 3 (ReAct Agent + Streaming Integration)
-Plan: 02 of 06 completed
+Plan: 03 of 06 completed
 Status: In progress
-Last activity: 2026-01-21 — Completed 03-02-PLAN.md (SSE Streaming Utilities)
+Last activity: 2026-01-21 — Completed 03-03-PLAN.md (LangGraph Agent Graph)
 
-Progress: [███████░░░] 33% (2/6 plans completed)
+Progress: [████████░░] 50% (3/6 plans completed)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 6
-- Average duration: 5 min
+- Total plans completed: 7
+- Average duration: 4 min
 - Total execution time: 0.6 hours
 
 **By Phase:**
@@ -29,11 +29,11 @@ Progress: [███████░░░] 33% (2/6 plans completed)
 |-------|-------|-------|----------|
 | 01-frontend-reorganization | 1 | 10 min | 10 min |
 | 02-backend-foundation-rag | 3 | 17 min | 6 min |
-| 03-react-agent-streaming | 2 | 4 min | 2 min |
+| 03-react-agent-streaming | 3 | 6 min | 2 min |
 
 **Recent Trend:**
 - Last 3 plans: 2min, 2min, 2min
-- Trend: Very fast execution for infrastructure setup
+- Trend: Consistent fast execution for infrastructure setup
 
 *Updated after each plan completion*
 
@@ -82,6 +82,13 @@ Recent decisions affecting current work:
 - TOP 3 entity limit to prevent overwhelming responses
 - Prompt-parser synchronization: identical marker syntax in system prompt and parser
 
+**From 03-03 (LangGraph Agent Graph):**
+- Mistral LLM with streaming=True is CRITICAL for token-by-token visibility
+- Recursion limit formula: 2 * max_iterations + 1 (LangGraph counts each step)
+- Agent temperature 0.0 for deterministic responses
+- Singleton pattern for agent graph instance (get_agent_graph())
+- Conditional routing checks tool_calls to decide tools vs end
+
 ### Pending Todos
 
 None yet.
@@ -101,6 +108,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-21 00:04:11 UTC
-Stopped at: Completed 03-02-PLAN.md - SSE Streaming Utilities complete
-Resume file: .planning/phases/03-react-agent-streaming/03-02-SUMMARY.md
+Last session: 2026-01-21 00:09:56 UTC
+Stopped at: Completed 03-03-PLAN.md - LangGraph Agent Graph complete
+Resume file: .planning/phases/03-react-agent-streaming/03-03-SUMMARY.md
