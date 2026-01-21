@@ -1,5 +1,11 @@
 from pydantic import BaseModel, model_validator
 from typing import Optional, Literal, Any
+from enum import Enum
+
+class MarkerStrategy(str, Enum):
+    """Output format strategy for entity markers."""
+    XML = "xml"
+    LLM_UI = "llm-ui"
 
 class RetrievalResult(BaseModel):
     """Single retrieval result from RAG system."""
