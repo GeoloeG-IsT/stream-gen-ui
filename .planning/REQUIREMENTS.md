@@ -9,10 +9,10 @@ Requirements for Renderer Integration milestone. Completes all three renderer im
 
 ### Backend Marker Strategy
 
-- [ ] **MARK-01**: /api/chat accepts `marker` query param to select output format (xml, llm-ui)
-- [ ] **MARK-02**: ReAct agent system prompt adapts entity formatting based on marker strategy
-- [ ] **MARK-03**: XML marker strategy outputs `<contactcard name="..." email="..."></contactcard>` and `<calendarevent title="..." date="..."></calendarevent>` tags
-- [ ] **MARK-04**: llm-ui marker strategy outputs `【CONTACT:{"name":"..."}】` and `【CALENDAR:{"title":"..."}】` format
+- [x] **MARK-01**: /api/chat accepts `marker` query param to select output format (xml, llm-ui)
+- [x] **MARK-02**: ReAct agent system prompt adapts entity formatting based on marker strategy
+- [x] **MARK-03**: XML marker strategy outputs `<contactcard name="..." email="..."></contactcard>` and `<calendarevent title="..." date="..."></calendarevent>` tags
+- [x] **MARK-04**: llm-ui marker strategy outputs `【CONTACT:{"name":"..."}】` and `【CALENDAR:{"title":"..."}】` format
 
 ### Renderer Wiring
 
@@ -58,10 +58,10 @@ Explicitly excluded from this milestone.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| MARK-01 | Phase 4 | Pending |
-| MARK-02 | Phase 4 | Pending |
-| MARK-03 | Phase 4 | Pending |
-| MARK-04 | Phase 4 | Pending |
+| MARK-01 | Phase 4 | Complete |
+| MARK-02 | Phase 4 | Complete |
+| MARK-03 | Phase 4 | Complete |
+| MARK-04 | Phase 4 | Complete |
 | WIRE-01 | Phase 5 | Pending |
 | WIRE-02 | Phase 5 | Pending |
 | UX-01 | Phase 5 | Pending |
@@ -75,4 +75,4 @@ Explicitly excluded from this milestone.
 
 ---
 *Requirements defined: 2026-01-21*
-*Last updated: 2026-01-21 after initial definition*
+*Last updated: 2026-01-21 — Phase 4 requirements complete*

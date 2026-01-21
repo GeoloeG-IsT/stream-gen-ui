@@ -6,11 +6,11 @@
 
 ## Phase Overview
 
-| Phase | Name | Goal | Requirements | Success Criteria |
-|-------|------|------|--------------|------------------|
-| 4 | Backend Marker Strategy | Backend supports multiple marker formats via query param | MARK-01, MARK-02, MARK-03, MARK-04 | 4 |
-| 5 | Renderer Integration | All renderers connected to live backend with UX fixes | WIRE-01, WIRE-02, UX-01, UX-02 | 4 |
-| 6 | Cleanup | Remove dead code and polish | CLEAN-01 | 2 |
+| Phase | Name | Goal | Requirements | Success Criteria | Status |
+|-------|------|------|--------------|------------------|--------|
+| 4 | Backend Marker Strategy | Backend supports multiple marker formats via query param | MARK-01, MARK-02, MARK-03, MARK-04 | 4 | ✓ Complete |
+| 5 | Renderer Integration | All renderers connected to live backend with UX fixes | WIRE-01, WIRE-02, UX-01, UX-02 | 4 | Pending |
+| 6 | Cleanup | Remove dead code and polish | CLEAN-01 | 2 | Pending |
 
 **Total:** 3 phases | 9 requirements | All mapped
 
@@ -37,8 +37,8 @@
 **Plans:** 2 plans
 
 Plans:
-- [ ] 04-01-PLAN.md — Add marker query param to /api/chat with validation
-- [ ] 04-02-PLAN.md — Implement marker-aware prompt system and agent wiring
+- [x] 04-01-PLAN.md — Add marker query param to /api/chat with validation
+- [x] 04-02-PLAN.md — Implement marker-aware prompt system and agent wiring
 
 ---
 
@@ -97,4 +97,4 @@ All v1.1 requirements mapped:
 
 ---
 *Roadmap created: 2026-01-21*
-*Last updated: 2026-01-21*
+*Last updated: 2026-01-21 — Phase 4 complete*
