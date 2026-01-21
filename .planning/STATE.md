@@ -5,22 +5,22 @@
 See: .planning/PROJECT.md (updated 2026-01-20)
 
 **Core value:** The chatbot returns accurate, well-formatted responses with Contact cards and Calendar events rendered as rich UI components when relevant.
-**Current focus:** Phase 2: Backend Foundation - RAG (COMPLETE)
+**Current focus:** Phase 3: ReAct Agent + Streaming Integration
 
 ## Current Position
 
-Phase: 2 of 3 (Backend Foundation - RAG)
-Plan: 03 of 03 completed
-Status: Phase complete
-Last activity: 2026-01-20 — Completed 02-03-PLAN.md (RAG Pipeline)
+Phase: 3 of 3 (ReAct Agent + Streaming Integration)
+Plan: 01 of 06 completed
+Status: In progress
+Last activity: 2026-01-21 — Completed 03-01-PLAN.md (Agent Foundation)
 
-Progress: [██████████] 100% (4/4 plans completed)
+Progress: [████░░░░░░] 17% (1/6 plans completed)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 4
-- Average duration: 7 min
+- Total plans completed: 5
+- Average duration: 6 min
 - Total execution time: 0.5 hours
 
 **By Phase:**
@@ -29,10 +29,11 @@ Progress: [██████████] 100% (4/4 plans completed)
 |-------|-------|-------|----------|
 | 01-frontend-reorganization | 1 | 10 min | 10 min |
 | 02-backend-foundation-rag | 3 | 17 min | 6 min |
+| 03-react-agent-streaming | 1 | 2 min | 2 min |
 
 **Recent Trend:**
-- Last 3 plans: 4min, 11min, 2min
-- Trend: Fast execution, RAG pipeline straightforward implementation
+- Last 3 plans: 11min, 2min, 2min
+- Trend: Fast execution continuing in phase 3
 
 *Updated after each plan completion*
 
@@ -68,6 +69,12 @@ Recent decisions affecting current work:
 - Lifespan auto-initialization - ensures RAG ready on server start
 - 400 chunks created from knowledge base with source attribution
 
+**From 03-01 (Agent Foundation):**
+- add_messages annotation for AgentState - enables proper message accumulation across ReAct cycles
+- 30-second timeout on tool execution - prevents hanging queries
+- Detailed tool descriptions with when to use/NOT to use - reduces tool misuse
+- Top 5 results with source attribution - balances context quality vs token cost
+
 ### Pending Todos
 
 None yet.
@@ -87,6 +94,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-20 23:00:09 UTC
-Stopped at: Completed 02-03-PLAN.md - RAG Pipeline complete
-Resume file: .planning/phases/02-backend-foundation-rag/02-03-SUMMARY.md
+Last session: 2026-01-21 00:04:04 UTC
+Stopped at: Completed 03-01-PLAN.md - Agent Foundation complete
+Resume file: .planning/phases/03-react-agent-streaming/03-01-SUMMARY.md
