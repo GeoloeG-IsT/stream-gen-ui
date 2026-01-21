@@ -2,76 +2,53 @@
 
 ## Project Reference
 
-See: .planning/PROJECT.md (updated 2026-01-20)
+See: .planning/PROJECT.md (updated 2026-01-21)
 
 **Core value:** The chatbot returns accurate, well-formatted responses with Contact cards and Calendar events rendered as rich UI components when relevant.
-**Current focus:** Milestone v1.0 Complete
+**Current focus:** Planning next milestone
 
 ## Current Position
 
-Phase: 3 of 3 (ReAct Agent + Streaming Integration)
-Plan: 06 of 06 completed
-Status: Milestone complete
-Last activity: 2026-01-21 — Completed Phase 3 with E2E verification
+Phase: N/A (milestone complete)
+Plan: N/A
+Status: Ready for next milestone
+Last activity: 2026-01-21 — v1.0 milestone shipped
 
-Progress: [██████████] 100% (10/10 plans completed)
+Progress: ✅ v1.0 shipped — run `/gsd:new-milestone` for next version
 
-## Performance Metrics
+## v1.0 Performance Summary
+
+**Delivered:**
+- 3 phases, 10 plans, 28 requirements
+- ~6,400 LOC (5,162 TypeScript, 1,249 Python)
+- 3 days from start to ship
 
 **Velocity:**
-- Total plans completed: 10
+- Total plans: 10
 - Average duration: 4 min
 - Total execution time: ~45 min
 
-**By Phase:**
-
-| Phase | Plans | Total | Avg/Plan |
-|-------|-------|-------|----------|
-| 01-frontend-reorganization | 1 | 10 min | 10 min |
-| 02-backend-foundation-rag | 3 | 17 min | 6 min |
-| 03-react-agent-streaming | 6 | 18 min | 3 min |
-
-**Recent Trend:**
-- Phase 3 plans executed efficiently with parallel waves
-- E2E verification passed on first attempt
-
-*Updated after each plan completion*
+**Archived:**
+- milestones/v1.0-ROADMAP.md
+- milestones/v1.0-REQUIREMENTS.md
+- milestones/v1.0-MILESTONE-AUDIT.md
 
 ## Accumulated Context
 
 ### Decisions
 
-Decisions are logged in PROJECT.md Key Decisions table.
-Recent decisions affecting current work:
-
-- Frontend reorganization first: Clean separation before adding backend
-- Mistral LLM: User preference for European data residency
-- FastAPI backend: User preference, good SSE support
-- LangChain/LangGraph: User preference, ReAct agent support
-- Fictional city data: PoC doesn't need real data
-
-**From Phase 3:**
-- AgentState TypedDict uses add_messages annotation for message accumulation
-- RAG tool has 30s timeout with detailed description for agent guidance
-- AI SDK v6 requires x-vercel-ai-ui-message-stream: v1 header
-- Entity markers: :::contact and :::event with embedded JSON
-- Source attribution logged server-side only (user request during E2E verification)
-- stream_mode="messages" for token-by-token streaming
-- Recursion limit formula: 2 * max_iterations + 1 = 11
+All v1.0 decisions documented in PROJECT.md Key Decisions table with outcomes.
 
 ### Pending Todos
 
-None - milestone complete.
+None — ready for next milestone.
 
 ### Blockers/Concerns
 
-All concerns addressed during Phase 3 execution:
-- ~~Streaming implementation must use `.astream()` not `.invoke()`~~ Done
-- ~~CORS configuration must be explicit (not wildcard)~~ Done
-- ~~Structured output requires entity marker format~~ Done
+None — v1.0 shipped successfully.
 
 ## Session Continuity
 
 Last session: 2026-01-21
-Stopped at: Milestone v1.0 complete
-Resume file: N/A - ready for /gsd:audit-milestone
+Stopped at: v1.0 milestone complete
+Resume file: N/A — run `/gsd:new-milestone` to start v1.1 or v2.0
