@@ -10,17 +10,17 @@ See: .planning/PROJECT.md (updated 2026-01-20)
 ## Current Position
 
 Phase: 3 of 3 (ReAct Agent + Streaming Integration)
-Plan: 04 of 06 completed
+Plan: 05 of 06 completed
 Status: In progress
-Last activity: 2026-01-21 — Completed 03-04-PLAN.md (Streaming Chat Endpoint)
+Last activity: 2026-01-21 — Completed 03-05-PLAN.md (Frontend Entity Parsing and Rendering)
 
-Progress: [████████░░] 67% (4/6 plans completed)
+Progress: [█████████░] 83% (5/6 plans completed)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: 4 min
+- Total plans completed: 9
+- Average duration: 3 min
 - Total execution time: 0.6 hours
 
 **By Phase:**
@@ -29,10 +29,10 @@ Progress: [████████░░] 67% (4/6 plans completed)
 |-------|-------|-------|----------|
 | 01-frontend-reorganization | 1 | 10 min | 10 min |
 | 02-backend-foundation-rag | 3 | 17 min | 6 min |
-| 03-react-agent-streaming | 4 | 9 min | 2 min |
+| 03-react-agent-streaming | 5 | 11 min | 2 min |
 
 **Recent Trend:**
-- Last 3 plans: 2min, 2min, 3min
+- Last 3 plans: 2min, 3min, 2min
 - Trend: Consistent fast execution for infrastructure setup
 
 *Updated after each plan completion*
@@ -96,6 +96,13 @@ Recent decisions affecting current work:
 - GraphRecursionError handled with user-friendly message
 - Agent pre-initialization in lifespan validates API key on startup
 
+**From 03-05 (Frontend Entity Parsing and Rendering):**
+- Entity parser regex matches exact backend format (:::contact, :::event with JSON code blocks)
+- EntityRenderer accepts custom renderText function for FlowTokenRenderer integration
+- FlowToken page points to http://localhost:8000/api/chat (backend agent API)
+- Entity detection uses hasEntityMarkers() to determine rendering path
+- Pulse indicator shows incomplete entities during active streaming
+
 ### Pending Todos
 
 None yet.
@@ -115,6 +122,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-21 00:15:42 UTC
-Stopped at: Completed 03-04-PLAN.md - Streaming Chat Endpoint complete
-Resume file: .planning/phases/03-react-agent-streaming/03-04-SUMMARY.md
+Last session: 2026-01-21 00:22:14 UTC
+Stopped at: Completed 03-05-PLAN.md - Frontend Entity Parsing and Rendering complete
+Resume file: .planning/phases/03-react-agent-streaming/03-05-SUMMARY.md
