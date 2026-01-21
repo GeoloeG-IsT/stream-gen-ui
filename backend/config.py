@@ -17,6 +17,17 @@ class Settings(BaseSettings):
     bm25_weight: float = 0.2
     semantic_weight: float = 0.8
 
+    # Agent
+    mistral_model: str = "mistral-large-latest"
+    mistral_api_key: str = ""  # Required - set via MISTRAL_API_KEY env var
+    agent_max_iterations: int = 5
+    agent_timeout_seconds: int = 30
+    agent_temperature: float = 0.0  # Deterministic for consistent responses
+
+    # Observability (optional)
+    langsmith_api_key: str = ""  # Set via LANGSMITH_API_KEY for tracing
+    langsmith_project: str = "berlin-city-chatbot"
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
