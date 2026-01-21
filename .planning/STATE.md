@@ -10,12 +10,12 @@ See: .planning/PROJECT.md (updated 2026-01-21)
 ## Current Position
 
 Phase: 5 (Renderer Integration)
-Plan: —
-Status: Ready to plan
-Last activity: 2026-01-21 — Phase 4 complete, verified ✓
+Plan: 1 of 3 complete
+Status: In progress
+Last activity: 2026-01-21 — Completed 05-01-PLAN.md
 Branch: feature/v1.1-renderer-integration
 
-Progress: ███░░░░░░░ 1/3 phases
+Progress: ███░░░░░░░ 1/3 phases (plan 1/3 in phase 5)
 
 ## v1.0 Performance Summary
 
@@ -54,6 +54,15 @@ All v1.0 decisions documented in PROJECT.md Key Decisions table with outcomes.
 | 04-02 | llm-ui: Chinese brackets with JSON | Match llm-ui renderer expectations | Compatible with llm-ui library |
 | 04-02 | Unified field names across formats | Consistent data model regardless of output format | Frontend parsers have consistent field access |
 
+**v1.1 Phase 05:**
+
+| Phase | Decision | Rationale | Outcome |
+|-------|----------|-----------|---------|
+| 05-01 | Toaster positioned bottom-right | Standard location, non-intrusive | Consistent toast UX |
+| 05-01 | ComponentSkeleton uses type prop | Single component handles both contact/calendar variants | Simpler API for consumers |
+| 05-01 | Fade animation 150ms ease-out | Quick but visible transition | Smooth skeleton-to-component feel |
+| 05-01 | Reduced motion support for fade | Accessibility best practice | Respects user preferences |
+
 ### Pending Todos
 
 None
@@ -65,5 +74,5 @@ None
 ## Session Continuity
 
 Last session: 2026-01-21
-Stopped at: Phase 4 verified, ready for Phase 5
-Resume file: N/A — run `/gsd:plan-phase 5` or `/gsd:discuss-phase 5` to continue
+Stopped at: Completed 05-01-PLAN.md
+Resume file: .planning/phases/05-renderer-integration/05-02-PLAN.md
