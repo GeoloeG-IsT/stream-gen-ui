@@ -2,44 +2,45 @@
 
 import type { ReactElement } from 'react';
 
-import { User, Calendar, FileText, Layers, Grid } from 'lucide-react';
+import { User, Calendar, HelpCircle, Sparkles, Rocket } from 'lucide-react';
 
 import { cn } from '@/lib/utils';
 import type { PresetSelectorProps, PresetOption } from '@/types';
 
 /**
  * Available content presets with their trigger messages
+ * Designed to test different response scenarios for Berlin city assistant
  */
 const PRESET_OPTIONS: PresetOption[] = [
   {
-    id: 'contact',
-    label: 'Contact',
-    message: 'Show me a contact',
+    id: 'no-results',
+    label: 'No results',
+    message: 'Who handles penguin complaints in Berlin?',
+    icon: 'help-circle',
+  },
+  {
+    id: 'contacts',
+    label: 'Contacts',
+    message: 'Who works in the Parks department?',
     icon: 'user',
   },
   {
-    id: 'calendar',
-    label: 'Calendar',
-    message: 'Schedule a meeting',
+    id: 'events',
+    label: 'Events',
+    message: 'What events are happening this month?',
     icon: 'calendar',
   },
   {
     id: 'both',
     label: 'Both',
-    message: 'Show me everything',
-    icon: 'layers',
+    message: 'Tell me about the culture department and their upcoming events',
+    icon: 'sparkles',
   },
   {
-    id: 'text',
-    label: 'Text Only',
-    message: 'Just text please',
-    icon: 'file-text',
-  },
-  {
-    id: 'multi',
-    label: 'Multiple',
-    message: 'Show multiple items',
-    icon: 'grid',
+    id: 'out-of-scope',
+    label: 'Off-topic',
+    message: 'Can you help me debug my mass spectrometer?',
+    icon: 'rocket',
   },
 ];
 
@@ -49,9 +50,9 @@ const PRESET_OPTIONS: PresetOption[] = [
 const ICONS: Record<string, typeof User> = {
   user: User,
   calendar: Calendar,
-  'file-text': FileText,
-  layers: Layers,
-  grid: Grid,
+  'help-circle': HelpCircle,
+  sparkles: Sparkles,
+  rocket: Rocket,
 };
 
 /**

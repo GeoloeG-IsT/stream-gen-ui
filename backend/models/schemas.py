@@ -4,7 +4,8 @@ from enum import Enum
 
 class MarkerStrategy(str, Enum):
     """Output format strategy for entity markers."""
-    XML = "xml"
+    STREAMDOWN = "streamdown"
+    FLOWTOKEN = "flowtoken"
     LLM_UI = "llm-ui"
 
 class RetrievalResult(BaseModel):

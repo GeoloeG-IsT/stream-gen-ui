@@ -11,7 +11,6 @@ import { LLMUIRenderer } from '@/components/llm-ui/LLMUIRenderer';
 import { Header } from '@/components/shared/Header';
 import { MessageBubble } from '@/components/shared/MessageBubble';
 import { ChatInput } from '@/components/shared/ChatInput';
-import { TypingIndicator } from '@/components/shared/TypingIndicator';
 import { StopButton } from '@/components/shared/StopButton';
 
 export default function LlmUiPage(): ReactElement {
@@ -36,8 +35,8 @@ export default function LlmUiPage(): ReactElement {
       const message = err.message.includes('fetch')
         ? 'Network error - check your connection'
         : err.message.includes('500')
-        ? 'Server error - please try again'
-        : 'An error occurred';
+          ? 'Server error - please try again'
+          : 'An error occurred';
       toast.error(message);
     },
   });
@@ -172,7 +171,6 @@ export default function LlmUiPage(): ReactElement {
               <StopButton onClick={stop} />
             </div>
           )}
-          {isLoading && <TypingIndicator isVisible />}
           <ChatInput
             value={input}
             onChange={handleInputChange}

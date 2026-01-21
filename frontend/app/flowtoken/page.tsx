@@ -10,7 +10,6 @@ import { FlowTokenRenderer } from '@/components/flowtoken/FlowTokenRenderer';
 import { Header } from '@/components/shared/Header';
 import { MessageBubble } from '@/components/shared/MessageBubble';
 import { ChatInput } from '@/components/shared/ChatInput';
-import { TypingIndicator } from '@/components/shared/TypingIndicator';
 import { EntityRenderer } from '@/components/shared/EntityRenderer';
 import { parseEntities, hasEntityMarkers } from '@/lib/entity-parser';
 
@@ -23,7 +22,7 @@ export default function FlowTokenPage(): ReactElement {
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: `${backendUrl}/api/chat?marker=xml`,
+        api: `${backendUrl}/api/chat?marker=flowtoken`,
       }),
     [backendUrl]
   );
@@ -174,7 +173,6 @@ export default function FlowTokenPage(): ReactElement {
               {error.message || 'An error occurred while streaming the response.'}
             </div>
           )}
-          {isLoading && <TypingIndicator isVisible />}
           <ChatInput
             value={input}
             onChange={handleInputChange}

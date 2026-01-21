@@ -205,7 +205,7 @@ async def stream_agent_response(messages: list, message_id: str, marker: str):
 @app.post("/api/chat")
 async def chat_stream(
     request: AgentChatRequest,
-    marker: str = "xml"
+    marker: str = "streamdown"
 ):
     """
     Streaming chat endpoint with ReAct agent.
@@ -220,7 +220,7 @@ async def chat_stream(
 
     Args:
         request: Chat request with messages array
-        marker: Output format strategy ("xml" or "llm-ui"), defaults to "xml"
+        marker: Output format strategy ("streamdown", "flowtoken", or "llm-ui"), defaults to "streamdown"
     """
     # Validate marker parameter
     valid_markers = [m.value for m in MarkerStrategy]

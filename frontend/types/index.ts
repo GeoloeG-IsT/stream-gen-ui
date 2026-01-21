@@ -83,13 +83,6 @@ export interface MessageBubbleProps {
 }
 
 /**
- * Props for TypingIndicator component
- */
-export interface TypingIndicatorProps {
-  isVisible: boolean;
-}
-
-/**
  * Props for MessageList component
  */
 export interface MessageListProps {

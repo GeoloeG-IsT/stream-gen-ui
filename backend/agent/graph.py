@@ -25,11 +25,11 @@ from agent.prompts import get_agent_prompt
 logger = logging.getLogger(__name__)
 
 
-def create_agent_graph(marker: str = "xml"):
+def create_agent_graph(marker: str = "streamdown"):
     """Create and compile the ReAct agent graph.
 
     Args:
-        marker: Output format strategy ("xml" or "llm-ui")
+        marker: Output format strategy ("streamdown", "flowtoken", or "llm-ui")
 
     Returns:
         Compiled LangGraph state machine ready for streaming execution.

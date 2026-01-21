@@ -136,12 +136,9 @@ function parseContent(content: string, isStreaming: boolean): ContentSegment[] {
   let contentToProcess = content;
 
   if (isStreaming) {
-    // Find incomplete tag at end of content
-    // Matches: <contactcard or <calendarevent followed by anything except > (which appears in />)
-    // Simple pattern: tag name followed by non-> chars until end of string
+    // Find incomplete tag at end of content (tag started but not closed with />)
     const incompleteMatch = content.match(/<(contactcard|calendarevent)[^>]*$/i);
     if (incompleteMatch && incompleteMatch.index !== undefined) {
-      // Remove incomplete tag from processing (hide until complete)
       contentToProcess = content.slice(0, incompleteMatch.index);
     }
   }

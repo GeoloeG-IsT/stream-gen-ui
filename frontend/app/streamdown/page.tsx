@@ -11,19 +11,18 @@ import { StreamdownRenderer } from '@/components/streamdown/StreamdownRenderer';
 import { Header } from '@/components/shared/Header';
 import { MessageBubble } from '@/components/shared/MessageBubble';
 import { ChatInput } from '@/components/shared/ChatInput';
-import { TypingIndicator } from '@/components/shared/TypingIndicator';
 import { StopButton } from '@/components/shared/StopButton';
 
 export default function StreamdownPage(): ReactElement {
   const [input, setInput] = useState('');
 
-  // Point to backend agent API with XML marker
+  // Point to backend agent API with Streamdown marker
   // Use environment variable or fallback to public IP for cross-origin access
   const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://188.245.108.179:8000';
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: `${backendUrl}/api/chat?marker=xml`,
+        api: `${backendUrl}/api/chat?marker=streamdown`,
       }),
     [backendUrl]
   );
@@ -35,8 +34,8 @@ export default function StreamdownPage(): ReactElement {
       const message = err.message.includes('fetch')
         ? 'Network error - check your connection'
         : err.message.includes('500')
-        ? 'Server error - please try again'
-        : 'An error occurred';
+          ? 'Server error - please try again'
+          : 'An error occurred';
       toast.error(message);
     },
   });
@@ -169,7 +168,6 @@ export default function StreamdownPage(): ReactElement {
               <StopButton onClick={stop} />
             </div>
           )}
-          {isLoading && <TypingIndicator isVisible />}
           <ChatInput
             value={input}
             onChange={handleInputChange}

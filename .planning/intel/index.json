@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": 1769028781028,
+  "updated": 1769034061816,
   "files": {
     "/root/wks/stream-gen-ui/frontend/lib/entity-parser.ts": {
       "exports": [
@@ -39,11 +39,10 @@
         "@/components/shared/Header",
         "@/components/shared/MessageBubble",
         "@/components/shared/ChatInput",
-        "@/components/shared/TypingIndicator",
         "@/components/shared/EntityRenderer",
         "@/lib/entity-parser"
       ],
-      "indexed": 1768993433628
+      "indexed": 1769033757920
     },
     "/root/wks/stream-gen-ui/frontend/app/layout.tsx": {
       "exports": [
@@ -93,10 +92,9 @@
         "@/components/shared/Header",
         "@/components/shared/MessageBubble",
         "@/components/shared/ChatInput",
-        "@/components/shared/TypingIndicator",
         "@/components/shared/StopButton"
       ],
-      "indexed": 1769028157825
+      "indexed": 1769033831215
     },
     "/root/wks/stream-gen-ui/frontend/app/llm-ui/page.tsx": {
       "exports": [
@@ -112,7 +110,6 @@
         "@/components/shared/Header",
         "@/components/shared/MessageBubble",
         "@/components/shared/ChatInput",
-        "@/components/shared/TypingIndicator",
         "@/components/shared/StopButton"
       ],
       "indexed": 1769028174851
@@ -128,7 +125,7 @@
         "@/components/shared/CalendarEvent",
         "@/components/shared/ContactCard"
       ],
-      "indexed": 1769028781028
+      "indexed": 1769033759987
     },
     "/root/wks/stream-gen-ui/frontend/components/llm-ui/LLMUIRenderer.tsx": {
       "exports": [
@@ -142,7 +139,30 @@
         "@/components/shared/CalendarEvent",
         "@/components/shared/ContactCard"
       ],
-      "indexed": 1769028743576
+      "indexed": 1769029091653
+    },
+    "/root/wks/stream-gen-ui/frontend/components/flowtoken/FlowTokenRenderer.tsx": {
+      "exports": [
+        "FlowTokenRenderer",
+        "FlowTokenRendererProps"
+      ],
+      "imports": [
+        "react",
+        "flowtoken",
+        "@/components/shared/CalendarEvent",
+        "@/components/shared/ContactCard"
+      ],
+      "indexed": 1769033758951
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/PresetSelector.tsx": {
+      "exports": [
+        "PresetSelector"
+      ],
+      "imports": [
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "indexed": 1769034061816
     }
   }
 }

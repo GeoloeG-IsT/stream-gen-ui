@@ -12,23 +12,6 @@ export interface FlowTokenRendererProps {
 }
 
 /**
- * Filter out incomplete XML tags from content during streaming.
- * Returns content with incomplete tags removed.
- */
-function filterIncompleteXml(content: string, isStreaming: boolean): string {
-  if (!isStreaming) return content;
-
-  // Find incomplete tag at end of content
-  // Matches: <contactcard or <calendarevent followed by non-> chars until end
-  // Complete tags have > (in />), incomplete ones don't
-  const incompleteMatch = content.match(/<(contactcard|calendarevent)[^>]*$/i);
-  if (incompleteMatch && incompleteMatch.index !== undefined) {
-    return content.slice(0, incompleteMatch.index);
-  }
-  return content;
-}
-
-/**
  * Error boundary to catch FlowToken parse errors and fall back to raw text.
  * Per project context: "Fallback to raw text on parse errors"
  */
@@ -67,23 +50,18 @@ export function FlowTokenRenderer({
   content,
   isStreaming = false,
 }: FlowTokenRendererProps): ReactElement {
-  // Filter out incomplete XML tags during streaming
-  const filteredContent = useMemo(
-    () => filterIncompleteXml(content, isStreaming),
-    [content, isStreaming]
-  );
-
   return (
     <FlowTokenErrorBoundary
       fallback={<pre className="whitespace-pre-wrap text-sm text-gray-600">{content}</pre>}
     >
       <AnimatedMarkdown
-        content={filteredContent}
+        content={content}
         animation={isStreaming ? 'fadeIn' : null}
         customComponents={{
           // FlowToken lowercases tag names when parsing, so use lowercase keys
-          contactcard: ContactCard,
-          calendarevent: CalendarEvent,
+          // Wrap components to receive props including animateText from AnimatedMarkdown
+          contactcard: (props: any) => <ContactCard {...props} />,
+          calendarevent: (props: any) => <CalendarEvent {...props} />,
         }}
       />
     </FlowTokenErrorBoundary>
