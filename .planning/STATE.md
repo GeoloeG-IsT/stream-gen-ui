@@ -62,6 +62,8 @@ All v1.0 decisions documented in PROJECT.md Key Decisions table with outcomes.
 | 05-01 | ComponentSkeleton uses type prop | Single component handles both contact/calendar variants | Simpler API for consumers |
 | 05-01 | Fade animation 150ms ease-out | Quick but visible transition | Smooth skeleton-to-component feel |
 | 05-01 | Reduced motion support for fade | Accessibility best practice | Respects user preferences |
+| 05-02 | Detect incomplete blocks via endDelimiter | Simple outputRaw.endsWith(delimiter) check | Clean skeleton-to-component transition |
+| 05-02 | Track lastUserMessage for retry | Low cost state addition | Enables future retry feature |
 | 05-03 | Regex for incomplete tag detection | Match opening tag without closing at end of content | Skeleton shown instead of raw tags |
 | 05-03 | Skeleton type derived from tag name | Map contactcard to 'contact', calendarevent to 'calendar' | Correct skeleton variant displayed |
 
