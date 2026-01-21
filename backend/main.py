@@ -27,7 +27,7 @@ from rag.retriever import retrieve_with_scores, deduplicate_results
 from rag.chunking import chunk_all_knowledge
 from rag.vectorstore import init_vectorstore
 from rag.retriever import init_hybrid_retriever
-from agent import get_agent_graph, get_recursion_limit
+from agent import create_agent_graph, get_recursion_limit
 from streaming import format_text_start, format_text_delta, format_done, SSE_HEADERS
 
 settings = get_settings()
@@ -58,7 +58,7 @@ async def lifespan(app: FastAPI):
 
     # Pre-initialize agent graph (validates API key)
     try:
-        get_agent_graph()
+        create_agent_graph("xml")  # Test with default marker
         print("Agent graph initialized")
     except Exception as e:
         print(f"Warning: Agent not initialized - {e}")
@@ -146,17 +146,19 @@ async def retrieve(request: ChatRequest):
 
 # --- Phase 3 streaming agent endpoint ---
 
-async def stream_agent_response(messages: list, message_id: str):
+async def stream_agent_response(messages: list, message_id: str, marker: str):
     """Stream agent response token-by-token.
 
     Args:
         messages: List of LangChain message objects
         message_id: Unique ID for the streamed message
+        marker: Output format strategy
 
     Yields:
         SSE formatted events compatible with AI SDK v6
     """
-    graph = get_agent_graph()
+    # Create request-scoped graph with marker
+    graph = create_agent_graph(marker)
     recursion_limit = get_recursion_limit()
 
     # REQUIRED by AI SDK v6: Send text-start before any text-delta events
@@ -248,7 +250,7 @@ async def chat_stream(
 
     # Return streaming response with AI SDK headers
     return StreamingResponse(
-        stream_agent_response(lc_messages, message_id),
+        stream_agent_response(lc_messages, message_id, marker),
         media_type="text/event-stream",
         headers={**SSE_HEADERS, "X-Marker-Strategy": marker},
     )
