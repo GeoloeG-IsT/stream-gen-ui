@@ -23,7 +23,7 @@ export default function FlowTokenPage(): ReactElement {
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: `${backendUrl}/api/chat`,
+        api: `${backendUrl}/api/chat?marker=xml`,
       }),
     [backendUrl]
   );
