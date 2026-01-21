@@ -18,9 +18,10 @@ export interface FlowTokenRendererProps {
 function filterIncompleteXml(content: string, isStreaming: boolean): string {
   if (!isStreaming) return content;
 
-  // Find incomplete self-closing tag at end of content
-  // Matches: <contactcard or <calendarevent followed by anything except />
-  const incompleteMatch = content.match(/<(contactcard|calendarevent)(?:(?!\s*\/>).)*$/i);
+  // Find incomplete tag at end of content
+  // Matches: <contactcard or <calendarevent followed by non-> chars until end
+  // Complete tags have > (in />), incomplete ones don't
+  const incompleteMatch = content.match(/<(contactcard|calendarevent)[^>]*$/i);
   if (incompleteMatch && incompleteMatch.index !== undefined) {
     return content.slice(0, incompleteMatch.index);
   }

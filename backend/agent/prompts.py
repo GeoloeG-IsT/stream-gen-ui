@@ -18,9 +18,9 @@ Show TOP 3 most relevant contacts. If more exist, mention: "...and X more contac
 
 XML_EVENT_FORMAT = """When providing event information, format EACH event as:
 
-<calendarevent title="Event Name" date="2026-01-25" time="14:00" location="Venue Address" description="Brief description" />
+<calendarevent title="Event Name" date="2026-01-25" startTime="14:00" location="Venue Address" description="Brief description" />
 
-Include only attributes that have data. Date is required, time and location are optional.
+Include only attributes that have data. Date is required, startTime and location are optional.
 Show TOP 3 upcoming/relevant events. If more exist, mention: "...and X more events found."
 """
 
@@ -35,9 +35,9 @@ Show TOP 3 most relevant contacts. If more exist, mention: "...and X more contac
 
 LLMUI_EVENT_FORMAT = """When providing event information, format EACH event as:
 
-【CALENDAR:{{"title": "Event Name", "date": "2026-01-25", "time": "14:00", "location": "Venue Address", "description": "Brief description"}}】
+【CALENDAR:{{"title": "Event Name", "date": "2026-01-25", "startTime": "14:00", "location": "Venue Address", "description": "Brief description"}}】
 
-Include only fields that have data. Date is required, time and location are optional.
+Include only fields that have data. Date is required, startTime and location are optional.
 Show TOP 3 upcoming/relevant events. If more exist, mention: "...and X more events found."
 """
 
