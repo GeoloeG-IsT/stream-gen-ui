@@ -10,6 +10,8 @@ from pathlib import Path
 import logging
 import uuid
 
+logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s")
+
 from langchain_core.messages import HumanMessage, AIMessage, AIMessageChunk, SystemMessage
 from langgraph.errors import GraphRecursionError
 
