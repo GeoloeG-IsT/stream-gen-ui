@@ -5,16 +5,17 @@
 See: .planning/PROJECT.md (updated 2026-01-21)
 
 **Core value:** The chatbot returns accurate, well-formatted responses with Contact cards and Calendar events rendered as rich UI components when relevant.
-**Current focus:** Planning next milestone
+**Current focus:** v1.1 Renderer Integration
 
 ## Current Position
 
-Phase: N/A (milestone complete)
-Plan: N/A
-Status: Ready for next milestone
-Last activity: 2026-01-21 — v1.0 milestone shipped
+Phase: 4 (Backend Marker Strategy)
+Plan: —
+Status: Ready to plan
+Last activity: 2026-01-21 — Milestone v1.1 roadmap created
+Branch: feature/v1.1-renderer-integration
 
-Progress: ✅ v1.0 shipped — run `/gsd:new-milestone` for next version
+Progress: ░░░░░░░░░░ 0/3 phases
 
 ## v1.0 Performance Summary
 

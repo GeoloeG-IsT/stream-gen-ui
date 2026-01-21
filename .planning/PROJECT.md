@@ -33,7 +33,16 @@ The chatbot returns accurate, well-formatted responses with Contact cards and Ca
 
 <!-- Current scope. Building toward these. -->
 
-(None — run `/gsd:new-milestone` to define v1.1 or v2.0 requirements)
+**Milestone v1.1: Renderer Integration**
+
+Goal: Complete all three renderer implementations (FlowToken, llm-ui, Streamdown) with proper backend integration and marker strategy support.
+
+- [ ] Backend supports multiple marker strategies via query param
+- [ ] FlowToken renderer wired to /api/chat with XML markers
+- [ ] llm-ui renderer wired to /api/chat with Chinese bracket markers
+- [ ] Streamdown renderer wired to /api/chat with XML markers
+- [ ] Transient markup bugs fixed in llm-ui and Streamdown
+- [ ] Dead code cleanup
 
 ### Out of Scope
 
@@ -104,4 +113,4 @@ CalendarEventProps:
 | Recursion limit 11 | 2 * max_iterations + 1 safety formula | ✓ Good — prevents infinite loops |
 
 ---
-*Last updated: 2026-01-21 after v1.0 milestone*
+*Last updated: 2026-01-21 after v1.1 milestone started*
