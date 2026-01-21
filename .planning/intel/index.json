@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": 1768993433628,
+  "updated": 1769028781028,
   "files": {
     "/root/wks/stream-gen-ui/frontend/lib/entity-parser.ts": {
       "exports": [
@@ -44,6 +44,105 @@
         "@/lib/entity-parser"
       ],
       "indexed": 1768993433628
+    },
+    "/root/wks/stream-gen-ui/frontend/app/layout.tsx": {
+      "exports": [
+        "metadata",
+        "default",
+        "RootLayout"
+      ],
+      "imports": [
+        "next/font/google",
+        "sonner",
+        "@/contexts/ViewRawContext",
+        "@/lib/utils",
+        "./globals.css"
+      ],
+      "indexed": 1769027879337
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/StopButton.tsx": {
+      "exports": [
+        "StopButton"
+      ],
+      "imports": [
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "indexed": 1769027912819
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/ComponentSkeleton.tsx": {
+      "exports": [
+        "ComponentSkeleton"
+      ],
+      "imports": [
+        "@/lib/utils"
+      ],
+      "indexed": 1769027928397
+    },
+    "/root/wks/stream-gen-ui/frontend/app/streamdown/page.tsx": {
+      "exports": [
+        "default",
+        "StreamdownPage"
+      ],
+      "imports": [
+        "react",
+        "@ai-sdk/react",
+        "ai",
+        "sonner",
+        "@/components/streamdown/StreamdownRenderer",
+        "@/components/shared/Header",
+        "@/components/shared/MessageBubble",
+        "@/components/shared/ChatInput",
+        "@/components/shared/TypingIndicator",
+        "@/components/shared/StopButton"
+      ],
+      "indexed": 1769028157825
+    },
+    "/root/wks/stream-gen-ui/frontend/app/llm-ui/page.tsx": {
+      "exports": [
+        "default",
+        "LlmUiPage"
+      ],
+      "imports": [
+        "react",
+        "@ai-sdk/react",
+        "ai",
+        "sonner",
+        "@/components/llm-ui/LLMUIRenderer",
+        "@/components/shared/Header",
+        "@/components/shared/MessageBubble",
+        "@/components/shared/ChatInput",
+        "@/components/shared/TypingIndicator",
+        "@/components/shared/StopButton"
+      ],
+      "indexed": 1769028174851
+    },
+    "/root/wks/stream-gen-ui/frontend/components/streamdown/StreamdownRenderer.tsx": {
+      "exports": [
+        "StreamdownRenderer",
+        "StreamdownRendererProps"
+      ],
+      "imports": [
+        "react",
+        "streamdown",
+        "@/components/shared/CalendarEvent",
+        "@/components/shared/ContactCard"
+      ],
+      "indexed": 1769028781028
+    },
+    "/root/wks/stream-gen-ui/frontend/components/llm-ui/LLMUIRenderer.tsx": {
+      "exports": [
+        "LLMUIRenderer",
+        "LLMUIRendererProps"
+      ],
+      "imports": [
+        "react",
+        "@llm-ui/react",
+        "react-markdown",
+        "@/components/shared/CalendarEvent",
+        "@/components/shared/ContactCard"
+      ],
+      "indexed": 1769028743576
     }
   }
 }
