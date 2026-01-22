@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-01-21)
 Phase: 5 (Renderer Integration)
 Plan: 3 of 3 complete
 Status: Phase complete
-Last activity: 2026-01-22 — Completed quick task 002: Refactor to llm-ui JSON blocks pattern
+Last activity: 2026-01-22 — Completed quick task 003: Add throttle function to hide raw delimiters
 Branch: feature/v1.1-renderer-integration
 
 Progress: ██████████ 3/3 plans (phase 5 complete)
@@ -67,6 +67,13 @@ All v1.0 decisions documented in PROJECT.md Key Decisions table with outcomes.
 | 05-03 | Regex for incomplete tag detection | Match opening tag without closing at end of content | Skeleton shown instead of raw tags |
 | 05-03 | Skeleton type derived from tag name | Map contactcard to 'contact', calendarevent to 'calendar' | Correct skeleton variant displayed |
 
+**Quick Tasks:**
+
+| Phase | Decision | Rationale | Outcome |
+|-------|----------|-----------|---------|
+| quick-003 | readAheadChars set to 15 | Buffers 【TYPE:{...}】 delimiters (1+8+1+JSON chars) during parsing | Raw delimiters hidden during streaming |
+| quick-003 | Throttle constant outside component | Avoid recreation on each render | Performance optimization for streaming |
+
 ### Pending Todos
 
 None
@@ -81,9 +88,10 @@ None
 |---|-------------|------|--------|-----------|
 | 001 | Move View Raw output to side panel | 2026-01-21 | 50967933 | [001-move-view-raw-output-from-inline-chat-to](./quick/001-move-view-raw-output-from-inline-chat-to/) |
 | 002 | Refactor to llm-ui JSON blocks pattern | 2026-01-22 | fb271373 | [002-refactor-to-llm-ui-json-blocks-pattern](./quick/002-refactor-to-llm-ui-json-blocks-pattern/) |
+| 003 | Add throttle function to hide raw delimiters | 2026-01-22 | 3e289ea5 | [003-add-throttle-function-to-hide-raw-delimi](./quick/003-add-throttle-function-to-hide-raw-delimi/) |
 
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed quick task 002
+Stopped at: Completed quick task 003
 Resume file: None (phase complete)
