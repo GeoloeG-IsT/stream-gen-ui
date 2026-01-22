@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@ai-sdk/react": "^3.0.43",
+    "@llm-ui/json": "^0.13.3",
+    "@llm-ui/markdown": "^0.13.3",
     "@llm-ui/react": "^0.13.3",
     "ai": "^6.0.41",
     "clsx": "^2.1.1",
@@ -20,6 +22,7 @@
     "next": "16.1.4",
     "react": "19.2.3",
     "react-dom": "19.2.3",
+    "sonner": "^2.0.7",
     "streamdown": "^2.1.0",
     "tailwind-merge": "^3.4.0"
   },

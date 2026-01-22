@@ -10,12 +10,13 @@ import { FlowTokenRenderer } from '@/components/flowtoken/FlowTokenRenderer';
 import { Header } from '@/components/shared/Header';
 import { MessageBubble } from '@/components/shared/MessageBubble';
 import { ChatInput } from '@/components/shared/ChatInput';
-import { TypingIndicator } from '@/components/shared/TypingIndicator';
-import { EntityRenderer } from '@/components/shared/EntityRenderer';
-import { parseEntities, hasEntityMarkers } from '@/lib/entity-parser';
+import { RawOutputPanel } from '@/components/shared/RawOutputPanel';
+import { useViewRaw } from '@/contexts/ViewRawContext';
+import { cn } from '@/lib/utils';
 
 export default function FlowTokenPage(): ReactElement {
   const [input, setInput] = useState('');
+  const { viewRaw } = useViewRaw();
 
   // Point to backend agent API
   // Use environment variable or fallback to public IP for cross-origin access
@@ -23,7 +24,7 @@ export default function FlowTokenPage(): ReactElement {
   const transport = useMemo(
     () =>
       new DefaultChatTransport({
-        api: `${backendUrl}/api/chat`,
+        api: `${backendUrl}/api/chat?marker=flowtoken`,
       }),
     [backendUrl]
   );
@@ -35,9 +36,8 @@ export default function FlowTokenPage(): ReactElement {
     },
   });
 
-
-
   const isLoading = status === 'submitted' || status === 'streaming';
+  const isStreaming = status === 'streaming';
 
   const handleInputChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -66,37 +66,30 @@ export default function FlowTokenPage(): ReactElement {
     [isLoading, sendMessage]
   );
 
-  // Transform messages with entity parsing
+
+  // Transform messages to include isStreaming flag for FlowToken rendering
+  // Filter to only user/assistant roles and exclude system messages
   const formattedMessages = useMemo(() => {
     const filtered = messages.filter(
       (m): m is typeof m & { role: 'user' | 'assistant' } =>
         m.role === 'user' || m.role === 'assistant'
     );
 
-    return filtered.map((m, index, arr) => {
-      const content = (m.parts ?? [])
+    const mapped = filtered.map((m, index, arr) => ({
+      id: m.id,
+      role: m.role,
+      content: (m.parts ?? [])
         .filter((p): p is { type: 'text'; text: string } => p.type === 'text')
         .map((p) => p.text)
-        .join('');
-
-      const isStreaming =
+        .join(''),
+      // Only the last assistant message is streaming
+      isStreaming:
         m.role === 'assistant' &&
         index === arr.length - 1 &&
-        status === 'streaming';
+        status === 'streaming',
+    }));
 
-      // Parse entities for assistant messages
-      const parseResult = m.role === 'assistant' ? parseEntities(content) : null;
-      const hasEntities = m.role === 'assistant' && hasEntityMarkers(content);
-
-      return {
-        id: m.id,
-        role: m.role,
-        content,
-        isStreaming,
-        parseResult,
-        hasEntities,
-      };
-    });
+    return mapped;
   }, [messages, status]);
 
   // Refs for scroll management
@@ -121,67 +114,67 @@ export default function FlowTokenPage(): ReactElement {
     }
   }, [formattedMessages, userHasScrolled]);
 
+  // Get raw content from last assistant message for side panel
+  const rawContent = useMemo(() => {
+    const lastAssistantMessage = formattedMessages.filter(m => m.role === 'assistant').pop();
+    return lastAssistantMessage?.content ?? null;
+  }, [formattedMessages]);
+
   return (
     <div className="flex flex-col h-screen">
       <Header />
       <main className="flex-1 overflow-hidden bg-gray-50 pt-14">
-        <div className="h-full max-w-3xl mx-auto flex flex-col">
-          <div
-            ref={containerRef}
-            role="log"
-            aria-live="polite"
-            aria-label="Chat messages"
-            onScroll={handleScroll}
-            className="flex-1 overflow-y-auto flex flex-col gap-3 p-4"
-          >
-            {formattedMessages.map((m) => (
-              <MessageBubble
-                key={m.id}
-                role={m.role}
-                content={m.content}
-                isStreaming={m.isStreaming}
-                rawContent={m.role === 'assistant' ? m.content : undefined}
+        <div className="h-full flex">
+          {/* Chat area - shrinks when panel open */}
+          <div className={cn(
+            "flex-1 flex flex-col transition-all duration-300",
+            viewRaw ? "mr-[600px]" : ""
+          )}>
+            <div className="h-full max-w-3xl mx-auto flex flex-col w-full">
+              <div
+                ref={containerRef}
+                role="log"
+                aria-live="polite"
+                aria-label="Chat messages"
+                onScroll={handleScroll}
+                className="flex-1 overflow-y-auto flex flex-col gap-3 p-4"
               >
-                {m.role === 'assistant' ? (
-                  m.hasEntities && m.parseResult ? (
-                    <EntityRenderer
-                      parseResult={m.parseResult}
-                      isStreaming={m.isStreaming}
-                      renderText={(text, idx) => (
-                        <FlowTokenRenderer
-                          key={`text-${idx}`}
-                          content={text}
-                          isStreaming={m.isStreaming}
-                        />
-                      )}
-                    />
-                  ) : (
-                    <FlowTokenRenderer
-                      content={m.content}
-                      isStreaming={m.isStreaming}
-                    />
-                  )
-                ) : undefined}
-              </MessageBubble>
-            ))}
-            <div ref={bottomRef} />
-          </div>
-          {error && (
-            <div
-              role="alert"
-              className="mx-4 mb-2 p-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg"
-            >
-              {error.message || 'An error occurred while streaming the response.'}
+                {formattedMessages.map((m) => (
+                  <MessageBubble
+                    key={m.id}
+                    role={m.role}
+                    content={m.content}
+                    isStreaming={m.isStreaming}
+                  >
+                    {m.role === 'assistant' ? (
+                      <FlowTokenRenderer
+                        content={m.content}
+                        isStreaming={m.isStreaming}
+                      />
+                    ) : undefined}
+                  </MessageBubble>
+                ))}
+                <div ref={bottomRef} />
+              </div>
+              {error && (
+                <div
+                  role="alert"
+                  className="mx-4 mb-2 p-3 text-sm text-red-700 bg-red-50 border border-red-200 rounded-lg"
+                >
+                  {error.message || 'An error occurred while streaming the response.'}
+                </div>
+              )}
+              <ChatInput
+                value={input}
+                onChange={handleInputChange}
+                onSubmit={handleSubmit}
+                isLoading={isLoading}
+                onPresetSelect={handlePresetSelect}
+              />
             </div>
-          )}
-          {isLoading && <TypingIndicator isVisible />}
-          <ChatInput
-            value={input}
-            onChange={handleInputChange}
-            onSubmit={handleSubmit}
-            isLoading={isLoading}
-            onPresetSelect={handlePresetSelect}
-          />
+          </div>
+          {/* Side panel - fixed position */}
+          <RawOutputPanel content={rawContent} isStreaming={isStreaming} />
         </div>
       </main>
     </div>

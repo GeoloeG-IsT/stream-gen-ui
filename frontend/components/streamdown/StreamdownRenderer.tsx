@@ -91,7 +91,6 @@ function toContactCardProps(attrs: Record<string, string>): ContactCardProps | u
     email: attrs.email,
     phone: attrs.phone,
     address: attrs.address,
-    avatar: attrs.avatar,
   };
 }
 
@@ -127,22 +126,33 @@ function toCalendarEventProps(attrs: Record<string, string>): CalendarEventProps
  * - Self-closing tags are not supported (use explicit closing tag)
  * - Content between tags (e.g., <tag>content</tag>) will not match
  *
- * During streaming, incomplete tags are left in the markdown for graceful display.
+ * During streaming, incomplete tags are detected and hidden until complete.
  */
-function parseContent(content: string): ContentSegment[] {
+function parseContent(content: string, isStreaming: boolean): ContentSegment[] {
   const segments: ContentSegment[] = [];
 
-  // Pattern to match complete custom elements (non-greedy, handles both tags)
-  // Matches: <tagname attr="value" ...></tagname>
-  const customTagPattern = /<(contactcard|calendarevent)([^>]*)><\/\1>/gi;
+  // If streaming, check for incomplete tags at the end and hide them
+  let contentToProcess = content;
+
+  if (isStreaming) {
+    // Find incomplete tag at end of content (tag started but not closed with />)
+    const incompleteMatch = content.match(/<(contactcard|calendarevent)[^>]*$/i);
+    if (incompleteMatch && incompleteMatch.index !== undefined) {
+      contentToProcess = content.slice(0, incompleteMatch.index);
+    }
+  }
+
+  // Pattern to match complete self-closing custom elements
+  // Matches: <tagname attr="value" ... />
+  const customTagPattern = /<(contactcard|calendarevent)([^>]*)\s*\/>/gi;
 
   let lastIndex = 0;
   let match;
 
-  while ((match = customTagPattern.exec(content)) !== null) {
+  while ((match = customTagPattern.exec(contentToProcess)) !== null) {
     // Add markdown segment before this match
     if (match.index > lastIndex) {
-      const markdownContent = content.slice(lastIndex, match.index);
+      const markdownContent = contentToProcess.slice(lastIndex, match.index);
       if (markdownContent.trim()) {
         segments.push({ type: 'markdown', content: markdownContent });
       }
@@ -167,17 +177,17 @@ function parseContent(content: string): ContentSegment[] {
     lastIndex = match.index + match[0].length;
   }
 
-  // Add remaining markdown content (including any incomplete tags during streaming)
-  if (lastIndex < content.length) {
-    const remainingContent = content.slice(lastIndex);
+  // Add remaining markdown content
+  if (lastIndex < contentToProcess.length) {
+    const remainingContent = contentToProcess.slice(lastIndex);
     if (remainingContent.trim()) {
       segments.push({ type: 'markdown', content: remainingContent });
     }
   }
 
   // If no segments were created, treat entire content as markdown
-  if (segments.length === 0 && content.trim()) {
-    segments.push({ type: 'markdown', content });
+  if (segments.length === 0 && contentToProcess.trim()) {
+    segments.push({ type: 'markdown', content: contentToProcess });
   }
 
   return segments;
@@ -195,11 +205,10 @@ function StreamdownRendererInner({
   isStreaming = false,
 }: StreamdownRendererProps): ReactElement {
   // Parse content into segments (memoized for performance)
-  const segments = useMemo(() => parseContent(content), [content]);
+  const segments = useMemo(() => parseContent(content, isStreaming), [content, isStreaming]);
 
   return (
     <StreamdownErrorBoundary
-      key={content.length}
       fallback={<pre className="whitespace-pre-wrap text-sm text-gray-600">{content}</pre>}
     >
       <div className="streamdown-output" role="region" aria-label="Streamdown generated content">
@@ -217,11 +226,19 @@ function StreamdownRendererInner({
           }
 
           if (segment.type === 'contactcard') {
-            return <ContactCard key={key} {...segment.props} />;
+            return (
+              <div key={key} className="component-fade-in">
+                <ContactCard {...segment.props} />
+              </div>
+            );
           }
 
           if (segment.type === 'calendarevent') {
-            return <CalendarEvent key={key} {...segment.props} />;
+            return (
+              <div key={key} className="component-fade-in">
+                <CalendarEvent {...segment.props} />
+              </div>
+            );
           }
 
           return null;

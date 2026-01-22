@@ -26,19 +26,6 @@ describe('ContactCard', () => {
     expect(screen.getByText('123 Main St, City')).toBeInTheDocument();
   });
 
-  it('renders avatar image when provided', () => {
-    render(<ContactCard name="John Doe" avatar="https://example.com/avatar.jpg" />);
-    const avatar = screen.getByAltText("John Doe's avatar");
-    // Next.js Image transforms the src, so we just check the image exists with correct alt
-    expect(avatar).toBeInTheDocument();
-    expect(avatar.tagName).toBe('IMG');
-  });
-
-  it('renders placeholder icon when no avatar provided', () => {
-    render(<ContactCard name="John Doe" />);
-    expect(screen.queryByRole('img')).not.toBeInTheDocument();
-  });
-
   it('has correct aria-label on container', () => {
     render(<ContactCard name="John Doe" />);
     expect(screen.getByRole('group')).toHaveAttribute(

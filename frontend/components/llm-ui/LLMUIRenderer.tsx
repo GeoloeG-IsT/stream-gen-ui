@@ -3,19 +3,14 @@
 import { Component, memo } from 'react';
 import type { ReactElement, ReactNode, ErrorInfo } from 'react';
 
-import { useLLMOutput } from '@llm-ui/react';
-import type {
-  BlockMatch,
-  LLMOutputBlock,
-  LLMOutputFallbackBlock,
-  LookBackFunctionParams,
-} from '@llm-ui/react';
+import { useLLMOutput, throttleBasic } from '@llm-ui/react';
+import type { BlockMatch } from '@llm-ui/react';
+import { jsonBlock } from '@llm-ui/json';
+import { markdownLookBack } from '@llm-ui/markdown';
 import ReactMarkdown from 'react-markdown';
 
-import { CalendarEvent } from '@/components/shared/CalendarEvent';
-import { ContactCard } from '@/components/shared/ContactCard';
-
-import type { CalendarEventProps, ContactCardProps } from '@/types';
+import { ContactBlockComponent } from './ContactBlockComponent';
+import { CalendarBlockComponent } from './CalendarBlockComponent';
 
 export interface LLMUIRendererProps {
   content: string;
@@ -57,104 +52,34 @@ class LLMUIErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryStat
   }
 }
 
-/**
- * Creates a block matcher for delimiter-based blocks.
- * Matches format: 【TYPE:{json}】
- */
-function createBlockMatcher<T extends ContactCardProps | CalendarEventProps>(
-  blockType: string,
-  BlockComponent: React.ComponentType<T>
-): LLMOutputBlock {
-  const startDelimiter = `【${blockType}:`;
-  const endDelimiter = '】';
+// Create block matchers using jsonBlock from @llm-ui/json
+// Format: 【{"type":"contact",...}】
+const contactBlock = {
+  ...jsonBlock({ type: 'contact' }),
+  component: ContactBlockComponent,
+};
 
-  return {
-    component: ({ blockMatch }: { blockMatch: BlockMatch }): ReactElement | null => {
-      // Extract JSON from the block content
-      const rawOutput = blockMatch.outputRaw;
-      const jsonMatch = rawOutput.match(/【[A-Z]+:(\{[\s\S]*?\})】/);
-
-      if (!jsonMatch) {
-        return <span>{rawOutput}</span>;
-      }
-
-      try {
-        const props = JSON.parse(jsonMatch[1]) as T;
-        return <BlockComponent {...props} />;
-      } catch {
-        // Malformed JSON - render raw text as fallback
-        return <span>{rawOutput}</span>;
-      }
-    },
-
-    findCompleteMatch: (llmOutput: string) => {
-      const startIndex = llmOutput.indexOf(startDelimiter);
-      if (startIndex === -1) return undefined;
-
-      const endIndex = llmOutput.indexOf(endDelimiter, startIndex);
-      if (endIndex === -1) return undefined;
-
-      const outputRaw = llmOutput.slice(startIndex, endIndex + endDelimiter.length);
-
-      return {
-        startIndex,
-        endIndex: endIndex + endDelimiter.length,
-        outputRaw,
-      };
-    },
-
-    findPartialMatch: (llmOutput: string) => {
-      const startIndex = llmOutput.indexOf(startDelimiter);
-      if (startIndex === -1) return undefined;
-
-      // Check if we have an end delimiter after the start
-      const afterStart = llmOutput.slice(startIndex);
-      if (afterStart.includes(endDelimiter)) {
-        // Complete match exists - not partial
-        return undefined;
-      }
-
-      // Partial match - delimiter started but not closed
-      return {
-        startIndex,
-        endIndex: llmOutput.length,
-        outputRaw: afterStart,
-      };
-    },
-
-    lookBack: ({ output, isComplete }: LookBackFunctionParams) => {
-      // For component blocks, hide the raw delimiter text
-      if (isComplete) {
-        return { output, visibleText: '' };
-      }
-      // During streaming, show nothing until complete
-      return { output, visibleText: '' };
-    },
-  };
-}
-
-// Create block matchers for each component type
-const contactBlock = createBlockMatcher('CONTACT', ContactCard);
-const calendarBlock = createBlockMatcher('CALENDAR', CalendarEvent);
+const calendarBlock = {
+  ...jsonBlock({ type: 'calendar' }),
+  component: CalendarBlockComponent,
+};
 
 /**
- * Markdown fallback block for regular text content.
+ * Throttle configuration for smooth streaming.
+ * Uses llm-ui defaults with slight adjustments for our JSON blocks.
  */
-const markdownBlock: LLMOutputFallbackBlock = {
+const throttle = throttleBasic();
+
+/**
+ * Markdown fallback block using llm-ui's proper markdownLookBack.
+ * This handles streaming speed correctly, showing one visible character
+ * at a time while respecting the throttle.
+ */
+const markdownBlock = {
   component: ({ blockMatch }: { blockMatch: BlockMatch }): ReactElement => (
     <ReactMarkdown>{blockMatch.output}</ReactMarkdown>
   ),
-
-  lookBack: ({ output, visibleTextLengthTarget, isStreamFinished }: LookBackFunctionParams) => {
-    // For markdown, show text progressively during streaming
-    if (isStreamFinished) {
-      return { output, visibleText: output };
-    }
-
-    // Progressive reveal based on throttle target
-    const visibleText = output.slice(0, visibleTextLengthTarget);
-    return { output, visibleText };
-  },
+  lookBack: markdownLookBack(),
 };
 
 /**
@@ -173,18 +98,18 @@ function LLMUIRendererInner({
     blocks: [contactBlock, calendarBlock],
     fallbackBlock: markdownBlock,
     isStreamFinished: !isStreaming,
+    throttle,
   });
 
   return (
     <LLMUIErrorBoundary
-      key={content.length}
       fallback={<pre className="whitespace-pre-wrap text-sm text-gray-600">{content}</pre>}
     >
       <div className="llm-ui-output" role="region" aria-label="LLM generated content">
         {blockMatches.map((match) => {
           const BlockComponent = match.block.component;
-          // Use stable key based on match position to avoid React reconciliation issues
-          const stableKey = `${match.startIndex}-${match.endIndex}`;
+          // Use stable key based on startIndex only (endIndex changes during streaming)
+          const stableKey = `block-${match.startIndex}`;
           return <BlockComponent key={stableKey} blockMatch={match} />;
         })}
       </div>

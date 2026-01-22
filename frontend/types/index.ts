@@ -49,7 +49,6 @@ export interface ContactCardProps {
   email?: string;
   phone?: string;
   address?: string;
-  avatar?: string;
 }
 
 /**
@@ -80,13 +79,6 @@ export interface MessageBubbleProps {
   children?: React.ReactNode;
   /** Optional raw markup content to display when View Raw is enabled */
   rawContent?: string;
-}
-
-/**
- * Props for TypingIndicator component
- */
-export interface TypingIndicatorProps {
-  isVisible: boolean;
 }
 
 /**

@@ -1,15 +1,14 @@
 # Codebase Intelligence Summary
 
-Last updated: 2026-01-21T11:03:53.630Z
-Indexed files: 3
+Last updated: 2026-01-22T03:15:59.691Z
+Indexed files: 21
 
 ## Naming Conventions
 
-- Export naming: PascalCase (78% of 7 exports)
+- Export naming: PascalCase (84% of 21 exports)
 
 ## Key Directories
 
-- `lib/`: Utility functions (1 files)
-- `components/`: UI components (1 files)
+- `components/`: UI components (16 files)
 
-Total exports: 9
+Total exports: 27

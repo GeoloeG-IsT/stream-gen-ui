@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Toaster } from "sonner";
 
 import { ViewRawProvider } from "@/contexts/ViewRawContext";
 import { cn } from "@/lib/utils";
@@ -32,6 +33,7 @@ export default function RootLayout({
         className={cn(geistSans.variable, geistMono.variable, "antialiased")}
       >
         <ViewRawProvider>{children}</ViewRawProvider>
+        <Toaster position="bottom-right" richColors closeButton />
       </body>
     </html>
   );

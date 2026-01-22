@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useMemo } from 'react';
 import type { ReactElement, ReactNode } from 'react';
 
 /**
@@ -11,6 +11,10 @@ interface ViewRawContextValue {
   viewRaw: boolean;
   /** Function to update the viewRaw state */
   setViewRaw: (value: boolean) => void;
+  /** Raw content to display in the side panel */
+  rawContent: string | null;
+  /** Function to update the raw content */
+  setRawContent: (content: string | null) => void;
 }
 
 const ViewRawContext = createContext<ViewRawContextValue | undefined>(undefined);
@@ -28,9 +32,15 @@ interface ViewRawProviderProps {
  */
 export function ViewRawProvider({ children }: ViewRawProviderProps): ReactElement {
   const [viewRaw, setViewRaw] = useState(false);
+  const [rawContent, setRawContent] = useState<string | null>(null);
+
+  const value = useMemo(
+    () => ({ viewRaw, setViewRaw, rawContent, setRawContent }),
+    [viewRaw, rawContent]
+  );
 
   return (
-    <ViewRawContext.Provider value={{ viewRaw, setViewRaw }}>
+    <ViewRawContext.Provider value={value}>
       {children}
     </ViewRawContext.Provider>
   );

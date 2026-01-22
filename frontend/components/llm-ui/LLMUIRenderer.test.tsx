@@ -25,9 +25,9 @@ vi.mock('@llm-ui/react', () => ({
 
     // Process the content looking for delimiter blocks
     while (remainingOutput.length > 0) {
-      // Check for CONTACT block
-      const contactMatch = remainingOutput.match(/【CONTACT:(\{[\s\S]*?\})】/);
-      const calendarMatch = remainingOutput.match(/【CALENDAR:(\{[\s\S]*?\})】/);
+      // Check for contact and calendar blocks (jsonBlock format with type field)
+      const contactMatch = remainingOutput.match(/【(\{[\s\S]*?"type"\s*:\s*"contact"[\s\S]*?\})】/);
+      const calendarMatch = remainingOutput.match(/【(\{[\s\S]*?"type"\s*:\s*"calendar"[\s\S]*?\})】/);
 
       let firstMatch: { type: string; match: RegExpMatchArray; block: typeof blocks[number] } | null = null;
 
@@ -66,10 +66,11 @@ vi.mock('@llm-ui/react', () => ({
 
         // Add the component block
         const fullMatch = firstMatch.match[0];
+        const jsonContent = firstMatch.match[1]; // Extract JSON from capture group
         blockMatches.push({
           block: firstMatch.block,
-          output: fullMatch,
-          outputRaw: fullMatch,
+          output: jsonContent, // Pass JSON content to component
+          outputRaw: fullMatch, // Keep full match for reference
           visibleText: '',
           startIndex: currentIndex,
           endIndex: currentIndex + fullMatch.length,
@@ -135,7 +136,7 @@ describe('LLMUIRenderer', () => {
     it('renders ContactCard when CONTACT delimiter is present', () => {
       const content = `Here is contact info:
 
-【CONTACT:{"name":"John Smith","email":"john@example.com","phone":"+1-555-123-4567"}】
+【{"type":"contact","name":"John Smith","email":"john@example.com","phone":"+1-555-123-4567"}】
 
 More text after.`;
 
@@ -151,7 +152,7 @@ More text after.`;
     });
 
     it('renders ContactCard with minimal props (name only)', () => {
-      const content = '【CONTACT:{"name":"Jane Doe"}】';
+      const content = '【{"type":"contact","name":"Jane Doe"}】';
 
       render(<LLMUIRenderer content={content} />);
 
@@ -166,7 +167,7 @@ More text after.`;
     it('renders CalendarEvent when CALENDAR delimiter is present', () => {
       const content = `Schedule:
 
-【CALENDAR:{"title":"Team Meeting","date":"2026-01-25","startTime":"2:00 PM","endTime":"3:00 PM","location":"Room A"}】
+【{"type":"calendar","title":"Team Meeting","date":"2026-01-25","startTime":"2:00 PM","endTime":"3:00 PM","location":"Room A"}】
 
 See you there.`;
 
@@ -183,7 +184,7 @@ See you there.`;
     });
 
     it('renders CalendarEvent with minimal props (title and date)', () => {
-      const content = '【CALENDAR:{"title":"Quick Call","date":"2026-02-01"}】';
+      const content = '【{"type":"calendar","title":"Quick Call","date":"2026-02-01"}】';
 
       render(<LLMUIRenderer content={content} />);
 
@@ -199,7 +200,7 @@ See you there.`;
     it('renders text before and after component blocks', () => {
       const content = `Hello, here is the info:
 
-【CONTACT:{"name":"John Smith","email":"john@example.com"}】
+【{"type":"contact","name":"John Smith","email":"john@example.com"}】
 
 Thanks for asking!`;
 
@@ -216,11 +217,11 @@ Thanks for asking!`;
     it('renders multiple different components in sequence', () => {
       const content = `Contact:
 
-【CONTACT:{"name":"John Smith","email":"john@example.com"}】
+【{"type":"contact","name":"John Smith","email":"john@example.com"}】
 
 Meeting:
 
-【CALENDAR:{"title":"Sync","date":"2026-01-30"}】
+【{"type":"calendar","title":"Sync","date":"2026-01-30"}】
 
 Done.`;
 
@@ -238,17 +239,17 @@ Done.`;
 
   describe('malformed delimiter handling', () => {
     it('renders raw text for malformed JSON in delimiter', () => {
-      const content = '【CONTACT:{invalid json here}】';
+      const content = '【{invalid json here}】';
 
       render(<LLMUIRenderer content={content} />);
 
-      // Should render the raw delimiter as span (graceful fallback)
-      expect(screen.getByText('【CONTACT:{invalid json here}】')).toBeInTheDocument();
+      // Should render as markdown fallback since regex doesn't match malformed JSON
+      expect(screen.getByText('【{invalid json here}】')).toBeInTheDocument();
     });
 
     it('handles incomplete delimiter during streaming gracefully', () => {
       // Incomplete delimiter (no closing bracket)
-      const content = 'Starting message 【CONTACT:{"name":"John"';
+      const content = 'Starting message 【{"type":"contact","name":"John"';
 
       render(<LLMUIRenderer content={content} isStreaming={true} />);
 

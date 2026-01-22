@@ -24,12 +24,12 @@ from agent.prompts import get_agent_prompt
 
 logger = logging.getLogger(__name__)
 
-# Singleton graph instance
-_agent_graph = None
 
-
-def create_agent_graph():
+def create_agent_graph(marker: str = "streamdown"):
     """Create and compile the ReAct agent graph.
+
+    Args:
+        marker: Output format strategy ("streamdown", "flowtoken", or "llm-ui")
 
     Returns:
         Compiled LangGraph state machine ready for streaming execution.
@@ -50,8 +50,8 @@ def create_agent_graph():
     tools = [search_knowledge_base]
     llm_with_tools = llm.bind_tools(tools)
 
-    # Create prompt chain
-    prompt = get_agent_prompt()
+    # Create prompt chain with marker-aware prompt
+    prompt = get_agent_prompt(marker)
     agent_chain = prompt | llm_with_tools
 
     def call_agent(state: AgentState) -> dict:
@@ -106,20 +106,8 @@ def create_agent_graph():
     # Compile the graph
     graph = workflow.compile()
 
-    logger.info(f"Agent graph compiled with model={settings.mistral_model}, max_iterations={settings.agent_max_iterations}")
+    logger.info(f"Agent graph compiled with model={settings.mistral_model}, max_iterations={settings.agent_max_iterations}, marker={marker}")
     return graph
-
-
-def get_agent_graph():
-    """Get or create the agent graph singleton.
-
-    Returns:
-        Compiled LangGraph ready for .astream() calls.
-    """
-    global _agent_graph
-    if _agent_graph is None:
-        _agent_graph = create_agent_graph()
-    return _agent_graph
 
 
 def get_recursion_limit() -> int:

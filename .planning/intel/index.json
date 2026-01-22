@@ -1,31 +1,7 @@
 {
   "version": 1,
-  "updated": 1768993433628,
+  "updated": 1769051759689,
   "files": {
-    "/root/wks/stream-gen-ui/frontend/lib/entity-parser.ts": {
-      "exports": [
-        "parseEntities",
-        "hasEntityMarkers",
-        "EntityType",
-        "ParsedContact",
-        "ParsedEvent",
-        "ParsedEntity",
-        "ParseResult"
-      ],
-      "imports": [],
-      "indexed": 1768954801503
-    },
-    "/root/wks/stream-gen-ui/frontend/components/shared/EntityRenderer.tsx": {
-      "exports": [
-        "EntityRenderer"
-      ],
-      "imports": [
-        "react",
-        "@/components/shared/ContactCard",
-        "@/components/shared/CalendarEvent"
-      ],
-      "indexed": 1768954831568
-    },
     "/root/wks/stream-gen-ui/frontend/app/flowtoken/page.tsx": {
       "exports": [
         "default",
@@ -39,11 +15,248 @@
         "@/components/shared/Header",
         "@/components/shared/MessageBubble",
         "@/components/shared/ChatInput",
-        "@/components/shared/TypingIndicator",
-        "@/components/shared/EntityRenderer",
-        "@/lib/entity-parser"
+        "@/components/shared/RawOutputPanel",
+        "@/contexts/ViewRawContext",
+        "@/lib/utils"
       ],
-      "indexed": 1768993433628
+      "indexed": 1769040854946
+    },
+    "/root/wks/stream-gen-ui/frontend/app/layout.tsx": {
+      "exports": [
+        "metadata",
+        "default",
+        "RootLayout"
+      ],
+      "imports": [
+        "next/font/google",
+        "sonner",
+        "@/contexts/ViewRawContext",
+        "@/lib/utils",
+        "./globals.css"
+      ],
+      "indexed": 1769027879337
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/StopButton.tsx": {
+      "exports": [
+        "StopButton"
+      ],
+      "imports": [
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "indexed": 1769027912819
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/ComponentSkeleton.tsx": {
+      "exports": [
+        "ComponentSkeleton"
+      ],
+      "imports": [
+        "@/lib/utils"
+      ],
+      "indexed": 1769027928397
+    },
+    "/root/wks/stream-gen-ui/frontend/app/streamdown/page.tsx": {
+      "exports": [
+        "default",
+        "StreamdownPage"
+      ],
+      "imports": [
+        "react",
+        "@ai-sdk/react",
+        "ai",
+        "sonner",
+        "@/components/streamdown/StreamdownRenderer",
+        "@/components/shared/Header",
+        "@/components/shared/MessageBubble",
+        "@/components/shared/ChatInput",
+        "@/components/shared/StopButton",
+        "@/components/shared/RawOutputPanel",
+        "@/contexts/ViewRawContext",
+        "@/lib/utils"
+      ],
+      "indexed": 1769040916948
+    },
+    "/root/wks/stream-gen-ui/frontend/app/llm-ui/page.tsx": {
+      "exports": [
+        "default",
+        "LlmUiPage"
+      ],
+      "imports": [
+        "react",
+        "@ai-sdk/react",
+        "ai",
+        "sonner",
+        "@/components/llm-ui/LLMUIRenderer",
+        "@/components/shared/Header",
+        "@/components/shared/MessageBubble",
+        "@/components/shared/ChatInput",
+        "@/components/shared/StopButton",
+        "@/components/shared/RawOutputPanel",
+        "@/contexts/ViewRawContext",
+        "@/lib/utils"
+      ],
+      "indexed": 1769051759689
+    },
+    "/root/wks/stream-gen-ui/frontend/components/streamdown/StreamdownRenderer.tsx": {
+      "exports": [
+        "StreamdownRenderer",
+        "StreamdownRendererProps"
+      ],
+      "imports": [
+        "react",
+        "streamdown",
+        "@/components/shared/CalendarEvent",
+        "@/components/shared/ContactCard"
+      ],
+      "indexed": 1769033759987
+    },
+    "/root/wks/stream-gen-ui/frontend/components/llm-ui/LLMUIRenderer.tsx": {
+      "exports": [
+        "LLMUIRenderer",
+        "LLMUIRendererProps"
+      ],
+      "imports": [
+        "react",
+        "@llm-ui/react",
+        "@llm-ui/json",
+        "react-markdown",
+        "./ContactBlockComponent",
+        "./CalendarBlockComponent"
+      ],
+      "indexed": 1769050762204
+    },
+    "/root/wks/stream-gen-ui/frontend/components/flowtoken/FlowTokenRenderer.tsx": {
+      "exports": [
+        "FlowTokenRenderer",
+        "FlowTokenRendererProps"
+      ],
+      "imports": [
+        "react",
+        "flowtoken",
+        "@/components/shared/CalendarEvent",
+        "@/components/shared/ContactCard"
+      ],
+      "indexed": 1769047406749
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/PresetSelector.tsx": {
+      "exports": [
+        "PresetSelector"
+      ],
+      "imports": [
+        "lucide-react",
+        "@/lib/utils"
+      ],
+      "indexed": 1769034061816
+    },
+    "/root/wks/stream-gen-ui/frontend/components/flowtoken/FlowTokenRenderer.test.tsx": {
+      "exports": [],
+      "imports": [
+        "@testing-library/react",
+        "vitest",
+        "./FlowTokenRenderer"
+      ],
+      "indexed": 1769038013392
+    },
+    "/root/wks/stream-gen-ui/frontend/contexts/ViewRawContext.tsx": {
+      "exports": [
+        "ViewRawProvider",
+        "useViewRaw"
+      ],
+      "imports": [
+        "react"
+      ],
+      "indexed": 1769040425777
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/RawOutputPanel.tsx": {
+      "exports": [
+        "RawOutputPanel"
+      ],
+      "imports": [
+        "@/contexts/ViewRawContext",
+        "@/lib/utils",
+        "./RawOutputView"
+      ],
+      "indexed": 1769040824370
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/MessageBubble.tsx": {
+      "exports": [
+        "MessageBubble"
+      ],
+      "imports": [
+        "@/lib/utils"
+      ],
+      "indexed": 1769039378540
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/RawOutputView.tsx": {
+      "exports": [
+        "RawOutputView"
+      ],
+      "imports": [
+        "@/lib/utils"
+      ],
+      "indexed": 1769039765371
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/ContactCard.tsx": {
+      "exports": [
+        "ContactCard"
+      ],
+      "imports": [
+        "next/image",
+        "lucide-react"
+      ],
+      "indexed": 1769047514833
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/CalendarEvent.tsx": {
+      "exports": [
+        "CalendarEvent"
+      ],
+      "imports": [
+        "lucide-react"
+      ],
+      "indexed": 1769046199993
+    },
+    "/root/wks/stream-gen-ui/frontend/components/llm-ui/schemas.ts": {
+      "exports": [
+        "contactBlockSchema",
+        "calendarBlockSchema",
+        "ContactBlock",
+        "CalendarBlock"
+      ],
+      "imports": [
+        "zod"
+      ],
+      "indexed": 1769048355547
+    },
+    "/root/wks/stream-gen-ui/frontend/components/llm-ui/ContactBlockComponent.tsx": {
+      "exports": [
+        "ContactBlockComponent"
+      ],
+      "imports": [
+        "@llm-ui/json",
+        "./schemas",
+        "@/components/shared/ContactCard"
+      ],
+      "indexed": 1769048395205
+    },
+    "/root/wks/stream-gen-ui/frontend/components/llm-ui/CalendarBlockComponent.tsx": {
+      "exports": [
+        "CalendarBlockComponent"
+      ],
+      "imports": [
+        "@llm-ui/json",
+        "./schemas",
+        "@/components/shared/CalendarEvent"
+      ],
+      "indexed": 1769048404343
+    },
+    "/root/wks/stream-gen-ui/frontend/components/llm-ui/LLMUIRenderer.test.tsx": {
+      "exports": [],
+      "imports": [
+        "@testing-library/react",
+        "vitest",
+        "./LLMUIRenderer"
+      ],
+      "indexed": 1769048645653
     }
   }
 }
