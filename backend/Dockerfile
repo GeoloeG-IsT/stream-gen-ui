@@ -21,11 +21,14 @@ COPY . .
 # Create directory for ChromaDB (will be mounted as volume)
 RUN mkdir -p /app/chroma_db
 
+# Pre-download the embedding model during build (avoids runtime download timeout)
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-mpnet-base-v2')"
+
 # Expose port
 EXPOSE 8000
 
-# Health check
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+# Health check - longer start period for model loading
+HEALTHCHECK --interval=30s --timeout=30s --start-period=120s --retries=3 \
     CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:8000/health')" || exit 1
 
 # Start server (PORT is set by Railway)
