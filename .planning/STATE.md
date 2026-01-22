@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-01-21)
 Phase: 5 (Renderer Integration)
 Plan: 3 of 3 complete
 Status: Phase complete
-Last activity: 2026-01-22 — Completed quick task 003: Add throttle function to hide raw delimiters
+Last activity: 2026-01-22 — Completed quick task 004: Research backend deployment options
 Branch: feature/v1.1-renderer-integration
 
 Progress: ██████████ 3/3 plans (phase 5 complete)
@@ -73,6 +73,9 @@ All v1.0 decisions documented in PROJECT.md Key Decisions table with outcomes.
 |-------|----------|-----------|---------|
 | quick-003 | readAheadChars set to 15 | Buffers 【TYPE:{...}】 delimiters (1+8+1+JSON chars) during parsing | Raw delimiters hidden during streaming |
 | quick-003 | Throttle constant outside component | Avoid recreation on each render | Performance optimization for streaming |
+| quick-004 | Railway recommended for backend deployment | Persistent volumes for ChromaDB, unlimited SSE, Vercel-like DX | Production-ready platform at $5/mo |
+| quick-004 | Render as secondary option | Similar capabilities to Railway, slightly higher cost | Solid alternative if Railway unavailable |
+| quick-004 | Avoid serverless platforms | Ephemeral storage and timeout limits incompatible | Cloud Run and App Runner ruled out |
 
 ### Pending Todos
 
@@ -89,9 +92,10 @@ None
 | 001 | Move View Raw output to side panel | 2026-01-21 | 50967933 | [001-move-view-raw-output-from-inline-chat-to](./quick/001-move-view-raw-output-from-inline-chat-to/) |
 | 002 | Refactor to llm-ui JSON blocks pattern | 2026-01-22 | fb271373 | [002-refactor-to-llm-ui-json-blocks-pattern](./quick/002-refactor-to-llm-ui-json-blocks-pattern/) |
 | 003 | Add throttle function to hide raw delimiters | 2026-01-22 | 3e289ea5 | [003-add-throttle-function-to-hide-raw-delimi](./quick/003-add-throttle-function-to-hide-raw-delimi/) |
+| 004 | Research backend deployment options | 2026-01-22 | 7a22acb2 | [004-research-backend-deployment-options-simi](./quick/004-research-backend-deployment-options-simi/) |
 
 ## Session Continuity
 
 Last session: 2026-01-22
-Stopped at: Completed quick task 003
+Stopped at: Completed quick task 004
 Resume file: None (phase complete)
