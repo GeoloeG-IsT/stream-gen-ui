@@ -13,12 +13,6 @@ import type { PresetSelectorProps, PresetOption } from '@/types';
  */
 const PRESET_OPTIONS: PresetOption[] = [
   {
-    id: 'no-results',
-    label: 'No results',
-    message: 'Where can I adopt a penguin in Berlin?',
-    icon: 'help-circle',
-  },
-  {
     id: 'contacts',
     label: 'Contacts',
     message: 'Who works in the Parks department?',

@@ -4,12 +4,9 @@ import { Component, memo } from 'react';
 import type { ReactElement, ReactNode, ErrorInfo } from 'react';
 
 import { useLLMOutput, throttleBasic } from '@llm-ui/react';
-import type {
-  BlockMatch,
-  LLMOutputFallbackBlock,
-  LookBackFunctionParams,
-} from '@llm-ui/react';
+import type { BlockMatch } from '@llm-ui/react';
 import { jsonBlock } from '@llm-ui/json';
+import { markdownLookBack } from '@llm-ui/markdown';
 import ReactMarkdown from 'react-markdown';
 
 import { ContactBlockComponent } from './ContactBlockComponent';
@@ -56,7 +53,7 @@ class LLMUIErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryStat
 }
 
 // Create block matchers using jsonBlock from @llm-ui/json
-// Format: 【TYPE:{json}】
+// Format: 【{"type":"contact",...}】
 const contactBlock = {
   ...jsonBlock({ type: 'contact' }),
   component: ContactBlockComponent,
@@ -68,36 +65,21 @@ const calendarBlock = {
 };
 
 /**
- * Throttle configuration for smooth streaming with delimiter hiding.
- * readAheadChars: Buffer to hide 【TYPE:{"..."}】 during parsing (15 chars covers delimiters + type)
- * targetBufferChars: Smooth streaming lag
+ * Throttle configuration for smooth streaming.
+ * Uses llm-ui defaults with slight adjustments for our JSON blocks.
  */
-const throttle = throttleBasic({
-  readAheadChars: 30,    // Buffer to hide 【TYPE:{"..."}】 during parsing
-  targetBufferChars: 50, // Larger buffer = slower streaming display
-  adjustPercentage: 0.15, // Slower speed adjustment
-  frameLookBackMs: 10000,
-  windowLookBackMs: 2000,
-});
+const throttle = throttleBasic();
 
 /**
- * Markdown fallback block for regular text content.
+ * Markdown fallback block using llm-ui's proper markdownLookBack.
+ * This handles streaming speed correctly, showing one visible character
+ * at a time while respecting the throttle.
  */
-const markdownBlock: LLMOutputFallbackBlock = {
+const markdownBlock = {
   component: ({ blockMatch }: { blockMatch: BlockMatch }): ReactElement => (
     <ReactMarkdown>{blockMatch.output}</ReactMarkdown>
   ),
-
-  lookBack: ({ output, visibleTextLengthTarget, isStreamFinished }: LookBackFunctionParams) => {
-    // For markdown, show text progressively during streaming
-    if (isStreamFinished) {
-      return { output, visibleText: output };
-    }
-
-    // Progressive reveal based on throttle target
-    const visibleText = output.slice(0, visibleTextLengthTarget);
-    return { output, visibleText };
-  },
+  lookBack: markdownLookBack(),
 };
 
 /**

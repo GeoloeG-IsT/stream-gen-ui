@@ -131,6 +131,34 @@ export default function LlmUiPage(): ReactElement {
     }
   }, [formattedMessages, userHasScrolled]);
 
+  // Track last scroll height to detect content growth
+  const lastScrollHeightRef = useRef(0);
+  const stableCountRef = useRef(0);
+
+  // Continuous scroll while content is growing (handles both streaming and throttle catch-up)
+  useEffect(() => {
+    if (userHasScrolled) return;
+
+    const scrollInterval = setInterval(() => {
+      const container = containerRef.current;
+      if (!container || !bottomRef.current) return;
+
+      const currentHeight = container.scrollHeight;
+
+      // Check if content is still growing
+      if (currentHeight !== lastScrollHeightRef.current) {
+        lastScrollHeightRef.current = currentHeight;
+        stableCountRef.current = 0;
+        bottomRef.current.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        // Content stopped growing - count stable frames
+        stableCountRef.current++;
+      }
+    }, 100);
+
+    return () => clearInterval(scrollInterval);
+  }, [userHasScrolled]);
+
   // Get raw content from last assistant message for side panel
   const rawContent = useMemo(() => {
     const lastAssistantMessage = formattedMessages.filter(m => m.role === 'assistant').pop();
