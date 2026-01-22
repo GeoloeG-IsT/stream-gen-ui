@@ -10,8 +10,9 @@ from langchain_core.prompts import ChatPromptTemplate
 # Entity format templates for Streamdown marker - self-closing tags
 STREAMDOWN_CONTACT_FORMAT = """When providing contact information, format EACH contact as:
 
-<contactcard name="Full Name" email="email@berlin.de" phone="+49 30 ..." company="Department Name" title="Job Title" />
+<contactcard name="Full Name" email="email@berlin.de" phone="+49 30 ..." address="Street Address, City" />
 
+IMPORTANT: The name attribute is REQUIRED and must always be included first.
 Include only attributes that have data. Omit missing attributes entirely.
 """
 
@@ -25,14 +26,9 @@ Include only attributes that have data. Date is required, startTime and location
 # Entity format templates for FlowToken marker - explicit closing tags
 FLOWTOKEN_CONTACT_FORMAT = """When providing contact information, format EACH contact as:
 
-<contactcard 
-    name="Full Name" 
-    email="email@berlin.de" 
-    phone="+49 30 ..." 
-    company="Department Name" 
-    title="Job Title"
-/>
+<contactcard name="Full Name" email="email@berlin.de" phone="+49 30 ..." address="Street Address, City" />
 
+IMPORTANT: The name attribute is REQUIRED and must always be included first.
 Include only attributes that have data. Omit missing attributes entirely.
 """
 
@@ -52,9 +48,11 @@ Include only attributes that have data. Date is required, startTime and location
 # Entity format templates for llm-ui marker
 LLMUI_CONTACT_FORMAT = """When providing contact information, format EACH contact as:
 
-【CONTACT:{{"name": "Full Name", "email": "email@berlin.de", "phone": "+49 30 ...", "company": "Department Name", "title": "Job Title"}}】
+【CONTACT:{{"name": "Full Name", "email": "email@berlin.de", "phone": "+49 30 ...", "address": "Street Address, City"}}】
 
+IMPORTANT: The name field is REQUIRED and must always be included first.
 Include only fields that have data. Omit missing fields entirely (don't include null values).
+Be sure to use double curly braces {{ }} to enclose the JSON object.
 """
 
 LLMUI_EVENT_FORMAT = """When providing event information, format EACH event as:
@@ -62,6 +60,7 @@ LLMUI_EVENT_FORMAT = """When providing event information, format EACH event as:
 【CALENDAR:{{"title": "Event Name", "date": "2026-01-25", "startTime": "14:00", "location": "Venue Address", "description": "Brief description"}}】
 
 Include only fields that have data. Date is required, startTime and location are optional.
+Be sure to use double curly braces {{ }} to enclose the JSON object.
 """
 
 # Base prompt template (shared parts)
