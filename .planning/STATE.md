@@ -12,7 +12,7 @@ See: .planning/PROJECT.md (updated 2026-01-21)
 Phase: 5 (Renderer Integration)
 Plan: 3 of 3 complete
 Status: Phase complete
-Last activity: 2026-01-21 — Completed quick task 001: Move View Raw output to side panel
+Last activity: 2026-01-22 — Completed quick task 002: Refactor to llm-ui JSON blocks pattern
 Branch: feature/v1.1-renderer-integration
 
 Progress: ██████████ 3/3 plans (phase 5 complete)
@@ -80,9 +80,10 @@ None
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 001 | Move View Raw output to side panel | 2026-01-21 | 50967933 | [001-move-view-raw-output-from-inline-chat-to](./quick/001-move-view-raw-output-from-inline-chat-to/) |
+| 002 | Refactor to llm-ui JSON blocks pattern | 2026-01-22 | fb271373 | [002-refactor-to-llm-ui-json-blocks-pattern](./quick/002-refactor-to-llm-ui-json-blocks-pattern/) |
 
 ## Session Continuity
 
-Last session: 2026-01-21
-Stopped at: Completed 05-03-PLAN.md (Phase 5 complete)
+Last session: 2026-01-22
+Stopped at: Completed quick task 002
 Resume file: None (phase complete)
