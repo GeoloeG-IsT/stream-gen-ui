@@ -35,7 +35,6 @@ FLOWTOKEN_CONTACT_FORMAT = """When providing contact information, format EACH co
     address="Street Address, City"
 />
 
-IMPORTANT: The name attribute is REQUIRED and must always be included first.
 Be sure to replace "@" with ".at." in the email address.
 Include only attributes that have data. Omit missing attributes entirely.
 """
@@ -54,19 +53,21 @@ Include only attributes that have data. Date is required, startTime and location
 """
 
 # Entity format templates for llm-ui marker
+# Uses @llm-ui/json jsonBlock pattern: 【{json with type field}】
 LLMUI_CONTACT_FORMAT = """When providing contact information, format EACH contact as:
 
-【CONTACT:{{"name": "Full Name", "email": "email@berlin.de", "phone": "+49 30 ...", "address": "Street Address, City"}}】
+【{{"type": "contact", "name": "Full Name", "email": "email@berlin.de", "phone": "+49 30 ...", "address": "Street Address, City"}}】
 
-IMPORTANT: The name field is REQUIRED and must always be included first.
+IMPORTANT: The "type" field MUST be "contact" and the "name" field is REQUIRED.
 Include only fields that have data. Omit missing fields entirely (don't include null values).
 Be sure to use double curly braces {{ }} to enclose the JSON object.
 """
 
 LLMUI_EVENT_FORMAT = """When providing event information, format EACH event as:
 
-【CALENDAR:{{"title": "Event Name", "date": "2026-01-25", "startTime": "14:00", "location": "Venue Address", "description": "Brief description"}}】
+【{{"type": "calendar", "title": "Event Name", "date": "2026-01-25", "startTime": "14:00", "location": "Venue Address", "description": "Brief description"}}】
 
+IMPORTANT: The "type" field MUST be "calendar".
 Include only fields that have data. Date is required, startTime and location are optional.
 Be sure to use double curly braces {{ }} to enclose the JSON object.
 """

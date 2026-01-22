@@ -101,39 +101,17 @@ export function FlowTokenRenderer({
   content,
   isStreaming = false,
 }: FlowTokenRendererProps): ReactElement {
-  // Filter out incomplete custom tags during streaming to prevent transient raw attribute display
-  const filteredContent = useMemo(
-    () => (isStreaming ? filterIncompleteCustomTags(content) : content),
-    [content, isStreaming]
-  );
-
-  // DEBUG: Log the raw and filtered content
-  console.log('[FlowTokenRenderer] Content received:', content);
-  console.log('[FlowTokenRenderer] Filtered content:', filteredContent);
-  console.log('[FlowTokenRenderer] isStreaming:', isStreaming);
-
   return (
     <FlowTokenErrorBoundary
       fallback={<pre className="whitespace-pre-wrap text-sm text-gray-600">{content}</pre>}
     >
       <AnimatedMarkdown
-        // content={filteredContent}
         content={content}
         // Always use an animation value to maintain consistent wrapper styling
         // 'none' keeps the inline-block wrapper but without visible animation
         animation={isStreaming ? 'fadeIn' : 'none'}
         customComponents={{
-          // FlowToken lowercases tag names when parsing, so use lowercase keys
-          // Wrap components to receive props including animateText from AnimatedMarkdown
-          // contactcard: (props: any) => {
-          //   console.log('[FlowTokenRenderer] contactcard customComponent called with props:', props);
-          //   return <ContactCard {...props} />;
-          // },
           contactcard: ContactCard,
-          // calendarevent: (props: any) => {
-          //   console.log('[FlowTokenRenderer] calendarevent customComponent called with props:', props);
-          //   return <CalendarEvent {...props} />;
-          // },
           calendarevent: CalendarEvent,
         }}
       />

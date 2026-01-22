@@ -14,9 +14,6 @@ export function ContactCard({
   // Normalize email: convert ".at." back to "@" (workaround for remark-gfm autolink issue)
   const normalizedEmail = email?.replace('.at.', '@');
 
-  // DEBUG: Log all props received by ContactCard
-  console.log('[ContactCard] Props received:', { name, email, normalizedEmail, phone, address });
-
   return (
     <span
       className="inline-flex flex-col gap-3 my-3 p-4 bg-gradient-to-r from-blue-50 to-white rounded-xl border border-blue-100 shadow-sm hover:shadow-md transition-shadow"

@@ -6,16 +6,14 @@ import type { ReactElement, ReactNode, ErrorInfo } from 'react';
 import { useLLMOutput } from '@llm-ui/react';
 import type {
   BlockMatch,
-  LLMOutputBlock,
   LLMOutputFallbackBlock,
   LookBackFunctionParams,
 } from '@llm-ui/react';
+import { jsonBlock } from '@llm-ui/json';
 import ReactMarkdown from 'react-markdown';
 
-import { CalendarEvent } from '@/components/shared/CalendarEvent';
-import { ContactCard } from '@/components/shared/ContactCard';
-
-import type { CalendarEventProps, ContactCardProps } from '@/types';
+import { ContactBlockComponent } from './ContactBlockComponent';
+import { CalendarBlockComponent } from './CalendarBlockComponent';
 
 export interface LLMUIRendererProps {
   content: string;
@@ -57,99 +55,17 @@ class LLMUIErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryStat
   }
 }
 
-/**
- * Creates a block matcher for delimiter-based blocks.
- * Matches format: 【TYPE:{json}】
- * Renders nothing while block is incomplete, shows component when complete.
- */
-function createBlockMatcher<T extends ContactCardProps | CalendarEventProps>(
-  blockType: 'CONTACT' | 'CALENDAR',
-  BlockComponent: React.ComponentType<T>
-): LLMOutputBlock {
-  const startDelimiter = `【${blockType}:`;
-  const endDelimiter = '】';
+// Create block matchers using jsonBlock from @llm-ui/json
+// Format: 【TYPE:{json}】
+const contactBlock = {
+  ...jsonBlock({ type: 'contact' }),
+  component: ContactBlockComponent,
+};
 
-  return {
-    component: ({ blockMatch }: { blockMatch: BlockMatch }): ReactElement | null => {
-      // Extract JSON from the block content
-      const rawOutput = blockMatch.outputRaw;
-
-      // Check if this is a complete match (has closing delimiter)
-      const isComplete = rawOutput.endsWith(endDelimiter);
-
-      // If incomplete, render nothing (hide during streaming)
-      if (!isComplete) {
-        return null;
-      }
-
-      const jsonMatch = rawOutput.match(/【[A-Z]+:(\{[\s\S]*?\})】/);
-
-      if (!jsonMatch) {
-        return <span>{rawOutput}</span>;
-      }
-
-      try {
-        const props = JSON.parse(jsonMatch[1]) as T;
-        return (
-          <div className="component-fade-in">
-            <BlockComponent {...props} />
-          </div>
-        );
-      } catch {
-        // Malformed JSON - render raw text as fallback
-        return <span>{rawOutput}</span>;
-      }
-    },
-
-    findCompleteMatch: (llmOutput: string) => {
-      const startIndex = llmOutput.indexOf(startDelimiter);
-      if (startIndex === -1) return undefined;
-
-      const endIndex = llmOutput.indexOf(endDelimiter, startIndex);
-      if (endIndex === -1) return undefined;
-
-      const outputRaw = llmOutput.slice(startIndex, endIndex + endDelimiter.length);
-
-      return {
-        startIndex,
-        endIndex: endIndex + endDelimiter.length,
-        outputRaw,
-      };
-    },
-
-    findPartialMatch: (llmOutput: string) => {
-      const startIndex = llmOutput.indexOf(startDelimiter);
-      if (startIndex === -1) return undefined;
-
-      // Check if we have an end delimiter after the start
-      const afterStart = llmOutput.slice(startIndex);
-      if (afterStart.includes(endDelimiter)) {
-        // Complete match exists - not partial
-        return undefined;
-      }
-
-      // Partial match - delimiter started but not closed
-      return {
-        startIndex,
-        endIndex: llmOutput.length,
-        outputRaw: afterStart,
-      };
-    },
-
-    lookBack: ({ output, isComplete }: LookBackFunctionParams) => {
-      // For component blocks, hide the raw delimiter text
-      if (isComplete) {
-        return { output, visibleText: '' };
-      }
-      // During streaming, show nothing until complete
-      return { output, visibleText: '' };
-    },
-  };
-}
-
-// Create block matchers for each component type
-const contactBlock = createBlockMatcher('CONTACT', ContactCard);
-const calendarBlock = createBlockMatcher('CALENDAR', CalendarEvent);
+const calendarBlock = {
+  ...jsonBlock({ type: 'calendar' }),
+  component: CalendarBlockComponent,
+};
 
 /**
  * Markdown fallback block for regular text content.
