@@ -119,7 +119,9 @@ export function FlowTokenRenderer({
       <AnimatedMarkdown
         // content={filteredContent}
         content={content}
-        animation={isStreaming ? 'fadeIn' : null}
+        // Always use an animation value to maintain consistent wrapper styling
+        // 'none' keeps the inline-block wrapper but without visible animation
+        animation={isStreaming ? 'fadeIn' : 'none'}
         customComponents={{
           // FlowToken lowercases tag names when parsing, so use lowercase keys
           // Wrap components to receive props including animateText from AnimatedMarkdown

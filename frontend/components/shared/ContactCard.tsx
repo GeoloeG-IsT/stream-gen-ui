@@ -19,7 +19,7 @@ export function ContactCard({
 
   return (
     <span
-      className="w-full flex flex-col gap-3 my-3 p-4 bg-gradient-to-r from-blue-50 to-white rounded-xl border border-blue-100 shadow-sm hover:shadow-md transition-shadow"
+      className="inline-flex flex-col gap-3 my-3 p-4 bg-gradient-to-r from-blue-50 to-white rounded-xl border border-blue-100 shadow-sm hover:shadow-md transition-shadow"
       role="group"
       aria-label={`Contact card for ${name}`}
     >
