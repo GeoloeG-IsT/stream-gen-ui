@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@ai-sdk/react": "^3.0.43",
+    "@llm-ui/json": "^0.13.3",
     "@llm-ui/react": "^0.13.3",
     "ai": "^6.0.41",
     "clsx": "^2.1.1",
