@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
 
 export default function StreamdownPage(): ReactElement {
   const [input, setInput] = useState('');
-  const { viewRaw, setRawContent } = useViewRaw();
+  const { viewRaw } = useViewRaw();
 
   // Point to backend agent API with Streamdown marker
   // Use environment variable or fallback to public IP for cross-origin access
@@ -128,15 +128,11 @@ export default function StreamdownPage(): ReactElement {
     }
   }, [formattedMessages, userHasScrolled]);
 
-  // Update raw content for side panel whenever last assistant message changes
-  useEffect(() => {
+  // Get raw content from last assistant message for side panel
+  const rawContent = useMemo(() => {
     const lastAssistantMessage = formattedMessages.filter(m => m.role === 'assistant').pop();
-    if (lastAssistantMessage) {
-      setRawContent(lastAssistantMessage.content);
-    } else {
-      setRawContent(null);
-    }
-  }, [formattedMessages, setRawContent]);
+    return lastAssistantMessage?.content ?? null;
+  }, [formattedMessages]);
 
   return (
     <div className="flex flex-col h-screen">
@@ -146,7 +142,7 @@ export default function StreamdownPage(): ReactElement {
           {/* Chat area - shrinks when panel open */}
           <div className={cn(
             "flex-1 flex flex-col transition-all duration-300",
-            viewRaw ? "mr-[400px]" : ""
+            viewRaw ? "mr-[600px]" : ""
           )}>
             <div className="h-full max-w-3xl mx-auto flex flex-col w-full">
               <div
@@ -197,7 +193,7 @@ export default function StreamdownPage(): ReactElement {
             </div>
           </div>
           {/* Side panel - fixed position */}
-          <RawOutputPanel isStreaming={isStreaming} />
+          <RawOutputPanel content={rawContent} isStreaming={isStreaming} />
         </div>
       </main>
     </div>

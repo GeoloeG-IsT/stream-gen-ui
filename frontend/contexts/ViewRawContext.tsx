@@ -1,6 +1,6 @@
 'use client';
 
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useMemo } from 'react';
 import type { ReactElement, ReactNode } from 'react';
 
 /**
@@ -34,8 +34,13 @@ export function ViewRawProvider({ children }: ViewRawProviderProps): ReactElemen
   const [viewRaw, setViewRaw] = useState(false);
   const [rawContent, setRawContent] = useState<string | null>(null);
 
+  const value = useMemo(
+    () => ({ viewRaw, setViewRaw, rawContent, setRawContent }),
+    [viewRaw, rawContent]
+  );
+
   return (
-    <ViewRawContext.Provider value={{ viewRaw, setViewRaw, rawContent, setRawContent }}>
+    <ViewRawContext.Provider value={value}>
       {children}
     </ViewRawContext.Provider>
   );

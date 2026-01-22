@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": 1769038013392,
+  "updated": 1769040916948,
   "files": {
     "/root/wks/stream-gen-ui/frontend/lib/entity-parser.ts": {
       "exports": [
@@ -39,10 +39,11 @@
         "@/components/shared/Header",
         "@/components/shared/MessageBubble",
         "@/components/shared/ChatInput",
-        "@/components/shared/EntityRenderer",
-        "@/lib/entity-parser"
+        "@/components/shared/RawOutputPanel",
+        "@/contexts/ViewRawContext",
+        "@/lib/utils"
       ],
-      "indexed": 1769033757920
+      "indexed": 1769040854946
     },
     "/root/wks/stream-gen-ui/frontend/app/layout.tsx": {
       "exports": [
@@ -92,9 +93,12 @@
         "@/components/shared/Header",
         "@/components/shared/MessageBubble",
         "@/components/shared/ChatInput",
-        "@/components/shared/StopButton"
+        "@/components/shared/StopButton",
+        "@/components/shared/RawOutputPanel",
+        "@/contexts/ViewRawContext",
+        "@/lib/utils"
       ],
-      "indexed": 1769033831215
+      "indexed": 1769040916948
     },
     "/root/wks/stream-gen-ui/frontend/app/llm-ui/page.tsx": {
       "exports": [
@@ -110,9 +114,12 @@
         "@/components/shared/Header",
         "@/components/shared/MessageBubble",
         "@/components/shared/ChatInput",
-        "@/components/shared/StopButton"
+        "@/components/shared/StopButton",
+        "@/components/shared/RawOutputPanel",
+        "@/contexts/ViewRawContext",
+        "@/lib/utils"
       ],
-      "indexed": 1769028174851
+      "indexed": 1769040893142
     },
     "/root/wks/stream-gen-ui/frontend/components/streamdown/StreamdownRenderer.tsx": {
       "exports": [
@@ -172,6 +179,45 @@
         "./FlowTokenRenderer"
       ],
       "indexed": 1769038013392
+    },
+    "/root/wks/stream-gen-ui/frontend/contexts/ViewRawContext.tsx": {
+      "exports": [
+        "ViewRawProvider",
+        "useViewRaw"
+      ],
+      "imports": [
+        "react"
+      ],
+      "indexed": 1769040425777
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/RawOutputPanel.tsx": {
+      "exports": [
+        "RawOutputPanel"
+      ],
+      "imports": [
+        "@/contexts/ViewRawContext",
+        "@/lib/utils",
+        "./RawOutputView"
+      ],
+      "indexed": 1769040824370
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/MessageBubble.tsx": {
+      "exports": [
+        "MessageBubble"
+      ],
+      "imports": [
+        "@/lib/utils"
+      ],
+      "indexed": 1769039378540
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/RawOutputView.tsx": {
+      "exports": [
+        "RawOutputView"
+      ],
+      "imports": [
+        "@/lib/utils"
+      ],
+      "indexed": 1769039765371
     }
   }
 }

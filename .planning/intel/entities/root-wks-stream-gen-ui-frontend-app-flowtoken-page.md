@@ -9,24 +9,25 @@ status: active
 
 ## Purpose
 
-Next.js page component that provides a FlowToken-based chat interface with streaming message support. Manages chat state, message formatting, and auto-scroll behavior for real-time conversation display.
+Main page component for the FlowToken chat interface. Handles chat state management, message formatting, auto-scrolling behavior, and renders the complete chat UI with streaming support via the AI SDK.
 
 ## Exports
 
-- `default` / `FlowTokenPage`: Main page component rendering the FlowToken chat UI with streaming support
+- `default` (FlowTokenPage): Main page component that renders the FlowToken chat interface
+- `FlowTokenPage`: Named export of the same component
 
 ## Dependencies
 
 - react (useState, useCallback, useMemo, useRef, useEffect)
-- @ai-sdk/react (useChat hook)
+- @ai-sdk/react (useChat)
 - ai (DefaultChatTransport)
-- [[root-wks-stream-gen-ui-frontend-components-flowtoken-flowtokenrenderer]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-header]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-messagebubble]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-chatinput]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-typingindicator]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-entityrenderer]]
-- [[root-wks-stream-gen-ui-lib-entity-parser]]
+- [[root-wks-stream-gen-ui-frontend-components-flowtoken-flowtokenrenderer]] (FlowTokenRenderer)
+- [[root-wks-stream-gen-ui-frontend-components-shared-header]] (Header)
+- [[root-wks-stream-gen-ui-frontend-components-shared-messagebubble]] (MessageBubble)
+- [[root-wks-stream-gen-ui-frontend-components-shared-chatinput]] (ChatInput)
+- [[root-wks-stream-gen-ui-frontend-components-shared-rawoutputpanel]] (RawOutputPanel)
+- [[root-wks-stream-gen-ui-frontend-contexts-viewrawcontext]] (useViewRaw)
+- [[root-wks-stream-gen-ui-frontend-lib-utils]] (cn)
 
 ## Used By
 
@@ -34,8 +35,7 @@ TBD
 
 ## Notes
 
-- Uses `DefaultChatTransport` with `/api/chat?format=flowtoken` endpoint
-- Tracks streaming state via `status === 'streaming'` for last assistant message
-- Implements smart auto-scroll that respects user scroll position
-- Filters messages to only user/assistant roles, excludes system messages
-- Extracts text content from message parts for rendering
+- Uses `DefaultChatTransport` to connect to backend API at configurable URL via `NEXT_PUBLIC_BACKEND_URL`
+- Implements smart auto-scroll that respects user scroll position (tracks `userHasScrolled` state)
+- Transforms chat messages to extract text parts and adds `isStreaming` flag for the last assistant message during streaming
+- Filters messages to only include user/assistant roles, excluding system messages

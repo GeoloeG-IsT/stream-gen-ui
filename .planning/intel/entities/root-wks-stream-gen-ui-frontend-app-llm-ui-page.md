@@ -9,11 +9,11 @@ status: active
 
 ## Purpose
 
-Next.js page component that provides a chat interface using the LLM-UI rendering approach. Manages chat state with the AI SDK's useChat hook, handles message submission, and renders streaming AI responses through the LLMUIRenderer component.
+Main page component for the LLM-UI demo that provides a chat interface using the AI SDK's useChat hook. Connects to a backend agent API and renders streaming assistant responses using the LLMUIRenderer component.
 
 ## Exports
 
-- `default` / `LlmUiPage` - Main page component rendering the LLM-UI chat interface with Header, message list, ChatInput, and streaming support
+- `default` / `LlmUiPage`: Main page component rendering the chat interface with message history, input form, and streaming support
 
 ## Dependencies
 
@@ -21,12 +21,14 @@ Next.js page component that provides a chat interface using the LLM-UI rendering
 - @ai-sdk/react (useChat)
 - ai (DefaultChatTransport)
 - sonner (toast)
-- [[root-wks-stream-gen-ui-frontend-components-llm-ui-llmuirenderer]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-header]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-messagebubble]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-chatinput]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-typingindicator]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-stopbutton]]
+- [[root-wks-stream-gen-ui-frontend-components-llm-ui-llmuirenderer]] (LLMUIRenderer)
+- [[root-wks-stream-gen-ui-frontend-components-shared-header]] (Header)
+- [[root-wks-stream-gen-ui-frontend-components-shared-messagebubble]] (MessageBubble)
+- [[root-wks-stream-gen-ui-frontend-components-shared-chatinput]] (ChatInput)
+- [[root-wks-stream-gen-ui-frontend-components-shared-stopbutton]] (StopButton)
+- [[root-wks-stream-gen-ui-frontend-components-shared-rawoutputpanel]] (RawOutputPanel)
+- [[root-wks-stream-gen-ui-frontend-contexts-viewrawcontext]] (useViewRaw)
+- [[root-wks-stream-gen-ui-frontend-lib-utils]] (cn)
 
 ## Used By
 
@@ -34,7 +36,7 @@ TBD
 
 ## Notes
 
-- Uses `DefaultChatTransport` with `/api/chat?format=llm-ui` endpoint
-- Tracks streaming state via `status === 'streaming'` for the last assistant message
-- Implements smart auto-scroll that respects user scroll position
-- Filters messages to only user/assistant roles, extracts text parts from message parts array
+- Uses DefaultChatTransport to connect to configurable backend URL via NEXT_PUBLIC_BACKEND_URL env var
+- Implements abort-on-unmount pattern to prevent background streaming
+- Filters messages to only user/assistant roles, adds isStreaming flag to last assistant message
+- Error handling displays user-friendly toast messages for network/server errors

@@ -17,7 +17,7 @@ export function RawOutputView({
       aria-label="Raw markup output"
       className={cn(
         'bg-gray-800 text-gray-100 rounded-lg p-3',
-        'max-h-64 overflow-auto'
+        'h-full overflow-auto'
       )}
     >
       <pre

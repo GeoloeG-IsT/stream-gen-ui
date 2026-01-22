@@ -9,24 +9,26 @@ status: active
 
 ## Purpose
 
-Client-side chat page component that demonstrates the Streamdown rendering format. Provides a complete chat interface with message history, streaming responses, auto-scroll behavior, and error handling via toast notifications.
+Next.js page component that provides a chat interface using the Streamdown rendering approach. Connects to a backend agent API and renders streamed markdown responses with the StreamdownRenderer component.
 
 ## Exports
 
-- **default** / **StreamdownPage**: Main page component rendering the Streamdown chat interface with Header, message list, typing indicator, stop button, and chat input
+- `default` / `StreamdownPage`: Main page component with chat functionality, message handling, and Streamdown-based message rendering
 
 ## Dependencies
 
-- react (useState, useCallback, useMemo, useRef, useEffect)
-- @ai-sdk/react (useChat hook)
-- ai (DefaultChatTransport)
-- sonner (toast notifications)
-- [[root-wks-stream-gen-ui-frontend-components-streamdown-streamdownrenderer]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-header]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-messagebubble]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-chatinput]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-typingindicator]]
-- [[root-wks-stream-gen-ui-frontend-components-shared-stopbutton]]
+- [[root-wks-stream-gen-ui-frontend-components-streamdown-streamdownrenderer]]: Renders streamed markdown content
+- [[root-wks-stream-gen-ui-frontend-components-shared-header]]: Page header component
+- [[root-wks-stream-gen-ui-frontend-components-shared-messagebubble]]: Message display wrapper
+- [[root-wks-stream-gen-ui-frontend-components-shared-chatinput]]: User input component
+- [[root-wks-stream-gen-ui-frontend-components-shared-stopbutton]]: Button to stop streaming
+- [[root-wks-stream-gen-ui-frontend-components-shared-rawoutputpanel]]: Panel to view raw output
+- [[root-wks-stream-gen-ui-frontend-contexts-viewrawcontext]]: Context for raw view toggle state
+- [[root-wks-stream-gen-ui-frontend-lib-utils]]: Utility functions (cn)
+- react: State and lifecycle hooks
+- @ai-sdk/react: useChat hook for chat functionality
+- ai: DefaultChatTransport for API communication
+- sonner: Toast notifications for errors
 
 ## Used By
 
@@ -34,7 +36,8 @@ TBD
 
 ## Notes
 
-- Uses `DefaultChatTransport` with `/api/chat?format=streamdown` endpoint
-- Implements smart auto-scroll that pauses when user manually scrolls up, resumes when scrolled back to bottom
-- Transforms message parts to extract text content and adds `isStreaming` flag for the last assistant message during streaming
-- Filters messages to only show user/assistant roles, excluding system messages
+- Uses `NEXT_PUBLIC_BACKEND_URL` env var with fallback to hardcoded IP for backend connection
+- Appends `?marker=streamdown` to API endpoint for backend routing
+- Aborts streaming on component unmount to prevent background processing
+- Filters messages to only user/assistant roles, excluding system messages
+- Tracks `isStreaming` state to pass to last assistant message for animation purposes

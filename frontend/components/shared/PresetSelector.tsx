@@ -15,7 +15,7 @@ const PRESET_OPTIONS: PresetOption[] = [
   {
     id: 'no-results',
     label: 'No results',
-    message: 'Who handles penguin complaints in Berlin?',
+    message: 'Where can I adopt a penguin in Berlin?',
     icon: 'help-circle',
   },
   {
@@ -27,7 +27,7 @@ const PRESET_OPTIONS: PresetOption[] = [
   {
     id: 'events',
     label: 'Events',
-    message: 'What events are happening this month?',
+    message: 'What events are happening in april or may 2026?',
     icon: 'calendar',
   },
   {

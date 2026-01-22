@@ -9,6 +9,8 @@ import { RawOutputView } from './RawOutputView';
  * Props for RawOutputPanel component
  */
 interface RawOutputPanelProps {
+  /** Raw content to display */
+  content: string | null;
   /** Whether content is currently streaming */
   isStreaming?: boolean;
 }
@@ -16,13 +18,13 @@ interface RawOutputPanelProps {
 /**
  * Side panel component for raw output display.
  * Fixed position panel on the right side of the screen that shows raw markup content.
- * Only visible when viewRaw is true AND rawContent exists.
+ * Only visible when viewRaw is true AND content exists.
  */
-export function RawOutputPanel({ isStreaming = false }: RawOutputPanelProps): ReactElement | null {
-  const { viewRaw, rawContent, setViewRaw } = useViewRaw();
+export function RawOutputPanel({ content, isStreaming = false }: RawOutputPanelProps): ReactElement | null {
+  const { viewRaw, setViewRaw } = useViewRaw();
 
   // Only render when viewRaw is ON and content exists
-  if (!viewRaw || !rawContent) {
+  if (!viewRaw || !content) {
     return null;
   }
 
@@ -31,7 +33,7 @@ export function RawOutputPanel({ isStreaming = false }: RawOutputPanelProps): Re
       role="complementary"
       aria-label="Raw output panel"
       className={cn(
-        'fixed right-0 top-14 bottom-0 w-full md:w-[400px]',
+        'fixed right-0 top-14 bottom-0 w-full md:w-[600px]',
         'bg-gray-900 text-gray-100 shadow-lg',
         'flex flex-col',
         'transform transition-transform duration-300 ease-out',
@@ -64,7 +66,7 @@ export function RawOutputPanel({ isStreaming = false }: RawOutputPanelProps): Re
 
       {/* Content area - scrollable */}
       <div className="flex-1 overflow-y-auto p-4">
-        <RawOutputView content={rawContent} isStreaming={isStreaming} />
+        <RawOutputView content={content} isStreaming={isStreaming} />
       </div>
     </aside>
   );
