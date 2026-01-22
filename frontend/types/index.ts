@@ -49,7 +49,6 @@ export interface ContactCardProps {
   email?: string;
   phone?: string;
   address?: string;
-  avatar?: string;
 }
 
 /**

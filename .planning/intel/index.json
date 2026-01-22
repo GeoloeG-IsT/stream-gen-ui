@@ -1,31 +1,7 @@
 {
   "version": 1,
-  "updated": 1769040916948,
+  "updated": 1769046199993,
   "files": {
-    "/root/wks/stream-gen-ui/frontend/lib/entity-parser.ts": {
-      "exports": [
-        "parseEntities",
-        "hasEntityMarkers",
-        "EntityType",
-        "ParsedContact",
-        "ParsedEvent",
-        "ParsedEntity",
-        "ParseResult"
-      ],
-      "imports": [],
-      "indexed": 1768954801503
-    },
-    "/root/wks/stream-gen-ui/frontend/components/shared/EntityRenderer.tsx": {
-      "exports": [
-        "EntityRenderer"
-      ],
-      "imports": [
-        "react",
-        "@/components/shared/ContactCard",
-        "@/components/shared/CalendarEvent"
-      ],
-      "indexed": 1768954831568
-    },
     "/root/wks/stream-gen-ui/frontend/app/flowtoken/page.tsx": {
       "exports": [
         "default",
@@ -159,7 +135,7 @@
         "@/components/shared/CalendarEvent",
         "@/components/shared/ContactCard"
       ],
-      "indexed": 1769037936784
+      "indexed": 1769043965739
     },
     "/root/wks/stream-gen-ui/frontend/components/shared/PresetSelector.tsx": {
       "exports": [
@@ -218,6 +194,25 @@
         "@/lib/utils"
       ],
       "indexed": 1769039765371
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/ContactCard.tsx": {
+      "exports": [
+        "ContactCard"
+      ],
+      "imports": [
+        "next/image",
+        "lucide-react"
+      ],
+      "indexed": 1769046184621
+    },
+    "/root/wks/stream-gen-ui/frontend/components/shared/CalendarEvent.tsx": {
+      "exports": [
+        "CalendarEvent"
+      ],
+      "imports": [
+        "lucide-react"
+      ],
+      "indexed": 1769046199993
     }
   }
 }

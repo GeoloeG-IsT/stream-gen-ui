@@ -74,10 +74,23 @@ The symptom "name is NOT displayed but email, phone ARE displayed" indicates the
 SECONDARY ISSUE (attribute mismatch):
 FLOWTOKEN_CONTACT_FORMAT prompt specifies attributes: name, email, phone, company, title (lines 26-37 of prompts.py). But ContactCardProps interface expects: name, email, phone, address, avatar (lines 47-53 of types/index.ts). The attributes company and title in the prompt don't match the component's expected props address and avatar. This mismatch means if the LLM outputs company/title (as instructed), those props are ignored by ContactCard.
 
-fix: Updated all three contact format prompts (FLOWTOKEN_CONTACT_FORMAT, STREAMDOWN_CONTACT_FORMAT, LLMUI_CONTACT_FORMAT) in backend/agent/prompts.py to:
-1. Align attributes with ContactCardProps (changed company→address, removed title)
-2. Added explicit "IMPORTANT: The name attribute is REQUIRED and must always be included first"
-3. Changed FLOWTOKEN format from multiline to single-line for more reliable LLM output
+fix: Multiple fixes applied to backend/agent/prompts.py:
 
-verification: Test FlowToken page with Contact preset to confirm name displays correctly
+ROUND 1 (attribute mismatch):
+1. Aligned attributes with ContactCardProps (changed company→address, removed title)
+2. Added explicit "IMPORTANT: The name attribute is REQUIRED"
+
+ROUND 2 (self-closing tag issue - ACTUAL ROOT CAUSE):
+After user testing, found that tags rendered as markdown text instead of components.
+The REAL issue: HTML5 custom elements REQUIRE explicit closing tags like `<tag></tag>`.
+Self-closing syntax `<tag />` only works for void elements (br, img, etc).
+
+Changed FLOWTOKEN prompts from:
+  `<contactcard ... />`  (self-closing - BROKEN)
+to:
+  `<contactcard ...></contactcard>` (explicit closing - WORKS)
+
+Same fix applied to calendarevent tags.
+
+verification: Restart backend and test FlowToken page with Contact preset
 files_changed: [backend/agent/prompts.py]

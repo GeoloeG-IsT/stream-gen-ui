@@ -91,7 +91,6 @@ function toContactCardProps(attrs: Record<string, string>): ContactCardProps | u
     email: attrs.email,
     phone: attrs.phone,
     address: attrs.address,
-    avatar: attrs.avatar,
   };
 }
 
