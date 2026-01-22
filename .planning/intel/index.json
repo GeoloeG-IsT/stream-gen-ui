@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated": 1769047514833,
+  "updated": 1769048645653,
   "files": {
     "/root/wks/stream-gen-ui/frontend/app/flowtoken/page.tsx": {
       "exports": [
@@ -118,11 +118,12 @@
       "imports": [
         "react",
         "@llm-ui/react",
+        "@llm-ui/json",
         "react-markdown",
-        "@/components/shared/CalendarEvent",
-        "@/components/shared/ContactCard"
+        "./ContactBlockComponent",
+        "./CalendarBlockComponent"
       ],
-      "indexed": 1769029091653
+      "indexed": 1769048465457
     },
     "/root/wks/stream-gen-ui/frontend/components/flowtoken/FlowTokenRenderer.tsx": {
       "exports": [
@@ -213,6 +214,49 @@
         "lucide-react"
       ],
       "indexed": 1769046199993
+    },
+    "/root/wks/stream-gen-ui/frontend/components/llm-ui/schemas.ts": {
+      "exports": [
+        "contactBlockSchema",
+        "calendarBlockSchema",
+        "ContactBlock",
+        "CalendarBlock"
+      ],
+      "imports": [
+        "zod"
+      ],
+      "indexed": 1769048355547
+    },
+    "/root/wks/stream-gen-ui/frontend/components/llm-ui/ContactBlockComponent.tsx": {
+      "exports": [
+        "ContactBlockComponent"
+      ],
+      "imports": [
+        "@llm-ui/json",
+        "./schemas",
+        "@/components/shared/ContactCard"
+      ],
+      "indexed": 1769048395205
+    },
+    "/root/wks/stream-gen-ui/frontend/components/llm-ui/CalendarBlockComponent.tsx": {
+      "exports": [
+        "CalendarBlockComponent"
+      ],
+      "imports": [
+        "@llm-ui/json",
+        "./schemas",
+        "@/components/shared/CalendarEvent"
+      ],
+      "indexed": 1769048404343
+    },
+    "/root/wks/stream-gen-ui/frontend/components/llm-ui/LLMUIRenderer.test.tsx": {
+      "exports": [],
+      "imports": [
+        "@testing-library/react",
+        "vitest",
+        "./LLMUIRenderer"
+      ],
+      "indexed": 1769048645653
     }
   }
 }

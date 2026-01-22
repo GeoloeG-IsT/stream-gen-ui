@@ -1,17 +1,17 @@
 {
   "version": 1,
-  "updated": 1769047514834,
+  "updated": 1769048645654,
   "naming": {
     "exports": {
       "dominant": "PascalCase",
-      "count": 17,
-      "percentage": 89
+      "count": 21,
+      "percentage": 84
     }
   },
   "directories": {
     "components": {
       "purpose": "UI components",
-      "files": 12
+      "files": 16
     }
   },
   "suffixes": {}
