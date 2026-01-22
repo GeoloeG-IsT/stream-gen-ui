@@ -1,0 +1,42 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Local data (will be mounted as volume in production)
+chroma_db/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Environment files (set via Railway dashboard)
+.env
+.env.local
+
+# Git
+.git/
+.gitignore
+
+# Docs
+*.md
+LICENSE
+
+# Build artifacts
+*.egg-info/
+dist/
+build/
