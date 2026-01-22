@@ -94,6 +94,11 @@ Do NOT use the tool for:
 ### Events
 {event_format}
 
+### Enforce formatting
+- ALWAYS use the specified entity formats for contacts and events.
+- DO NOT deviate from the format, add extra text, or change attribute names.
+- ONLY include attributes that have data; omit any missing attributes entirely.
+
 ### Mixing entities
 You can freely mix contacts and events in a single response when relevant.
 Add brief context before and after entities to make the response conversational.
