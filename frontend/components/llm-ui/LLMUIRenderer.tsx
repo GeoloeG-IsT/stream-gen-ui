@@ -3,7 +3,7 @@
 import { Component, memo } from 'react';
 import type { ReactElement, ReactNode, ErrorInfo } from 'react';
 
-import { useLLMOutput } from '@llm-ui/react';
+import { useLLMOutput, throttleBasic } from '@llm-ui/react';
 import type {
   BlockMatch,
   LLMOutputFallbackBlock,
@@ -68,6 +68,19 @@ const calendarBlock = {
 };
 
 /**
+ * Throttle configuration for smooth streaming with delimiter hiding.
+ * readAheadChars: Buffer to hide 【TYPE:{"..."}】 during parsing (15 chars covers delimiters + type)
+ * targetBufferChars: Smooth streaming lag
+ */
+const throttle = throttleBasic({
+  readAheadChars: 15,    // Buffer to hide 【TYPE:{"..."}】 during parsing
+  targetBufferChars: 10, // Smooth streaming lag
+  adjustPercentage: 0.35,
+  frameLookBackMs: 10000,
+  windowLookBackMs: 2000,
+});
+
+/**
  * Markdown fallback block for regular text content.
  */
 const markdownBlock: LLMOutputFallbackBlock = {
@@ -103,6 +116,7 @@ function LLMUIRendererInner({
     blocks: [contactBlock, calendarBlock],
     fallbackBlock: markdownBlock,
     isStreamFinished: !isStreaming,
+    throttle,
   });
 
   return (
