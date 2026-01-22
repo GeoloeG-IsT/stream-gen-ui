@@ -73,9 +73,9 @@ const calendarBlock = {
  * targetBufferChars: Smooth streaming lag
  */
 const throttle = throttleBasic({
-  readAheadChars: 15,    // Buffer to hide 【TYPE:{"..."}】 during parsing
-  targetBufferChars: 10, // Smooth streaming lag
-  adjustPercentage: 0.35,
+  readAheadChars: 30,    // Buffer to hide 【TYPE:{"..."}】 during parsing
+  targetBufferChars: 50, // Larger buffer = slower streaming display
+  adjustPercentage: 0.15, // Slower speed adjustment
   frameLookBackMs: 10000,
   windowLookBackMs: 2000,
 });
