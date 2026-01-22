@@ -7,8 +7,8 @@ class Settings(BaseSettings):
     port: int = 8000
     debug: bool = True
 
-    # RAG
-    embedding_model: str = "sentence-transformers/all-mpnet-base-v2"
+    # RAG (MiniLM is smaller/faster, mpnet is higher quality but larger)
+    embedding_model: str = "sentence-transformers/all-MiniLM-L6-v2"
     chroma_persist_dir: str = "./chroma_db"
     collection_name: str = "berlin_city_knowledge"
 

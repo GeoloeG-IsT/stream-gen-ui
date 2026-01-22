@@ -22,7 +22,8 @@ COPY . .
 RUN mkdir -p /app/chroma_db
 
 # Pre-download the embedding model during build (avoids runtime download timeout)
-RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-mpnet-base-v2')"
+# Using MiniLM (90MB) instead of mpnet (420MB) to keep image under 4GB
+RUN python -c "from sentence_transformers import SentenceTransformer; SentenceTransformer('sentence-transformers/all-MiniLM-L6-v2')"
 
 # Expose port
 EXPOSE 8000
