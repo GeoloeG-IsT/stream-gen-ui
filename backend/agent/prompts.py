@@ -5,6 +5,7 @@ The prompt instructs the agent on:
 2. How to format Contact and CalendarEvent entities
 3. Tone and error handling behavior
 """
+
 from langchain_core.prompts import ChatPromptTemplate
 
 # Entity format templates for Streamdown marker - self-closing tags
@@ -56,20 +57,20 @@ Include only attributes that have data. Date is required, startTime and location
 # Uses @llm-ui/json jsonBlock pattern: 【{json with type field}】
 LLMUI_CONTACT_FORMAT = """When providing contact information, format EACH contact as:
 
-【{{"type": "contact", "name": "Full Name", "email": "email@berlin.de", "phone": "+49 30 ...", "address": "Street Address, City"}}】
+【{"type": "contact", "name": "Full Name", "email": "email@berlin.de", "phone": "+49 30 ...", "address": "Street Address, City"}】
 
 IMPORTANT: The "type" field MUST be "contact" and the "name" field is REQUIRED.
 Include only fields that have data. Omit missing fields entirely (don't include null values).
-Be sure to use double curly braces {{ }} to enclose the JSON object.
+Be sure to use given format to enclose JSON object.
 """
 
 LLMUI_EVENT_FORMAT = """When providing event information, format EACH event as:
 
-【{{"type": "calendar", "title": "Event Name", "date": "2026-01-25", "startTime": "14:00", "location": "Venue Address", "description": "Brief description"}}】
+【{"type": "calendar", "title": "Event Name", "date": "2026-01-25", "startTime": "14:00", "location": "Venue Address", "description": "Brief description"}】
 
 IMPORTANT: The "type" field MUST be "calendar".
 Include only fields that have data. Date is required, startTime and location are optional.
-Be sure to use double curly braces {{ }} to enclose the JSON object.
+Be sure to use given format to enclose JSON object.
 """
 
 # Base prompt template (shared parts)
@@ -125,6 +126,7 @@ Add brief context before and after entities to make the response conversational.
 - Never make up information not from the knowledge base
 """
 
+
 def get_agent_prompt(marker: str = "streamdown") -> ChatPromptTemplate:
     """Get the agent prompt template for the specified marker strategy.
 
@@ -145,11 +147,12 @@ def get_agent_prompt(marker: str = "streamdown") -> ChatPromptTemplate:
         event_format = STREAMDOWN_EVENT_FORMAT
 
     system_prompt = AGENT_SYSTEM_PROMPT_BASE.format(
-        contact_format=contact_format,
-        event_format=event_format
+        contact_format=contact_format, event_format=event_format
     )
 
-    return ChatPromptTemplate.from_messages([
-        ("system", system_prompt),
-        ("placeholder", "{messages}"),
-    ])
+    return ChatPromptTemplate.from_messages(
+        [
+            ("system", system_prompt),
+            ("placeholder", "{messages}"),
+        ]
+    )
