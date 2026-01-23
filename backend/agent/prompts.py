@@ -24,7 +24,7 @@ STREAMDOWN_EVENT_FORMAT = """When providing event information, format EACH event
 Include only attributes that have data. Date is required, startTime and location are optional.
 """
 
-# Entity format templates for FlowToken marker - explicit closing tags
+# Entity format templates for FlowToken marker - self-closing tags
 # https://github.com/orgs/remarkjs/discussions/862
 # Force us to replace "@" with ".at." in email to avoid autolink issues
 FLOWTOKEN_CONTACT_FORMAT = """When providing contact information, format EACH contact as:
