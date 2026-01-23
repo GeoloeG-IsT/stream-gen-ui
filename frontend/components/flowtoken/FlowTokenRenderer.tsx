@@ -1,4 +1,4 @@
-import { Component, useMemo } from 'react';
+import { Component } from 'react';
 import type { ReactElement, ReactNode, ErrorInfo } from 'react';
 
 import { AnimatedMarkdown } from 'flowtoken';

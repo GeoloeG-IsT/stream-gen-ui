@@ -1,0 +1,10 @@
+{
+    "editor.defaultFormatter": "ms-python.black-formatter",
+    "python.languageServer": "Pylance",
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[jsonc]": {
+        "editor.defaultFormatter": "vscode.json-language-features"
+    }
+}

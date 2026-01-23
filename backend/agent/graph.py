@@ -8,14 +8,13 @@ Key points from research:
 - Recursion limit = 2 * max_iterations + 1 (LangGraph counts each step)
 - Model must have streaming=True for token visibility
 """
+
 import logging
 from typing import Literal
 
 from langchain_mistralai import ChatMistralAI
-from langchain_core.messages import BaseMessage
 from langgraph.graph import StateGraph, END
 from langgraph.prebuilt import ToolNode
-from langgraph.errors import GraphRecursionError
 
 from config import get_settings
 from agent.state import AgentState
@@ -74,7 +73,9 @@ def create_agent_graph(marker: str = "streamdown"):
 
         # Check if the LLM wants to call a tool
         if hasattr(last_message, "tool_calls") and last_message.tool_calls:
-            logger.debug(f"Agent calling tools: {[tc['name'] for tc in last_message.tool_calls]}")
+            logger.debug(
+                f"Agent calling tools: {[tc['name'] for tc in last_message.tool_calls]}"
+            )
             return "tools"
 
         logger.debug("Agent finished - no more tool calls")
@@ -98,7 +99,7 @@ def create_agent_graph(marker: str = "streamdown"):
         {
             "tools": "tools",
             END: END,
-        }
+        },
     )
     # Tools -> back to agent (for observation)
     workflow.add_edge("tools", "agent")
@@ -106,7 +107,9 @@ def create_agent_graph(marker: str = "streamdown"):
     # Compile the graph
     graph = workflow.compile()
 
-    logger.info(f"Agent graph compiled with model={settings.mistral_model}, max_iterations={settings.agent_max_iterations}, marker={marker}")
+    logger.info(
+        f"Agent graph compiled with model={settings.mistral_model}, max_iterations={settings.agent_max_iterations}, marker={marker}"
+    )
     return graph
 
 

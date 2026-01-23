@@ -1,13 +1,14 @@
 from pathlib import Path
-from functools import lru_cache
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
 import sys
-sys.path.insert(0, '..')
+
+sys.path.insert(0, "..")
 from config import get_settings
 from .embeddings import get_embeddings
 
 _vectorstore = None
+
 
 def init_vectorstore(documents: list[Document] | None = None) -> Chroma:
     """Initialize ChromaDB vector store, optionally with documents."""
@@ -21,13 +22,14 @@ def init_vectorstore(documents: list[Document] | None = None) -> Chroma:
         collection_name=settings.collection_name,
         embedding_function=get_embeddings(),
         persist_directory=str(persist_dir),
-        collection_metadata={"hnsw:space": "cosine"}
+        collection_metadata={"hnsw:space": "cosine"},
     )
 
     if documents:
         _vectorstore.add_documents(documents)
 
     return _vectorstore
+
 
 def get_vectorstore() -> Chroma:
     """Get or create vector store instance."""

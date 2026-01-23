@@ -1,6 +1,5 @@
 import type { ReactElement } from 'react';
 
-import Image from 'next/image';
 import { Mail, MapPin, Phone, User } from 'lucide-react';
 
 import type { ContactCardProps } from '@/types';

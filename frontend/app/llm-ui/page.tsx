@@ -18,7 +18,7 @@ import { cn } from '@/lib/utils';
 
 export default function LlmUiPage(): ReactElement {
   const [input, setInput] = useState('');
-  const [lastUserMessage, setLastUserMessage] = useState('');
+  const [_, setLastUserMessage] = useState('');
   const { viewRaw } = useViewRaw();
 
   // Point to backend agent API

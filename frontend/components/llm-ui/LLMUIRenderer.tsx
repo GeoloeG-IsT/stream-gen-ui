@@ -65,12 +65,6 @@ const calendarBlock = {
 };
 
 /**
- * Throttle configuration for smooth streaming.
- * Uses llm-ui defaults with slight adjustments for our JSON blocks.
- */
-const throttle = throttleBasic();
-
-/**
  * Markdown fallback block using llm-ui's proper markdownLookBack.
  * This handles streaming speed correctly, showing one visible character
  * at a time while respecting the throttle.
@@ -81,6 +75,12 @@ const markdownBlock = {
   ),
   lookBack: markdownLookBack(),
 };
+
+/**
+ * Throttle configuration for smooth streaming.
+ * Uses llm-ui defaults with slight adjustments for our JSON blocks.
+ */
+const throttle = throttleBasic();
 
 /**
  * LLMUIRenderer component using @llm-ui/react for delimiter-based block parsing.
